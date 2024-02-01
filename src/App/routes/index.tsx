@@ -1,6 +1,5 @@
 import { Route, BrowserRouter as Router, Routes } from "react-router-dom";
-import Home from "../../home";
-import Test from "../../test";
+import Home from "../../Game";
 
 export default function RoutesProvider() {
     return (
@@ -8,7 +7,6 @@ export default function RoutesProvider() {
             <div>
                 <Routes>
                     <Route path='' Component={Home} />
-                    <Route path='/test' Component={Test} />
                 </Routes>
             </div>
         </Router>
