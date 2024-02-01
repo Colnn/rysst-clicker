@@ -1,8 +1,8 @@
 import { Box, Grid } from "@mui/material"
 import useStyle from './style'
-import Clicker from "./Components/Clicker";
-import Display from "./Components/Display";
-import Shop from "./Components/Shop";
+import Clicker from "./Clicker";
+import Display from "./Display";
+import Shop from "./Shop";
 
 export default function Game() {
   const classes = useStyle();
