@@ -3,6 +3,7 @@ import useStyle from './style'
 import Clicker from "./Clicker";
 import Display from "./Display";
 import Shop from "./Shop";
+import Header from "./Components/Header";
 
 export default function Game() {
   const classes = useStyle();
@@ -11,7 +12,7 @@ export default function Game() {
     <>
         <Grid>
           <Box className={classes.header}>
-
+            <Header/>
           </Box>
           <Grid 
             className={classes.container}
