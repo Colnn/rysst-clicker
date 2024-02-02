@@ -6,7 +6,9 @@ export default function Header() {
 
     return (
         <>
-            <Box className={classes.container}>Header :D</Box>
+            <Box className={classes.container}>
+                <p>Header :D</p>
+            </Box>
         </>
     )
 }
