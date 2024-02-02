@@ -1,26 +1,26 @@
-import { Box, Button, Grid } from "@mui/material";
+import { Box, Grid } from "@mui/material";
 import useStyle from './style'
 
-export default function Clicker() {
-    const classes = useStyle();
+interface ClickerProps {
+    onClick: () => void
+    grains: number
+}
 
-    const onClick = () => {
-        console.log("Clicked :D");
-    }
+export default function Clicker({ onClick, grains }: ClickerProps) {
+    const classes = useStyle();
 
     return (
         <>
             <Grid container className={classes.container}>
                 <Grid
                     container
-                    direction="row"
+                    direction="column"
                     justifyContent="center"
                     alignItems="center"
                     className={classes.riceContainer}
                 >
-                    <button className={classes.rice} onClick={onClick}>
-                        Click this :D
-                    </button>
+                    <Box>You have <b>{ grains }</b> RYSST grains</Box>
+                    <Box component={"img"} className={classes.rice} src="/rysst_cooker.png" onClick={onClick}/>
                 </Grid>
                 <Box></Box>
             </Grid>

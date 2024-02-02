@@ -13,17 +13,13 @@ export default makeStyles(() => {
       height: '65%',
     },
     rice: {
-      border: '1px solid transparent',
-      padding: '0.6em 1.2em',
       fontSize: '1em',
       fontWeight: 500,
       fontFamily: 'inherit',
       cursor: 'pointer',
-      transition: 'borderColor 0.25s',
-      width: '35vh',
-      height: '35vh',
-      backgroundColor: '#fff',
-      borderRadius: '10px',
-    }
+      width: '50%',
+      outline: 0,
+      border: 0,
+    },
   };
 });
