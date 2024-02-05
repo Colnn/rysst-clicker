@@ -21,8 +21,8 @@ interface ShopProps {
     grains: number,
     shopData: ShopItem[],
     upgradeData: UpgradeItem[],
-    handleShopBuy: (id: number) => void
-    handleUpgradeBuy: (id: number) => void
+    handleShopBuy: (id: number) => void,
+    handleUpgradeBuy: (id: number) => void,
 }
 
 export default function Shop({ grains, shopData, upgradeData, handleShopBuy, handleUpgradeBuy }: ShopProps) {
@@ -38,7 +38,7 @@ export default function Shop({ grains, shopData, upgradeData, handleShopBuy, han
                     {/* Upgrades here */}
                     {upgradeData.map(upgrade => {
                         if(!upgrade.unlocked) return (
-                            <UpgradeItem id={upgrade.id} name={upgrade.name} icon={"/react.svg"} price={upgrade.price.toString()} handleClick={handleUpgradeBuy} disabled={upgrade.price > grains}/>
+                            <UpgradeItem id={upgrade.id} name={upgrade.name} icon={"/" + upgrade.name.toLowerCase().replace(" ", "_") + ".svg"} price={upgrade.price.toString()} handleClick={handleUpgradeBuy} disabled={upgrade.price > grains}/>
                         )
                     })}
                 </Box>
@@ -46,7 +46,7 @@ export default function Shop({ grains, shopData, upgradeData, handleShopBuy, han
                     {/* Shop options here */}
                     {shopData.map(item => {
                         return (
-                            <ShopItem id={item.id} name={item.name} icon={"/developer.svg"} price={item.price.toFixed()} handleClick={handleShopBuy} disabled={item.price > grains}/>
+                            <ShopItem id={item.id} name={item.name} icon={"/" + item.name.toLowerCase().replace(" ", "_") + ".svg"} price={item.price.toFixed()} handleClick={handleShopBuy} disabled={item.price > grains}/>
                         )
                     })}
                 </Box>
