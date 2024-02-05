@@ -14,9 +14,7 @@ export default function ShopItem({ id, name, icon, price, handleClick, disabled 
     const classes = useStyle();
 
     const onClick = () => {
-        if(!disabled) {
-            handleClick(id);
-        }
+        if(!disabled) handleClick(id);
     }
 
     return (

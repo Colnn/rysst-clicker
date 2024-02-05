@@ -2,22 +2,24 @@ import { Box, Typography } from "@mui/material";
 import useStyle from './style'
 
 interface UpgradeItemProps {
+    id: number
     name: string
     icon: string
     price: string
-    handleClick: (id: string) => void
+    handleClick: (id: number) => void
+    disabled: boolean
 }
 
-export default function UpgradeItem({ name, icon, price, handleClick }: UpgradeItemProps) {
+export default function UpgradeItem({ id, name, icon, price, handleClick, disabled }: UpgradeItemProps) {
     const classes = useStyle();
 
     const onClick = () => {
-        handleClick(name.toLowerCase());
+        if(!disabled) handleClick(id);
     }
 
     return (
         <>
-            <Box className={classes.container} onClick={onClick}>
+            <Box className={disabled ? classes.disabled : classes.container} onClick={onClick}>
                 <Box component={"img"} src={ icon } draggable={false}/>
             </Box>
         </>

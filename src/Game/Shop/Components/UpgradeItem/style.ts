@@ -14,7 +14,7 @@ export default makeStyles(() => {
       borderRadius: '10px',
       cursor: 'pointer',
       userSelect: 'none',
-      margin: '5px 0px',
+      margin: '5px',
       '&:hover #popup': {
         display: 'block',
       }
@@ -31,6 +31,21 @@ export default makeStyles(() => {
     },
     price: {
       color: '#20e302',
-    }
+    },
+    disabled: {
+      padding: '0px 10px',
+      width: '75px',
+      height: '75px',
+      backgroundColor: '#818181',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      borderRadius: '10px',
+      userSelect: 'none',
+      margin: '5px',
+      '&:hover #popup': {
+        display: 'block',
+      }
+    },
   };
 });

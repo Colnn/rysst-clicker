@@ -18,10 +18,14 @@ export default makeStyles(() => {
       alignItems: 'center',
     },
     upgradesContainer: {
-      height: '80px',
+      height: '85px',
       overflowY: 'hidden',
+      display: 'flex',
+      alignContent: 'start',
+      flexWrap: 'wrap',
+      transition: 'height 1s',
       '&:hover': {
-        height: '240px',
+        height: '255px',
       },
     }
   };

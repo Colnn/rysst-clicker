@@ -8,11 +8,16 @@ import { useEffect, useState } from "react";
 let data = {
   'grains': 0,
   'shop': [] as ShopItem[],
+  'upgrades': [] as UpgradeItem[],
 };
 
 const defaultShopItems: ShopItem[] = [
-  { id: 0, name: 'Developer', amount: 0, price: 15 }
-]
+  { id: 0, name: 'Developer', amount: 0, price: 15 },
+];
+
+const defaultShopUpgrades: UpgradeItem[] = [
+  { id: 0, name: 'React Course', unlocked: false, price: 50 },
+];
 
 interface ShopItem {
   id: number,
@@ -21,17 +26,25 @@ interface ShopItem {
   price: number,
 }
 
+interface UpgradeItem {
+  id: number,
+  name: string,
+  unlocked: boolean,
+  price: number,
+}
+
 export default function Game() {
   const classes = useStyle();
 
   const [grains, setGrains] = useState(0);
   const [shopItems, setShopItems] = useState<ShopItem[]>([]);
+  const [upgradeItems, setUpgradeItems] = useState<UpgradeItem[]>([]);
 
   const onClick = () => {
       setGrains(grains + 1);
   }
 
-  const shopBuy = (id: number) => {
+  const buyShopItem = (id: number) => {
     const newShopItems = [...shopItems];
     setGrains(grains - newShopItems[id].price);
     newShopItems[id].amount += 1;
@@ -40,18 +53,30 @@ export default function Game() {
     setShopItems(newShopItems);
   }
 
+  const buyUpgrade = (id: number) => {
+    const newUpgradeItems = [...upgradeItems];
+    setGrains(grains - newUpgradeItems[id].price);
+    newUpgradeItems[id].unlocked = true;
+    console.log("Bought: " + newUpgradeItems[id].name);
+    setUpgradeItems(newUpgradeItems);
+  }
+
   const saveData = () => {
     data.grains = grains;
     data.shop = shopItems;
+    data.upgrades = upgradeItems;
     localStorage.setItem("data", btoa(JSON.stringify(data)));
   }
 
   const loadData = () => {
+    // @ts-expect-error | The not-null check is right in front of it, TypeScript is just being autistic
     if(localStorage.getItem("data")) data = JSON.parse(atob(localStorage.getItem("data")));
     console.log(data);
     setGrains(data.grains);
     if(data.shop.length < 1) data.shop = defaultShopItems;
     setShopItems(data.shop);
+    if(data.upgrades.length < 1) data.upgrades = defaultShopUpgrades;
+    setUpgradeItems(data.upgrades);
   }
 
   useEffect(() => {
@@ -80,7 +105,7 @@ export default function Game() {
               <Display/>
             </Box>
             <Box className={classes.displayContainer}>
-              <Shop grains={grains} shopData={shopItems} handleBuy={shopBuy}/>
+              <Shop grains={grains} shopData={shopItems} upgradeData={upgradeItems} handleShopBuy={buyShopItem} handleUpgradeBuy={buyUpgrade}/>
             </Box>
           </Grid>
         </Grid>
