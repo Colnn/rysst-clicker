@@ -83,6 +83,17 @@ export default function Game() {
     loadData();
   }, []);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      saveData();
+      console.log("Saved :D")
+    }, 60000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
   return (
     <>
         <Grid>
