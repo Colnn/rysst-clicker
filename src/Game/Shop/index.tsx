@@ -3,12 +3,21 @@ import useStyle from './style'
 import ShopItem from "./Components/ShopItem";
 import UpgradeItem from "./Components/UpgradeItem";
 
-export default function Shop() {
-    const classes = useStyle();
+interface ShopItem {
+    id: number,
+    name: string,
+    amount: number,
+    price: number,
+  }
 
-    const handleShopClick = (id: string) => {
-        console.log("Shop: " + id);
-    }
+interface ShopProps {
+    grains: number,
+    shopData: ShopItem[],
+    handleBuy: (id: number) => void
+}
+
+export default function Shop({ grains, shopData, handleBuy }: ShopProps) {
+    const classes = useStyle();
 
     const handleUpgradeClick = (id: string) => {
         console.log("Upgrade: " + id);
@@ -26,7 +35,11 @@ export default function Shop() {
                 </Box>
                 <Box>
                     {/* Shop options here */}
-                    <ShopItem name="Developer" icon={"/developer.svg"} price="5" handleClick={handleShopClick}/>
+                    {shopData.map(item => {
+                        return (
+                            <ShopItem id={item.id} name={item.name} icon={"/developer.svg"} price={item.price.toFixed()} handleClick={handleBuy} disabled={item.price > grains}/>
+                        )
+                    })}
                 </Box>
             </Grid>
         </>

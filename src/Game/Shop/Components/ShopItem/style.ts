@@ -25,8 +25,23 @@ export default makeStyles(() => {
     icon: {
         height: '70%',
     },
-    price: {
+    priceGreen: {
       color: '#20e302',
+    },
+    priceRed: {
+      color: '#e3023e',
+    },
+    disabled: {
+      padding: '0px 10px',
+      width: '100%',
+      height: '75px',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      borderRadius: '10px',
+      userSelect: 'none',
+      margin: '5px 0px',
+      backgroundColor: '#818181',
     }
   };
 });
