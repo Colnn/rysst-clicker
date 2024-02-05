@@ -39,6 +39,8 @@ export default function Game() {
   const [grains, setGrains] = useState(0);
   const [shopItems, setShopItems] = useState<ShopItem[]>([]);
   const [upgradeItems, setUpgradeItems] = useState<UpgradeItem[]>([]);
+  const [shouldSell, setShouldSell] = useState(false);
+  const [buyAmount, setBuyAmount] = useState(1);
 
   const onClick = () => {
       setGrains(grains + 1);
@@ -46,9 +48,11 @@ export default function Game() {
 
   const buyShopItem = (id: number) => {
     const newShopItems = [...shopItems];
-    setGrains(grains - newShopItems[id].price);
-    newShopItems[id].amount += 1;
-    newShopItems[id].price = Math.round(newShopItems[id].price * 1.15);
+    setGrains(grains - (newShopItems[id].price * buyAmount));
+    newShopItems[id].amount += buyAmount;
+    for (let index = 0; index < buyAmount; index++) {
+      newShopItems[id].price = Math.round(newShopItems[id].price * 1.15);
+    }
     console.log("Bought: " + newShopItems[id].name);
     setShopItems(newShopItems);
   }
@@ -79,6 +83,11 @@ export default function Game() {
     setUpgradeItems(data.upgrades);
   }
 
+  const wipeData = () => {
+    localStorage.removeItem("data");
+    location.reload();
+  }
+
   useEffect(() => {
     loadData();
   }, []);
@@ -86,7 +95,6 @@ export default function Game() {
   useEffect(() => {
     const interval = setInterval(() => {
       saveData();
-      console.log("Saved :D")
     }, 60000);
 
     return () => {
@@ -101,6 +109,7 @@ export default function Game() {
             {/* <Header/> */}
             <button onClick={saveData}>Save</button>
             <button onClick={loadData}>Load</button>
+            <button onClick={wipeData}>Wipe</button>
           </Box>
           <Grid 
             className={classes.container}
@@ -116,7 +125,7 @@ export default function Game() {
               <Display/>
             </Box>
             <Box className={classes.displayContainer}>
-              <Shop grains={grains} shopData={shopItems} upgradeData={upgradeItems} handleShopBuy={buyShopItem} handleUpgradeBuy={buyUpgrade}/>
+              <Shop grains={grains} shopData={shopItems} upgradeData={upgradeItems} handleShopBuy={buyShopItem} handleUpgradeBuy={buyUpgrade} shouldSell={shouldSell} setShouldSell={setShouldSell} buyAmount={buyAmount} setBuyAmount={setBuyAmount}/>
             </Box>
           </Grid>
         </Grid>
