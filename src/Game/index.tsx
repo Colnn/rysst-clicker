@@ -136,13 +136,13 @@ export default function Game() {
             justifyContent="space-between"
             alignItems="center"
           >
-            <Box className={classes.displayContainer}>
+            <Box className={classes.clickerContainer}>
               <Clicker onClick={onClick} grains={grains}/>
             </Box>
             <Box className={classes.displayContainer}>
               <Display/>
             </Box>
-            <Box className={classes.displayContainer}>
+            <Box className={classes.shopContainer}>
               <Shop grains={grains} shopData={shopItems} upgradeData={upgradeItems} handleShopBuy={buyShopItem} handleUpgradeBuy={buyUpgrade} shouldSell={shouldSell} setShouldSell={setShouldSell} buyAmount={buyAmount} setBuyAmount={setBuyAmount}/>
             </Box>
           </Grid>

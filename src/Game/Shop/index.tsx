@@ -36,6 +36,7 @@ export default function Shop({ grains, shopData, upgradeData, handleShopBuy, han
     const calculatePrice = (price: number) => {
         let totalPrice = 0;
         for (let index = 0; index < buyAmount; index++) {
+            if(shouldSell) price = Math.round(price / 1.2);
             totalPrice += price;
             price = shouldSell ? Math.round(price / 1.15) : Math.round(price * 1.15);
             console.log(totalPrice);
@@ -53,7 +54,7 @@ export default function Shop({ grains, shopData, upgradeData, handleShopBuy, han
                     {/* Upgrades here */}
                     {upgradeData.map(upgrade => {
                         if(!upgrade.unlocked) return (
-                            <UpgradeItem id={upgrade.id} name={upgrade.name} icon={"/" + upgrade.name.toLowerCase().replace(" ", "_") + ".svg"} price={upgrade.price} handleClick={handleUpgradeBuy} disabled={(upgrade.price * buyAmount) > grains}/>
+                            <UpgradeItem id={upgrade.id} name={upgrade.name} icon={"/" + upgrade.name.toLowerCase().replace(" ", "_") + ".svg"} price={upgrade.price} handleClick={handleUpgradeBuy} disabled={upgrade.price > grains}/>
                         )
                     })}
                 </Box>
@@ -64,7 +65,7 @@ export default function Shop({ grains, shopData, upgradeData, handleShopBuy, han
                             const disabled = shouldSell ? item.amount < buyAmount : (item.price * buyAmount) > grains;
                             console.log(item.amount + ", " + calculatePrice(item.price) + ": " + disabled);
                             return (
-                                <ShopItem id={item.id} name={item.name} icon={"/" + item.name.toLowerCase().replace(" ", "_") + ".svg"} price={calculatePrice(item.price)} handleClick={handleShopBuy} disabled={disabled}/>
+                                <ShopItem id={item.id} name={item.name} icon={"/" + item.name.toLowerCase().replace(" ", "_") + ".svg"} price={calculatePrice(item.price)} amount={item.amount} buyAmount={buyAmount} handleClick={handleShopBuy} disabled={disabled}/>
                             )
                         })}
                     </Grid>
