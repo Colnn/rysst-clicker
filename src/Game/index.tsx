@@ -4,6 +4,7 @@ import Clicker from "./Clicker";
 import Display from "./Display";
 import Shop from "./Shop";
 import { useEffect, useState } from "react";
+import { enqueueSnackbar } from "notistack";
 
 let data = {
   'grains': 0,
@@ -70,6 +71,13 @@ export default function Game() {
     data.shop = shopItems;
     data.upgrades = upgradeItems;
     localStorage.setItem("data", btoa(JSON.stringify(data)));
+    enqueueSnackbar('Saved data', {
+      autoHideDuration: 2000,
+      anchorOrigin: {
+        vertical: 'bottom',
+        horizontal: 'right',
+      },
+    });
   }
 
   const loadData = () => {
