@@ -49,13 +49,23 @@ export default function Game() {
 
   const buyShopItem = (id: number) => {
     const newShopItems = [...shopItems];
-    setGrains(grains - (newShopItems[id].price * buyAmount));
-    newShopItems[id].amount += buyAmount;
-    for (let index = 0; index < buyAmount; index++) {
-      newShopItems[id].price = Math.round(newShopItems[id].price * 1.15);
+    if(shouldSell) {
+      for (let index = 0; index < buyAmount; index++) {
+        setGrains(grains + newShopItems[id].price);
+        newShopItems[id].amount -= 1;
+        newShopItems[id].price = Math.round(newShopItems[id].price / 1.15);
+        console.log("Sold: " + newShopItems[id].name);
+        setShopItems(newShopItems);
+      }
+    } else {
+      for (let index = 0; index < buyAmount; index++) {
+        setGrains(grains - newShopItems[id].price);
+        newShopItems[id].amount += 1;
+        newShopItems[id].price = Math.round(newShopItems[id].price * 1.15);
+        console.log("Bought: " + newShopItems[id].name);
+        setShopItems(newShopItems);
+      }
     }
-    console.log("Bought: " + newShopItems[id].name);
-    setShopItems(newShopItems);
   }
 
   const buyUpgrade = (id: number) => {
@@ -126,13 +136,13 @@ export default function Game() {
             justifyContent="space-between"
             alignItems="center"
           >
-            <Box className={classes.displayContainer}>
+            <Box className={classes.clickerContainer}>
               <Clicker onClick={onClick} grains={grains}/>
             </Box>
             <Box className={classes.displayContainer}>
               <Display/>
             </Box>
-            <Box className={classes.displayContainer}>
+            <Box className={classes.shopContainer}>
               <Shop grains={grains} shopData={shopItems} upgradeData={upgradeItems} handleShopBuy={buyShopItem} handleUpgradeBuy={buyUpgrade} shouldSell={shouldSell} setShouldSell={setShouldSell} buyAmount={buyAmount} setBuyAmount={setBuyAmount}/>
             </Box>
           </Grid>

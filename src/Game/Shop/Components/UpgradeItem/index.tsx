@@ -1,11 +1,11 @@
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import useStyle from './style'
 
 interface UpgradeItemProps {
     id: number
     name: string
     icon: string
-    price: string
+    price: number
     handleClick: (id: number) => void
     disabled: boolean
 }

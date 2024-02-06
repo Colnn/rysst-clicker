@@ -9,7 +9,7 @@ export default makeStyles(() => {
       height: '75px',
       backgroundColor: '#bababa',
       display: 'flex',
-      alignItems: 'center',
+      alignItems: 'flex-end',
       justifyContent: 'space-between',
       borderRadius: '10px',
       cursor: 'pointer',
@@ -24,6 +24,7 @@ export default makeStyles(() => {
     },
     icon: {
         height: '70%',
+        marginRight: '10px',
     },
     priceGreen: {
       color: '#20e302',
@@ -31,17 +32,27 @@ export default makeStyles(() => {
     priceRed: {
       color: '#e3023e',
     },
+    buyAmount: {
+      color: '#fffffe',
+    },
     disabled: {
       padding: '0px 10px',
       width: '100%',
       height: '75px',
       display: 'flex',
-      alignItems: 'center',
+      alignItems: 'flex-end',
       justifyContent: 'space-between',
       borderRadius: '10px',
+      cursor: 'pointer',
       userSelect: 'none',
       margin: '5px 0px',
       backgroundColor: '#818181',
-    }
+    },
+    amount: {
+      width: '20%',
+      height: '100%',
+      overflow: 'hidden',
+      opacity: '50%',
+    },
   };
 });
