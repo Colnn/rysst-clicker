@@ -4,6 +4,7 @@ import Clicker from "./Clicker";
 import Display from "./Display";
 import Shop from "./Shop";
 import { useEffect, useState } from "react";
+import { enqueueSnackbar } from "notistack";
 
 let data = {
   'grains': 0,
@@ -48,13 +49,23 @@ export default function Game() {
 
   const buyShopItem = (id: number) => {
     const newShopItems = [...shopItems];
-    setGrains(grains - (newShopItems[id].price * buyAmount));
-    newShopItems[id].amount += buyAmount;
-    for (let index = 0; index < buyAmount; index++) {
-      newShopItems[id].price = Math.round(newShopItems[id].price * 1.15);
+    if(shouldSell) {
+      for (let index = 0; index < buyAmount; index++) {
+        setGrains(grains + newShopItems[id].price);
+        newShopItems[id].amount -= 1;
+        newShopItems[id].price = Math.round(newShopItems[id].price / 1.15);
+        console.log("Sold: " + newShopItems[id].name);
+        setShopItems(newShopItems);
+      }
+    } else {
+      for (let index = 0; index < buyAmount; index++) {
+        setGrains(grains - newShopItems[id].price);
+        newShopItems[id].amount += 1;
+        newShopItems[id].price = Math.round(newShopItems[id].price * 1.15);
+        console.log("Bought: " + newShopItems[id].name);
+        setShopItems(newShopItems);
+      }
     }
-    console.log("Bought: " + newShopItems[id].name);
-    setShopItems(newShopItems);
   }
 
   const buyUpgrade = (id: number) => {
@@ -69,12 +80,19 @@ export default function Game() {
     data.grains = grains;
     data.shop = shopItems;
     data.upgrades = upgradeItems;
-    localStorage.setItem("data", btoa(JSON.stringify(data)));
+    localStorage.setItem("data", 'esbas@' + btoa(JSON.stringify(data)) + 'esbas@');
+    enqueueSnackbar('Saved data', {
+      autoHideDuration: 2000,
+      anchorOrigin: {
+        vertical: 'bottom',
+        horizontal: 'right',
+      },
+    });
   }
 
   const loadData = () => {
     // @ts-expect-error | The not-null check is right in front of it, TypeScript is just being autistic
-    if(localStorage.getItem("data")) data = JSON.parse(atob(localStorage.getItem("data")));
+    if(localStorage.getItem("data")) data = JSON.parse(atob(localStorage.getItem("data")?.replace("esbas@", "")));
     console.log(data);
     setGrains(data.grains);
     if(data.shop.length < 1) data.shop = defaultShopItems;
@@ -118,13 +136,13 @@ export default function Game() {
             justifyContent="space-between"
             alignItems="center"
           >
-            <Box className={classes.displayContainer}>
+            <Box className={classes.clickerContainer}>
               <Clicker onClick={onClick} grains={grains}/>
             </Box>
             <Box className={classes.displayContainer}>
               <Display/>
             </Box>
-            <Box className={classes.displayContainer}>
+            <Box className={classes.shopContainer}>
               <Shop grains={grains} shopData={shopItems} upgradeData={upgradeItems} handleShopBuy={buyShopItem} handleUpgradeBuy={buyUpgrade} shouldSell={shouldSell} setShouldSell={setShouldSell} buyAmount={buyAmount} setBuyAmount={setBuyAmount}/>
             </Box>
           </Grid>
