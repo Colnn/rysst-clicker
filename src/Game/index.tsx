@@ -3,23 +3,113 @@ import useStyle from './style'
 import Clicker from "./Clicker";
 import Display from "./Display";
 import Shop from "./Shop";
-import Header from "./Components/Header";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+let data = {
+  'grains': 0,
+  'shop': [] as ShopItem[],
+  'upgrades': [] as UpgradeItem[],
+};
+
+const defaultShopItems: ShopItem[] = [
+  { id: 0, name: 'Developer', amount: 0, price: 15 },
+];
+
+const defaultShopUpgrades: UpgradeItem[] = [
+  { id: 0, name: 'React Course', unlocked: false, price: 50 },
+];
+
+interface ShopItem {
+  id: number,
+  name: string,
+  amount: number,
+  price: number,
+}
+
+interface UpgradeItem {
+  id: number,
+  name: string,
+  unlocked: boolean,
+  price: number,
+}
 
 export default function Game() {
   const classes = useStyle();
 
   const [grains, setGrains] = useState(0);
+  const [shopItems, setShopItems] = useState<ShopItem[]>([]);
+  const [upgradeItems, setUpgradeItems] = useState<UpgradeItem[]>([]);
+  const [shouldSell, setShouldSell] = useState(false);
+  const [buyAmount, setBuyAmount] = useState(1);
 
   const onClick = () => {
       setGrains(grains + 1);
   }
 
+  const buyShopItem = (id: number) => {
+    const newShopItems = [...shopItems];
+    setGrains(grains - (newShopItems[id].price * buyAmount));
+    newShopItems[id].amount += buyAmount;
+    for (let index = 0; index < buyAmount; index++) {
+      newShopItems[id].price = Math.round(newShopItems[id].price * 1.15);
+    }
+    console.log("Bought: " + newShopItems[id].name);
+    setShopItems(newShopItems);
+  }
+
+  const buyUpgrade = (id: number) => {
+    const newUpgradeItems = [...upgradeItems];
+    setGrains(grains - newUpgradeItems[id].price);
+    newUpgradeItems[id].unlocked = true;
+    console.log("Bought: " + newUpgradeItems[id].name);
+    setUpgradeItems(newUpgradeItems);
+  }
+
+  const saveData = () => {
+    data.grains = grains;
+    data.shop = shopItems;
+    data.upgrades = upgradeItems;
+    localStorage.setItem("data", btoa(JSON.stringify(data)));
+  }
+
+  const loadData = () => {
+    // @ts-expect-error | The not-null check is right in front of it, TypeScript is just being autistic
+    if(localStorage.getItem("data")) data = JSON.parse(atob(localStorage.getItem("data")));
+    console.log(data);
+    setGrains(data.grains);
+    if(data.shop.length < 1) data.shop = defaultShopItems;
+    setShopItems(data.shop);
+    if(data.upgrades.length < 1) data.upgrades = defaultShopUpgrades;
+    setUpgradeItems(data.upgrades);
+  }
+
+  const wipeData = () => {
+    localStorage.removeItem("data");
+    location.reload();
+  }
+
+  useEffect(() => {
+    loadData();
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      saveData();
+    }, 60000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, []);
+
   return (
     <>
         <Grid>
           <Box className={classes.header}>
-            <Header/>
+            {/* <Header/> */}
+            <button onClick={saveData}>Save</button>
+            <button onClick={loadData}>Load</button>
+            <button onClick={wipeData}>Wipe</button>
           </Box>
           <Grid 
             className={classes.container}
@@ -35,7 +125,7 @@ export default function Game() {
               <Display/>
             </Box>
             <Box className={classes.displayContainer}>
-              <Shop/>
+              <Shop grains={grains} shopData={shopItems} upgradeData={upgradeItems} handleShopBuy={buyShopItem} handleUpgradeBuy={buyUpgrade} shouldSell={shouldSell} setShouldSell={setShouldSell} buyAmount={buyAmount} setBuyAmount={setBuyAmount}/>
             </Box>
           </Grid>
         </Grid>
