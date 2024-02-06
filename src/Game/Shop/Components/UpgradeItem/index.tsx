@@ -5,7 +5,7 @@ interface UpgradeItemProps {
     id: number
     name: string
     icon: string
-    price: string
+    price: number
     handleClick: (id: number) => void
     disabled: boolean
 }

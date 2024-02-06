@@ -1,4 +1,5 @@
 import { Grid, ToggleButton, ToggleButtonGroup } from "@mui/material";
+import useStyle from './style'
 
 interface SettingsBarProps {
     action: boolean,
@@ -8,6 +9,7 @@ interface SettingsBarProps {
 }
 
 export default function SettingsBar({ action, setAction, buyAmount, setBuyAmount }: SettingsBarProps) {
+    const classes = useStyle();
 
     const handleAction = (
         event: React.MouseEvent<HTMLElement>,
@@ -25,16 +27,17 @@ export default function SettingsBar({ action, setAction, buyAmount, setBuyAmount
 
     return (
         <>
-            <Grid container>
+            <Grid container className={classes.container}>
                 <ToggleButtonGroup
                     value={action}
                     exclusive
                     onChange={handleAction}
+                    orientation="vertical"
                 >
-                    <ToggleButton value={false}>
+                    <ToggleButton value={false} size="small">
                         Buy
                     </ToggleButton>
-                    <ToggleButton value={true}>
+                    <ToggleButton value={true} size="small">
                         Sell
                     </ToggleButton>
                 </ToggleButtonGroup>
@@ -43,13 +46,13 @@ export default function SettingsBar({ action, setAction, buyAmount, setBuyAmount
                     exclusive
                     onChange={handleAmount}
                 >
-                    <ToggleButton value={1}>
+                    <ToggleButton value={1} size="small">
                         1
                     </ToggleButton>
-                    <ToggleButton value={10}>
+                    <ToggleButton value={10} size="small">
                         10
                     </ToggleButton>
-                    <ToggleButton value={100}>
+                    <ToggleButton value={100} size="small">
                         100
                     </ToggleButton>
                 </ToggleButtonGroup>
