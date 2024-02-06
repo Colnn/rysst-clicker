@@ -54,11 +54,15 @@ export default function ShopObjectDisplay({ amount, objectName, backgroundSVG }:
         drawImagesOnCanvas();
     }, [amount]);
 
-    return (
-        <Box id='canvas' className={classes.canvas}>
-            <canvas
-                ref={canvasRef}
-            />
-        </Box>
-    );
+    if(amount === 0) {
+        return;
+    } else {
+        return (
+            <Box id='canvas' className={classes.canvas}>
+                <canvas
+                    ref={canvasRef}
+                />
+            </Box>
+        );
+    }
 }

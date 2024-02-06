@@ -11,7 +11,7 @@ let data = {
   'upgrades': [] as UpgradeItem[],
 };
 
-const defaultShopItems: ShopItem[] = [
+export const defaultShopItems: ShopItem[] = [
   { id: 0, name: 'Developer', amount: 0, price: 15 },
 ];
 
