@@ -19,25 +19,21 @@ interface DisplayProps {
 export default function Display({shopData}: DisplayProps) {
     const classes = useStyle();
 
-    const renderDisplayObject = () => {
-        const newDisplayObjects = shopData.map(item => (
-            <ShopObjectDisplay
-                key={item.name}
-                amount={item.amount}
-                objectName={item.name}
-                backgroundSVG="/rysst_cooker.png"
-            />
-        ));
-    
-        return newDisplayObjects;
-    }
-
     return (
         <>
             <Box className={classes.container} >
                 <MotivationalTexts />
                 {
-                    renderDisplayObject()
+                    shopData.map(item => {
+                        return (
+                            <ShopObjectDisplay
+                                key={item.name}
+                                amount={item.amount}
+                                objectName={item.name}
+                                backgroundSVG="/rysst_cooker.png"
+                            />
+                        )
+                    })
                 }
             </Box>
         </>
