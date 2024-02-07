@@ -6,10 +6,20 @@ import Shop from "./Shop";
 import { useEffect, useState } from "react";
 import { enqueueSnackbar } from "notistack";
 
+interface ShopItemData {
+  i: number,
+  a: number,
+}
+
+interface UpgradeItemData {
+  i: number,
+  u: boolean,
+}
+
 let data = {
-  'grains': 0,
-  'shop': [] as ShopItem[],
-  'upgrades': [] as UpgradeItem[],
+  'g': 0,
+  's': [] as ShopItemData[],
+  'u': [] as UpgradeItemData[],
 };
 
 const defaultShopItems: ShopItem[] = [
@@ -38,8 +48,8 @@ export default function Game() {
   const classes = useStyle();
 
   const [grains, setGrains] = useState(0);
-  const [shopItems, setShopItems] = useState<ShopItem[]>([]);
-  const [upgradeItems, setUpgradeItems] = useState<UpgradeItem[]>([]);
+  const [shopItems, setShopItems] = useState<ShopItem[]>(defaultShopItems);
+  const [upgradeItems, setUpgradeItems] = useState<UpgradeItem[]>(defaultShopUpgrades);
   const [shouldSell, setShouldSell] = useState(false);
   const [buyAmount, setBuyAmount] = useState(1);
 
@@ -77,9 +87,27 @@ export default function Game() {
   }
 
   const saveData = () => {
-    data.grains = grains;
-    data.shop = shopItems;
-    data.upgrades = upgradeItems;
+    data.g = grains;
+    data.s = [];
+    data.u = [];
+    shopItems.forEach(shopItem => {
+      if(shopItem.amount > 0) {
+        const newShopItemData = {
+          i: shopItem.id,
+          a: shopItem.amount,
+        }
+        data.s.push(newShopItemData);
+      }
+    });
+    upgradeItems.forEach(upgradeItem => {
+      if(upgradeItem.unlocked) {
+        const newUpgradeItemData = {
+          i: upgradeItem.id,
+          u: upgradeItem.unlocked,
+        }
+        data.u.push(newUpgradeItemData);
+      }
+    });
     localStorage.setItem("data", btoa(JSON.stringify(data)));
     enqueueSnackbar('Saved data', {
       autoHideDuration: 2000,
@@ -94,11 +122,22 @@ export default function Game() {
     // @ts-expect-error | The not-null check is right in front of it, TypeScript is just being autistic
     if(localStorage.getItem("data")) data = JSON.parse(atob(localStorage.getItem("data")));
     console.log(data);
-    setGrains(data.grains);
-    if(data.shop.length < 1) data.shop = defaultShopItems;
-    setShopItems(data.shop);
-    if(data.upgrades.length < 1) data.upgrades = defaultShopUpgrades;
-    setUpgradeItems(data.upgrades);
+    setGrains(data.g);
+    const newShopItems = [...shopItems];
+    data.s.forEach(shopItem => {
+      if(newShopItems[shopItem.i]){ 
+      newShopItems[shopItem.i].amount = shopItem.a;
+      for (let index = 0; index < shopItem.a; index++) {
+          newShopItems[shopItem.i].price = Math.round(newShopItems[shopItem.i].price * 1.15);
+      }
+      }
+    })
+    setShopItems(newShopItems);
+    const newUpgradeItems = [...upgradeItems];
+    data.u.forEach(upgradeItem => {
+      if(newUpgradeItems[upgradeItem.i]) newUpgradeItems[upgradeItem.i].unlocked = upgradeItem.u;
+    })
+    setUpgradeItems(newUpgradeItems);
   }
 
   const wipeData = () => {
