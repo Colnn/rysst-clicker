@@ -12,7 +12,7 @@ let data = {
   'upgrades': [] as UpgradeItem[],
 };
 
-const defaultShopItems: ShopItem[] = [
+export const defaultShopItems: ShopItem[] = [
   { id: 0, name: 'Developer', amount: 0, price: 15 },
 ];
 
@@ -80,7 +80,7 @@ export default function Game() {
     data.grains = grains;
     data.shop = shopItems;
     data.upgrades = upgradeItems;
-    localStorage.setItem("data", 'esbas@' + btoa(JSON.stringify(data)) + 'esbas@');
+    localStorage.setItem("data", btoa(JSON.stringify(data)));
     enqueueSnackbar('Saved data', {
       autoHideDuration: 2000,
       anchorOrigin: {
@@ -92,7 +92,7 @@ export default function Game() {
 
   const loadData = () => {
     // @ts-expect-error | The not-null check is right in front of it, TypeScript is just being autistic
-    if(localStorage.getItem("data")) data = JSON.parse(atob(localStorage.getItem("data")?.replace("esbas@", "")));
+    if(localStorage.getItem("data")) data = JSON.parse(atob(localStorage.getItem("data")));
     console.log(data);
     setGrains(data.grains);
     if(data.shop.length < 1) data.shop = defaultShopItems;
@@ -140,7 +140,7 @@ export default function Game() {
               <Clicker onClick={onClick} grains={grains}/>
             </Box>
             <Box className={classes.displayContainer}>
-              <Display/>
+              <Display shopData={shopItems}/>
             </Box>
             <Box className={classes.shopContainer}>
               <Shop grains={grains} shopData={shopItems} upgradeData={upgradeItems} handleShopBuy={buyShopItem} handleUpgradeBuy={buyUpgrade} shouldSell={shouldSell} setShouldSell={setShouldSell} buyAmount={buyAmount} setBuyAmount={setBuyAmount}/>

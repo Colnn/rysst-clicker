@@ -7,7 +7,8 @@ export default makeStyles(() => {
         Display: 'flex',
         justifyContent: 'center',
         padding: 20,
-        textAlign: 'center'
+        textAlign: 'center',
+        height: 90,
     },
   };
 });
