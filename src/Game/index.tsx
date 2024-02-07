@@ -140,7 +140,7 @@ export default function Game() {
               <Clicker onClick={onClick} grains={grains}/>
             </Box>
             <Box className={classes.displayContainer}>
-              <Display/>
+              <Display shopData={shopItems}/>
             </Box>
             <Box className={classes.shopContainer}>
               <Shop grains={grains} shopData={shopItems} upgradeData={upgradeItems} handleShopBuy={buyShopItem} handleUpgradeBuy={buyUpgrade} shouldSell={shouldSell} setShouldSell={setShouldSell} buyAmount={buyAmount} setBuyAmount={setBuyAmount}/>

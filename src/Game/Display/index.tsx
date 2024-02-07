@@ -5,16 +5,22 @@ import ShopObjectDisplay from "../Components/ShopObjectDisplay";
 import { useEffect, useState } from "react";
 import { defaultShopItems } from "..";
 
-export default function Display() {
-    const classes = useStyle();
-    const [amount, setAmount] = useState(5);
+interface ShopItem {
+    id: number,
+    name: string,
+    amount: number,
+    price: number,
+  }
 
-    const weewoo = () => {
-        setAmount(amount + 1);
-    }
+interface DisplayProps {
+    shopData: ShopItem[],
+}
+
+export default function Display({shopData}: DisplayProps) {
+    const classes = useStyle();
 
     const renderDisplayObject = () => {
-        const newDisplayObjects = defaultShopItems.map(item => (
+        const newDisplayObjects = shopData.map(item => (
             <ShopObjectDisplay
                 key={item.name}
                 amount={item.amount}
@@ -33,7 +39,6 @@ export default function Display() {
                 {
                     renderDisplayObject()
                 }
-                <button onClick={weewoo}>click me</button>
             </Box>
         </>
     )
