@@ -63,6 +63,10 @@ export default function Game() {
       setGrains(grains + ((Math.round(grainsPerSecond * grainsPerClickPercentage)) === 0 ? 1 : (Math.round(grainsPerSecond * grainsPerClickPercentage))));
   }
 
+  useEffect(() => {
+    document.title = grains + " grains | RYSST Clicker";
+  }, [grains]);
+
   const buyShopItem = (id: number) => {
     const newShopItems = [...shopItems];
     let newGrains = grains;
