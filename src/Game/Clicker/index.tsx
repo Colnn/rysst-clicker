@@ -1,6 +1,6 @@
 import { Box, Grid } from "@mui/material";
 import useStyle from './style';
-import { prettyNumber } from '@based/pretty-number'
+import prettyNumber from "../../prettyNumber";
 
 interface ClickerProps {
     onClick: () => void
@@ -20,7 +20,7 @@ export default function Clicker({ onClick, grains }: ClickerProps) {
                     alignItems="center"
                     className={classes.riceContainer}
                 >
-                    <Box>You have <b>{ prettyNumber(grains, 'number-short') }</b> RYSST-grains</Box>
+                    <Box>You have <b>{ prettyNumber(grains, 3) }</b> RYSST-grains</Box>
                     <Box component={"img"} className={classes.rice} src="/rysst_cooker.png" onClick={onClick}/>
                 </Grid>
                 <Box></Box>

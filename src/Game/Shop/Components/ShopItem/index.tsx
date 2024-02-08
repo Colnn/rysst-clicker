@@ -1,7 +1,7 @@
 import { Box, Grid, Tooltip, TooltipProps, Typography, styled, tooltipClasses } from "@mui/material";
 import useStyle from './style'
-import { prettyNumber } from "@based/pretty-number";
 import ShopTooltip from "../ShopTooltip";
+import prettyNumber from "../../../../prettyNumber";
 
 interface ShopItemProps {
     id: number,
@@ -57,7 +57,7 @@ export default function ShopItem({ id, name, icon, price, amount, buyAmount, han
                             <Typography variant="h6">{ name }</Typography>
                             <Grid container direction={"row"} alignItems={'flex-end'}>
                                 <Typography className={classes.buyAmount} fontWeight={600}>x{ buyAmount }</Typography>
-                                <Typography variant="h6" className={disabled ? classes.priceRed : classes.priceGreen}>{ prettyNumber(price, 'number-short') }</Typography>
+                                <Typography variant="h6" className={disabled ? classes.priceRed : classes.priceGreen}>{ prettyNumber(price, 3) }</Typography>
                             </Grid>
                         </Grid>
                     </Box>

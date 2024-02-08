@@ -1,5 +1,6 @@
 import { Box, Chip, Typography } from "@mui/material";
 import useStyle from './style'
+import prettyNumber from "../../../../prettyNumber";
 
 interface ShopTooltipProps {
     name: string
@@ -25,7 +26,7 @@ export default function ShopTooltip({name, icon, amount, price, disabled}: ShopT
                     </Box>
                 </Box>
                 <Box>
-                    <Typography className={disabled ? classes.priceRed : classes.priceGreen}>{ price }</Typography>
+                    <Typography className={disabled ? classes.priceRed : classes.priceGreen}>{ prettyNumber(price, 3) }</Typography>
                 </Box>
             </Box>
             <Box className={classes.bottomContainer}>

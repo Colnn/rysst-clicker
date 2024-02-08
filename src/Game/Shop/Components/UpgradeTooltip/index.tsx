@@ -1,5 +1,6 @@
 import { Box, Chip, Typography } from "@mui/material";
 import useStyle from './style'
+import prettyNumber from "../../../../prettyNumber";
 
 interface UpgradeTooltipProps {
     name: string
@@ -21,7 +22,7 @@ export default function UpgradeTooltip({name, icon, price, disabled}: UpgradeToo
                     </Box>
                 </Box>
                 <Box>
-                    <Typography className={disabled ? classes.priceRed : classes.priceGreen}>{ price }</Typography>
+                    <Typography className={disabled ? classes.priceRed : classes.priceGreen}>{ prettyNumber(price, 3) }</Typography>
                 </Box>
             </Box>
             <Box className={classes.bottomContainer}>

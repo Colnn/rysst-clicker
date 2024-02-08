@@ -5,6 +5,7 @@ import Display from "./Display";
 import Shop from "./Shop";
 import { useEffect, useState } from "react";
 import { enqueueSnackbar } from "notistack";
+import prettyNumber from "../prettyNumber";
 
 interface ShopItemData {
   i: number,
@@ -58,7 +59,7 @@ export default function Game() {
   }
 
   useEffect(() => {
-    document.title = grains + " grains | RYSST Clicker";
+    document.title = prettyNumber(grains, 3) + " grains | RYSST Clicker";
   }, [grains]);
 
   const buyShopItem = (id: number) => {
