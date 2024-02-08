@@ -49,6 +49,8 @@ interface UpgradeItem {
 export default function Game() {
   const classes = useStyle();
 
+
+
   const [grains, setGrains] = useState(0);
   const [grainsPerSecond, setGrainsPerSecond] = useState(0);
   const [grainsPerClickPercentage, setGrainsPerSecondPercentage] = useState(0.01);
@@ -152,6 +154,12 @@ export default function Game() {
       if(newUpgradeItems[upgradeItem.i]) newUpgradeItems[upgradeItem.i].unlocked = upgradeItem.u;
     })
     setUpgradeItems(newUpgradeItems);
+    let totalGPS = 0;
+    for(let i = 0; i < shopItems.length; i++) {
+      totalGPS = totalGPS + (shopItems.map(item => item.amount)[i] * defaultShopItems[i].gps)
+    }
+  
+    setGrainsPerSecond(totalGPS)
   }
 
   const wipeData = () => {
