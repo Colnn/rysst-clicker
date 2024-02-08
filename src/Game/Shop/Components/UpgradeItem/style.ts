@@ -1,7 +1,6 @@
 import { makeStyles } from '@mui/styles';
 
 export default makeStyles(() => {
-
   return {
     container: {
       padding: '0px 10px',
@@ -17,7 +16,7 @@ export default makeStyles(() => {
       margin: '5px',
       '&:hover #popup': {
         display: 'block',
-      }
+      },
     },
     partContainer: {
       width: '80%',
@@ -27,7 +26,6 @@ export default makeStyles(() => {
     },
     popup: {
       // display: 'none',
-
     },
     price: {
       color: '#20e302',
@@ -45,7 +43,7 @@ export default makeStyles(() => {
       margin: '5px',
       '&:hover #popup': {
         display: 'block',
-      }
+      },
     },
   };
 });

@@ -1,14 +1,13 @@
-import RoutesProvider from "./routes"
-import { CssBaseline } from "@mui/material"
+import RoutesProvider from './routes';
+import { CssBaseline } from '@mui/material';
 
 function App() {
-
   return (
     <>
-      <CssBaseline/>
-      <RoutesProvider/>
+      <CssBaseline />
+      <RoutesProvider />
     </>
-  )
+  );
 }
 
-export default App
+export default App;

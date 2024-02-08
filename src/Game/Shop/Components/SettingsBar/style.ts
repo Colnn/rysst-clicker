@@ -1,7 +1,6 @@
 import { makeStyles } from '@mui/styles';
 
 export default makeStyles(() => {
-
   return {
     container: {
       width: '100%',
@@ -14,8 +13,8 @@ export default makeStyles(() => {
       margin: '5px 0px',
     },
     actionSelect: {
-        display: 'flex',
-        direction: 'row',
-    }
+      display: 'flex',
+      direction: 'row',
+    },
   };
 });
