@@ -57,6 +57,10 @@ export default function Game() {
       setGrains(grains + 1);
   }
 
+  useEffect(() => {
+    document.title = grains + " grains | RYSST Clicker";
+  }, [grains]);
+
   const buyShopItem = (id: number) => {
     const newShopItems = [...shopItems];
     if(shouldSell) {
