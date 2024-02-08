@@ -125,8 +125,8 @@ export default function Game() {
   };
 
   const loadData = () => {
-    // @ts-expect-error | The not-null check is right in front of it, TypeScript is just being autistic
     if (localStorage.getItem('data'))
+      // @ts-expect-error | The not-null check is right in front of it, TypeScript is just being autistic
       data = JSON.parse(atob(localStorage.getItem('data')));
     console.log(data);
     setGrains(data.g);
