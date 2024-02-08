@@ -4,7 +4,7 @@ import { prettyNumber } from "@based/pretty-number";
 import ShopTooltip from "../ShopTooltip";
 
 interface ShopItemProps {
-    id: number,
+    id: number
     name: string
     icon: string
     price: number
@@ -12,6 +12,7 @@ interface ShopItemProps {
     buyAmount: number
     handleClick: (id: number) => void
     disabled: boolean
+    gps: number
 }
 
 const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
@@ -24,7 +25,7 @@ const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
     },
   }));
 
-export default function ShopItem({ id, name, icon, price, amount, buyAmount, handleClick, disabled }: ShopItemProps) {
+export default function ShopItem({ id, name, icon, price, amount, buyAmount, handleClick, disabled, gps }: ShopItemProps) {
     const classes = useStyle();
 
     const onClick = () => {
@@ -34,7 +35,7 @@ export default function ShopItem({ id, name, icon, price, amount, buyAmount, han
     return (
         <>
             <HtmlTooltip title={
-                    <ShopTooltip name={name} icon={icon} amount={amount} price={price} disabled={disabled}/>
+                    <ShopTooltip name={name} icon={icon} amount={amount} price={price} disabled={disabled} gps={gps}/>
                 } 
                 placement="left"
                 slotProps={{

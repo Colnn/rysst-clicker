@@ -7,9 +7,10 @@ interface ShopTooltipProps {
     amount: number
     price: number
     disabled: boolean
+    gps: number
 }
 
-export default function ShopTooltip({name, icon, amount, price, disabled}: ShopTooltipProps) {
+export default function ShopTooltip({name, icon, amount, price, disabled, gps}: ShopTooltipProps) {
     const classes = useStyle();
 
     return (
@@ -29,7 +30,7 @@ export default function ShopTooltip({name, icon, amount, price, disabled}: ShopT
                 </Box>
             </Box>
             <Box className={classes.bottomContainer}>
-                <Chip variant="outlined" size="small" label={"Produces " + 0 + " grains per second"}/>
+                <Chip variant="outlined" size="small" label={"Produces " + gps + " grains per second"}/>
             </Box>
         </Box>
     )

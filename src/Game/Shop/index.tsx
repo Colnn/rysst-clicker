@@ -9,6 +9,7 @@ interface ShopItem {
     name: string,
     amount: number,
     price: number,
+    gps: number,
   }
 
 interface UpgradeItem {
@@ -19,15 +20,15 @@ interface UpgradeItem {
   }
 
 interface ShopProps {
-    grains: number,
-    shopData: ShopItem[],
-    upgradeData: UpgradeItem[],
-    handleShopBuy: (id: number) => void,
-    handleUpgradeBuy: (id: number) => void,
-    shouldSell: boolean,
-    setShouldSell: (shouldSell: boolean) => void,
-    buyAmount: number,
-    setBuyAmount: (buyAmount: number) => void,
+    grains: number
+    shopData: ShopItem[]
+    upgradeData: UpgradeItem[]
+    handleShopBuy: (id: number) => void
+    handleUpgradeBuy: (id: number) => void
+    shouldSell: boolean
+    setShouldSell: (shouldSell: boolean) => void
+    buyAmount: number
+    setBuyAmount: (buyAmount: number) => void
 }
 
 export default function Shop({ grains, shopData, upgradeData, handleShopBuy, handleUpgradeBuy, shouldSell, setShouldSell, buyAmount, setBuyAmount }: ShopProps) {
@@ -65,7 +66,7 @@ export default function Shop({ grains, shopData, upgradeData, handleShopBuy, han
                             const disabled = shouldSell ? item.amount < buyAmount : calculatePrice(item.price) > grains;
                             // console.log(item.amount + ", " + calculatePrice(item.price) + ": " + disabled);
                             return (
-                                <ShopItem id={item.id} name={item.name} icon={"/" + item.name.toLowerCase().replace(" ", "_") + ".svg"} price={calculatePrice(item.price)} amount={item.amount} buyAmount={buyAmount} handleClick={handleShopBuy} disabled={disabled}/>
+                                <ShopItem id={item.id} name={item.name} icon={"/" + item.name.toLowerCase().replace(" ", "_") + ".svg"} price={calculatePrice(item.price)} amount={item.amount} buyAmount={buyAmount} handleClick={handleShopBuy} disabled={disabled} gps={item.gps}/>
                             )
                         })}
                     </Grid>

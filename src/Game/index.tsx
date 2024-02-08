@@ -24,7 +24,7 @@ let data = {
 
 export const defaultShopItems: ShopItem[] = [
   { id: 0, name: 'Developer', amount: 0, price: 15, gps: 1, },
-  { id: 1, name: 'Rysst ball', amount: 0, price: 50, gps: 10 },
+  { id: 1, name: 'Rysst ball', amount: 0, price: 100, gps: 10 },
 ];
 
 const defaultShopUpgrades: UpgradeItem[] = [
@@ -218,7 +218,7 @@ export default function Game() {
               <Display shopData={shopItems}/>
             </Box>
             <Box className={classes.shopContainer}>
-              <Shop grains={grains} shopData={shopItems} upgradeData={upgradeItems} handleShopBuy={buyShopItem} handleUpgradeBuy={buyUpgrade} shouldSell={shouldSell} setShouldSell={setShouldSell} buyAmount={buyAmount} setBuyAmount={setBuyAmount}/>
+              <Shop grains={grains} shopData={shopItems} upgradeData={upgradeItems} handleShopBuy={buyShopItem} handleUpgradeBuy={buyUpgrade} shouldSell={shouldSell} setShouldSell={setShouldSell} buyAmount={buyAmount} setBuyAmount={setBuyAmount} />
             </Box>
           </Grid>
         </Grid>
