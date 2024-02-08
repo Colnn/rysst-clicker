@@ -22,8 +22,9 @@ let data = {
   'u': [] as UpgradeItemData[],
 };
 
-const defaultShopItems: ShopItem[] = [
-  { id: 0, name: 'Developer', amount: 0, price: 15 },
+export const defaultShopItems: ShopItem[] = [
+  { id: 0, name: 'Developer', amount: 0, price: 15, gps: 1, },
+  { id: 1, name: 'Rysst ball', amount: 0, price: 50, gps: 10 },
 ];
 
 const defaultShopUpgrades: UpgradeItem[] = [
@@ -35,6 +36,7 @@ interface ShopItem {
   name: string,
   amount: number,
   price: number,
+  gps: number,
 }
 
 interface UpgradeItem {
@@ -48,20 +50,26 @@ export default function Game() {
   const classes = useStyle();
 
   const [grains, setGrains] = useState(0);
+  const [grainsPerSecond, setGrainsPerSecond] = useState(0);
+  const [grainsPerClickPercentage, setGrainsPerSecondPercentage] = useState(0.01);
   const [shopItems, setShopItems] = useState<ShopItem[]>(defaultShopItems);
   const [upgradeItems, setUpgradeItems] = useState<UpgradeItem[]>(defaultShopUpgrades);
   const [shouldSell, setShouldSell] = useState(false);
   const [buyAmount, setBuyAmount] = useState(1);
 
   const onClick = () => {
-      setGrains(grains + 1);
+      setGrains(grains + ((Math.round(grainsPerSecond * grainsPerClickPercentage)) === 0 ? 1 : (Math.round(grainsPerSecond * grainsPerClickPercentage))));
   }
 
   const buyShopItem = (id: number) => {
     const newShopItems = [...shopItems];
+    let newGrains = grains;
+    let newGPS = grainsPerSecond;
     if(shouldSell) {
       for (let index = 0; index < buyAmount; index++) {
-        setGrains(grains + newShopItems[id].price);
+        console.log(buyAmount);
+        newGrains += newShopItems[id].price;
+        newGPS -= newShopItems[id].gps;
         newShopItems[id].amount -= 1;
         newShopItems[id].price = Math.round(newShopItems[id].price / 1.15);
         console.log("Sold: " + newShopItems[id].name);
@@ -69,13 +77,19 @@ export default function Game() {
       }
     } else {
       for (let index = 0; index < buyAmount; index++) {
-        setGrains(grains - newShopItems[id].price);
+        console.log("kut ding");
+        console.log(newShopItems[id].price);
+        newGrains -= newShopItems[id].price;
+        newGPS += newShopItems[id].gps;
         newShopItems[id].amount += 1;
         newShopItems[id].price = Math.round(newShopItems[id].price * 1.15);
+        console.log(newShopItems[id].price);
         console.log("Bought: " + newShopItems[id].name);
         setShopItems(newShopItems);
       }
     }
+    setGrains(newGrains);
+    setGrainsPerSecond(newGPS);
   }
 
   const buyUpgrade = (id: number) => {
@@ -159,6 +173,16 @@ export default function Game() {
     };
   }, []);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setGrains(prevGrains => prevGrains + grainsPerSecond);
+    }, 1000);
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [grainsPerSecond]);
+
   return (
     <>
         <Grid>
@@ -176,7 +200,7 @@ export default function Game() {
             alignItems="center"
           >
             <Box className={classes.clickerContainer}>
-              <Clicker onClick={onClick} grains={grains}/>
+              <Clicker onClick={onClick} grains={grains} gps={grainsPerSecond} />
             </Box>
             <Box className={classes.displayContainer}>
               <Display shopData={shopItems}/>

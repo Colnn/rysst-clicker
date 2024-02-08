@@ -34,7 +34,7 @@ export default function ShopObjectDisplay({ amount, objectName, backgroundSVG }:
                 if(objectName === "Developer") {
                     img.src = `/Developer${Math.floor(Math.random() * 20)}.svg`;
                 } else {
-                    img.src = `/${objectName}.svg`;
+                    img.src = `/${objectName.toLowerCase().replace(" ", "_")}.svg`;
                 }
 
                 img.onload = () => {

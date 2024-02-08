@@ -39,7 +39,7 @@ export default function Shop({ grains, shopData, upgradeData, handleShopBuy, han
             if(shouldSell) price = Math.round(price / 1.2);
             totalPrice += price;
             price = shouldSell ? Math.round(price / 1.15) : Math.round(price * 1.15);
-            console.log(totalPrice);
+            // console.log(totalPrice);
         }
         return totalPrice;
     }
@@ -62,8 +62,8 @@ export default function Shop({ grains, shopData, upgradeData, handleShopBuy, han
                     <SettingsBar action={shouldSell} setAction={setShouldSell} buyAmount={buyAmount} setBuyAmount={setBuyAmount}/>
                     <Grid container direction={"row"} className={classes.shopItemsContainer}>
                         {shopData.map(item => {
-                            const disabled = shouldSell ? item.amount < buyAmount : (item.price * buyAmount) > grains;
-                            console.log(item.amount + ", " + calculatePrice(item.price) + ": " + disabled);
+                            const disabled = shouldSell ? item.amount < buyAmount : calculatePrice(item.price) > grains;
+                            // console.log(item.amount + ", " + calculatePrice(item.price) + ": " + disabled);
                             return (
                                 <ShopItem id={item.id} name={item.name} icon={"/" + item.name.toLowerCase().replace(" ", "_") + ".svg"} price={calculatePrice(item.price)} amount={item.amount} buyAmount={buyAmount} handleClick={handleShopBuy} disabled={disabled}/>
                             )
