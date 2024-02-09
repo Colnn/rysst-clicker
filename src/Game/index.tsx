@@ -4,8 +4,8 @@ import Clicker from './Clicker';
 import Display from './Display';
 import Shop from './Shop';
 import { useEffect, useState } from 'react';
-import { enqueueSnackbar } from 'notistack';
 import prettyNumber from '../prettyNumber';
+import { Autosave, useAutosave } from 'react-autosave';
 
 interface ShopItemData {
   i: number;
@@ -115,14 +115,9 @@ export default function Game() {
       }
     });
     localStorage.setItem('data', btoa(JSON.stringify(data)));
-    enqueueSnackbar('Saved data', {
-      autoHideDuration: 2000,
-      anchorOrigin: {
-        vertical: 'bottom',
-        horizontal: 'right',
-      },
-    });
   };
+
+  useAutosave({ data: [grains, shopItems, upgradeItems], onSave: saveData, interval: 60000 });
 
   const loadData = () => {
     if (localStorage.getItem('data'))
@@ -130,7 +125,7 @@ export default function Game() {
       data = JSON.parse(atob(localStorage.getItem('data')));
     console.log(data);
     setGrains(data.g);
-    const newShopItems = [...shopItems];
+    const newShopItems = [...defaultShopItems];
     data.s.forEach((shopItem) => {
       if (newShopItems[shopItem.i]) {
         newShopItems[shopItem.i].amount = shopItem.a;
@@ -142,7 +137,7 @@ export default function Game() {
       }
     });
     setShopItems(newShopItems);
-    const newUpgradeItems = [...upgradeItems];
+    const newUpgradeItems = [...defaultShopUpgrades];
     data.u.forEach((upgradeItem) => {
       if (newUpgradeItems[upgradeItem.i])
         newUpgradeItems[upgradeItem.i].unlocked = upgradeItem.u;
@@ -159,15 +154,24 @@ export default function Game() {
     loadData();
   }, []);
 
-  useEffect(() => {
-    const interval = setInterval(() => {
-      saveData();
-    }, 60000);
+  setInterval(() => {
+    saveData();
+  }, 60000);
 
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
+  // useEffect(() => {
+  //   saveData();
+  // }, [saved]);
+
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     setSaved(saved => saved + 1);
+  //   }, 60000);
+  //   return () => {
+  //     clearInterval(interval);
+  //   };
+  // }, []);
+
+
 
   return (
     <>
@@ -179,7 +183,7 @@ export default function Game() {
           <button onClick={wipeData}>Wipe</button>
         </Box>
         <Grid
-          className={classes.container}
+       className={classes.container}
           container
           direction="row"
           justifyContent="space-between"
@@ -205,6 +209,7 @@ export default function Game() {
             />
           </Box>
         </Grid>
+        <Autosave data={[grains, shopItems, upgradeItems]} onSave={saveData} interval={60000} />
       </Grid>
     </>
   );
