@@ -8,23 +8,34 @@ import prettyNumber from '../prettyNumber';
 import { Autosave, useAutosave } from 'react-autosave';
 
 interface ShopItemData {
+  // ID
   i: number;
+  // Amount
   a: number;
 }
 
 interface UpgradeItemData {
+  // ID
   i: number;
+  // Unlocked
   u: boolean;
 }
 
 let data = {
+  // Grains
   g: 0,
-  s: [] as ShopItemData[],
+  // Shop items
+  si: [] as ShopItemData[],
+  // Upgrades
   u: [] as UpgradeItemData[],
+  // Spent Grains
+  s: 0,
+  // Collected Grains
+  c: 0,
 };
 
 const defaultShopItems: ShopItem[] = [
-  { id: 0, name: 'Developer', amount: 0, price: 15 },
+  { id: 0, name: 'Developer', amount: 0, price: 15 }, 
 ];
 
 const defaultShopUpgrades: UpgradeItem[] = [
@@ -49,6 +60,8 @@ export default function Game() {
   const classes = useStyle();
 
   const [grains, setGrains] = useState(0);
+  const [collectedGrains, setCollectedGrains] = useState(0);
+  const [spentGrains, setSpentGrains] = useState(0);
   const [shopItems, setShopItems] = useState<ShopItem[]>(defaultShopItems);
   const [upgradeItems, setUpgradeItems] =
     useState<UpgradeItem[]>(defaultShopUpgrades);
@@ -57,6 +70,7 @@ export default function Game() {
 
   const onClick = () => {
     setGrains(grains + 1);
+    setCollectedGrains(collectedGrains + 1);
   };
 
   useEffect(() => {
@@ -76,6 +90,7 @@ export default function Game() {
     } else {
       for (let index = 0; index < buyAmount; index++) {
         setGrains(grains - newShopItems[id].price);
+        setSpentGrains(spentGrains + newShopItems[id].price);
         newShopItems[id].amount += 1;
         newShopItems[id].price = Math.round(newShopItems[id].price * 1.15);
         console.log('Bought: ' + newShopItems[id].name);
@@ -87,6 +102,7 @@ export default function Game() {
   const buyUpgrade = (id: number) => {
     const newUpgradeItems = [...upgradeItems];
     setGrains(grains - newUpgradeItems[id].price);
+    setSpentGrains(spentGrains + newUpgradeItems[id].price);
     newUpgradeItems[id].unlocked = true;
     console.log('Bought: ' + newUpgradeItems[id].name);
     setUpgradeItems(newUpgradeItems);
@@ -94,15 +110,17 @@ export default function Game() {
 
   const saveData = () => {
     data.g = grains;
-    data.s = [];
+    data.si = [];
     data.u = [];
+    data.c = collectedGrains;
+    data.s = spentGrains;
     shopItems.forEach((shopItem) => {
       if (shopItem.amount > 0) {
         const newShopItemData = {
           i: shopItem.id,
           a: shopItem.amount,
         };
-        data.s.push(newShopItemData);
+        data.si.push(newShopItemData);
       }
     });
     upgradeItems.forEach((upgradeItem) => {
@@ -125,8 +143,10 @@ export default function Game() {
       data = JSON.parse(atob(localStorage.getItem('data')));
     console.log(data);
     setGrains(data.g);
+    setCollectedGrains(data.c);
+    setSpentGrains(data.s);
     const newShopItems = [...defaultShopItems];
-    data.s.forEach((shopItem) => {
+    data.si.forEach((shopItem) => {
       if (newShopItems[shopItem.i]) {
         newShopItems[shopItem.i].amount = shopItem.a;
         for (let index = 0; index < shopItem.a; index++) {
