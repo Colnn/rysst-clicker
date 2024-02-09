@@ -70,7 +70,7 @@ export default function UpgradeItem({
           className={disabled ? classes.disabled : classes.container}
           onClick={onClick}
         >
-          <Box component={'img'} src={icon} draggable={false} />
+          <Box className={classes.icon} component={'img'} src={icon} draggable={false} />
         </Box>
       </HtmlTooltip>
     </>

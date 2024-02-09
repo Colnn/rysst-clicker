@@ -36,11 +36,7 @@ export default function ShopObjectDisplay({
 
       for (let i = 0; i < amount; i++) {
         const img = new Image();
-        if (objectName === 'Developer') {
-          img.src = `/Developer${Math.floor(Math.random() * 20)}.svg`;
-        } else {
-          img.src = `/${objectName}.svg`;
-        }
+        img.src = `/${objectName.toLowerCase()}.png`;
 
         img.onload = () => {
           ctx.drawImage(img, x, y, 80, 80);

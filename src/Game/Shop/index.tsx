@@ -69,7 +69,7 @@ export default function Shop({
                   id={upgrade.id}
                   name={upgrade.name}
                   icon={
-                    '/' + upgrade.name.toLowerCase().replace(' ', '_') + '.svg'
+                    '/' + upgrade.name.toLowerCase().replace(' ', '_') + '.png'
                   }
                   price={upgrade.price}
                   handleClick={handleUpgradeBuy}
