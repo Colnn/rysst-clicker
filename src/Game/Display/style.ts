@@ -7,5 +7,11 @@ export default makeStyles(() => {
       height: '100%',
       backgroundColor: '#ff00b3',
     },
+    topContainer: {
+      width: '100%',
+    },
+    options: {
+      width: '10%',
+    },
   };
 });

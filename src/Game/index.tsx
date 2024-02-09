@@ -213,7 +213,7 @@ export default function Game() {
             <Clicker onClick={onClick} grains={grains} />
           </Box>
           <Box className={classes.displayContainer}>
-            <Display shopData={shopItems} />
+            <Display shopData={shopItems} spentGrains={spentGrains} collectedGrains={collectedGrains} />
           </Box>
           <Box className={classes.shopContainer}>
             <Shop
