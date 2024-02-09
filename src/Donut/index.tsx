@@ -1,24 +1,24 @@
-export default function Donut() {
-  let A = 1,
-  B = 1;
+import { useEffect } from "react";
 
-  let asciiframe = function () {
+export default function Donut() {
+  let tmr1 = undefined,
+    tmr2 = undefined;
+  let A = 1,
+    B = 1;
+
+  let asciiframe = () => {
     let b = [];
     let z = [];
-
     A += 0.07;
     B += 0.03;
-
     let cA = Math.cos(A),
       sA = Math.sin(A),
       cB = Math.cos(B),
       sB = Math.sin(B);
-
     for (let k = 0; k < 1760; k++) {
       b[k] = k % 80 == 79 ? "\n" : " ";
       z[k] = 0;
     }
-
     for (let j = 0; j < 6.28; j += 0.07) {
       // j <=> theta
       let ct = Math.cos(j),
@@ -47,15 +47,23 @@ export default function Donut() {
         }
       }
     }
-    document.getElementById('test').innerText = b.join("");
+    document.getElementById("test").innerHTML = b.join("");
   };
 
-  setInterval(() => {
-    // console.clear();
-    asciiframe();
-  }, 50);
+  document.title = 'Donut :D';
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      asciiframe();
+    }, 50);
+    return () => {
+      clearInterval(interval);
+    }
+  })
 
   return (
-    <pre style={{width: '100%', textAlign: 'center'}} id={"test"}>Check console :D</pre>
+    <div style={{width: '100vw', height: '100vh', backgroundColor: '#000', color: '#fff', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+      <pre style={{height: 'min-content', textAlign: 'center', verticalAlign: 'middle', fontFamily: 'monospace', whiteSpace: 'pre'}} id={"test"}></pre>
+    </div>
   )
 }
