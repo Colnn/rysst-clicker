@@ -1,10 +1,11 @@
-import { Box, Grid, ToggleButton, ToggleButtonGroup } from '@mui/material';
+import { Box, Grid, ToggleButton, ToggleButtonGroup, Tooltip, TooltipProps, Typography, styled, tooltipClasses } from '@mui/material';
 import useStyle from './style';
 import MotivationalTexts from './Components/MotivationalTexts';
 import ShopObjectDisplay from '../Components/ShopObjectDisplay';
-import { useEffect, useState } from 'react';
-import { defaultShopItems } from '..';
-import { Pageview } from '@mui/icons-material';
+import { useState } from 'react';
+import { DateTime } from 'luxon';
+import GrainsIndicator from '../Components/GrainsIndicator';
+import UpgradeTooltip from '../Shop/Components/UpgradeTooltip';
 
 interface ShopItem {
   id: number;
@@ -13,13 +14,32 @@ interface ShopItem {
   price: number;
 }
 
-interface DisplayProps {
-  shopData: ShopItem[];
-  spentGrains: number;
-  collectedGrains: number;
+interface UpgradeItem {
+  id: number;
+  name: string;
+  unlocked: boolean;
+  price: number;
 }
 
-export default function Display({ shopData, spentGrains, collectedGrains }: DisplayProps) {
+interface DisplayProps {
+  shopData: ShopItem[];
+  upgradeData: UpgradeItem[];
+  spentGrains: number;
+  collectedGrains: number;
+  dateStarted: DateTime;
+}
+
+const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))(({ theme }) => ({
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: '#f5f5f9',
+    color: 'rgba(0, 0, 0, 0.87)',
+    fontSize: theme.typography.pxToRem(12),
+  },
+}));
+
+export default function Display({ shopData, upgradeData, spentGrains, collectedGrains, dateStarted }: DisplayProps) {
   const classes = useStyle();
 
   const [page, setPage] = useState(0);
@@ -68,8 +88,55 @@ export default function Display({ shopData, spentGrains, collectedGrains }: Disp
           })}
         {page == 1 && (
           <Grid container direction={'column'}>
-            <Box>Grains spent: {spentGrains}</Box>
-            <Box>Grains collected: {collectedGrains}</Box>
+            <Grid container direction={'column'}>
+              <Box className={classes.statsHeader}><Typography variant='h5'>General</Typography></Box>
+              <Grid container direction={'row'} alignItems={'center'} wrap={'nowrap'}><Typography>RYSST-grains sold: </Typography><GrainsIndicator variant={"default"} value={spentGrains} precision={3}/></Grid>
+              <Grid container direction={'row'} alignItems={'center'} wrap={'nowrap'}><Typography>RYSST-grains cooked: </Typography><GrainsIndicator variant={"default"} value={collectedGrains} precision={3}/></Grid>
+              <Box>Run started: {dateStarted.toFormat('dd-MM-yyyy HH:mm')}</Box>
+              <Box>RYSST-grains per second: {0}</Box>
+              <Box>RYSST-grains per click: {0}</Box>
+            </Grid>
+            <Grid container direction={'column'}>
+              <Box className={classes.statsHeader}><Typography variant='h5'>Upgrades</Typography></Box>
+              <Grid container direction={'row'}>
+                {upgradeData.map((upgrade) => {
+                  if(!upgrade.unlocked) return;
+                  return (
+                    <>
+                      <HtmlTooltip
+                        title={
+                          <UpgradeTooltip
+                            name={upgrade.name}
+                            icon={'/' + upgrade.name.toLowerCase().replace(' ', '_') + '.png'}
+                            price={upgrade.price}
+                            disabled={false}
+                          />
+                        }
+                        placement="top"
+                        slotProps={{
+                          popper: {
+                            modifiers: [
+                              {
+                                name: 'offset',
+                                options: {
+                                  offset: [0, -4],
+                                },
+                              },
+                            ],
+                          },
+                        }}
+                      >
+                        <Box
+                          className={classes.upgradeContainer}
+                        >
+                          <Box className={classes.icon} component={'img'} src={'/' + upgrade.name.toLowerCase().replace(' ', '_') + '.png'} draggable={false} />
+                        </Box>
+                      </HtmlTooltip>
+                    </>
+                  )
+                })}
+              </Grid>
+            </Grid>
           </Grid>
         )}
       </Box>

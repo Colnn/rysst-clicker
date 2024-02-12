@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from 'react';
 import prettyNumber from '../prettyNumber';
 import { Autosave, useAutosave } from 'react-autosave';
 import { enqueueSnackbar } from 'notistack';
+import {DateTime} from 'luxon';
 
 interface ShopItemData {
   // ID
@@ -33,7 +34,10 @@ let data = {
   s: 0,
   // Collected Grains
   c: 0,
+  // Checksum
   cs: 0,
+  // Date started
+  d: 0,
 };
 
 const defaultShopItems: ShopItem[] = [
@@ -69,6 +73,7 @@ export default function Game() {
     useState<UpgradeItem[]>(defaultShopUpgrades);
   const [shouldSell, setShouldSell] = useState(false);
   const [buyAmount, setBuyAmount] = useState(1);
+  const [dateStarted, setDateStarted] = useState(DateTime.now());
   const grainsRef = useRef(grains);
 
   const onClick = () => {
@@ -117,6 +122,7 @@ export default function Game() {
     data.u = [];
     data.c = collectedGrains;
     data.s = spentGrains;
+    data.d = dateStarted.toSeconds();
     shopItems.forEach((shopItem) => {
       if (shopItem.amount > 0) {
         const newShopItemData = {
@@ -161,21 +167,26 @@ export default function Game() {
   }
 
   const loadData = () => {
+    let saveData;
     if (localStorage.getItem('data')) {
       // @ts-expect-error | The not-null check is right in front of it, TypeScript is just being autistic
-      const saveData = atob(localStorage.getItem('data'));
+      saveData = atob(localStorage.getItem('data'));
       if(checkData(saveData)) data = JSON.parse(saveData);
       else return;
     }
     else return;
-    console.log(data);
+    const parsedData = JSON.parse(saveData);
+    console.log(parsedData);
 
-    setGrains(data.g);
-    grainsRef.current = data.g;
-    setCollectedGrains(data.c);
-    setSpentGrains(data.s);
+    setGrains(parsedData.g);
+    grainsRef.current = parsedData.g;
+    setCollectedGrains(parsedData.c);
+    setSpentGrains(parsedData.s);
+    setDateStarted(DateTime.fromSeconds(parsedData.d));
+    console.log(DateTime.fromSeconds(parsedData.d).diffNow().minutes);
+    console.log(DateTime.now().toFormat('dd mm yyyy'));
     const newShopItems = [...defaultShopItems];
-    data.si.forEach((shopItem) => {
+    parsedData.si.forEach((shopItem: ShopItemData) => {
       if (newShopItems[shopItem.i]) {
         newShopItems[shopItem.i].amount = shopItem.a;
         for (let index = 0; index < shopItem.a; index++) {
@@ -187,7 +198,7 @@ export default function Game() {
     });
     setShopItems(newShopItems);
     const newUpgradeItems = [...defaultShopUpgrades];
-    data.u.forEach((upgradeItem) => {
+    parsedData.u.forEach((upgradeItem: UpgradeItemData) => {
       if (newUpgradeItems[upgradeItem.i])
         newUpgradeItems[upgradeItem.i].unlocked = upgradeItem.u;
     });
@@ -250,7 +261,7 @@ export default function Game() {
             <Clicker onClick={onClick} grains={grains} />
           </Box>
           <Box className={classes.displayContainer}>
-            <Display shopData={shopItems} spentGrains={spentGrains} collectedGrains={collectedGrains} />
+            <Display shopData={shopItems} upgradeData={upgradeItems} spentGrains={spentGrains} collectedGrains={collectedGrains} dateStarted={dateStarted} />
           </Box>
           <Box className={classes.shopContainer}>
             <Shop
