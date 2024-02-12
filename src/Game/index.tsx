@@ -28,7 +28,8 @@ export const defaultShopItems: ShopItem[] = [
 ];
 
 const defaultShopUpgrades: UpgradeItem[] = [
-  { id: 0, name: 'React Course', unlocked: false, price: 50 },
+  { id: 0, name: 'React Course', unlocked: false, price: 50, shopItemID: 0, action: 'multiplyGPS', value: 2},
+  { id: 1, name: 'React Course', unlocked: false, price: 50, shopItemID: 0, action: 'multiplyGPS', value: 2},
 ];
 
 interface ShopItem {
@@ -44,6 +45,9 @@ interface UpgradeItem {
   name: string,
   unlocked: boolean,
   price: number,
+  shopItemID: number,
+  action: string,
+  value: any,
 }
 
 export default function Game() {
@@ -53,14 +57,21 @@ export default function Game() {
 
   const [grains, setGrains] = useState(0);
   const [grainsPerSecond, setGrainsPerSecond] = useState(0);
-  const [grainsPerClickPercentage, setGrainsPerSecondPercentage] = useState(0.01);
+  const [grainsPerClick, setGrainsPerClick] = useState(0.01);
   const [shopItems, setShopItems] = useState<ShopItem[]>(defaultShopItems);
   const [upgradeItems, setUpgradeItems] = useState<UpgradeItem[]>(defaultShopUpgrades);
   const [shouldSell, setShouldSell] = useState(false);
   const [buyAmount, setBuyAmount] = useState(1);
 
+  const calculateGrainsPerSecond = (id: number) => {
+    switch(defaultShopUpgrades[id].action) {
+      case 'multiplyGPS':
+        shopItems[id].gps = shopItems[id].gps * defaultShopUpgrades[id].value
+    }
+  }
+
   const onClick = () => {
-      setGrains(grains + ((Math.round(grainsPerSecond * grainsPerClickPercentage)) === 0 ? 1 : (Math.round(grainsPerSecond * grainsPerClickPercentage))));
+      setGrains(grains + ((Math.round(grainsPerSecond * grainsPerClick)) === 0 ? 1 : (Math.round(grainsPerSecond * grainsPerClick))));
   }
 
   useEffect(() => {
@@ -92,6 +103,7 @@ export default function Game() {
         console.log(newShopItems[id].price);
         console.log("Bought: " + newShopItems[id].name);
         setShopItems(newShopItems);
+        console.log(shopItems)
       }
     }
     setGrains(newGrains);
@@ -104,6 +116,7 @@ export default function Game() {
     newUpgradeItems[id].unlocked = true;
     console.log("Bought: " + newUpgradeItems[id].name);
     setUpgradeItems(newUpgradeItems);
+    calculateGrainsPerSecond(id)
   }
 
   const saveData = () => {
@@ -159,11 +172,11 @@ export default function Game() {
     })
     setUpgradeItems(newUpgradeItems);
     let totalGPS = 0;
-    for(let i = 0; i < shopItems.length; i++) {
-      totalGPS = totalGPS + (shopItems.map(item => item.amount)[i] * defaultShopItems[i].gps)
+    for(let i = 0; i < newShopItems.length; i++) {
+      totalGPS = totalGPS + (shopItems[i].gps * shopItems[i].amount)
     }
-  
     setGrainsPerSecond(totalGPS)
+    console.log(shopItems)
   }
 
   const wipeData = () => {
