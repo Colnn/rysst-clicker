@@ -27,7 +27,7 @@ export default makeStyles(() => {
       },
     },
     shopItemsContainer: {
-      padding: '0px 10px',
+      padding: '0px',
     },
   };
 });
