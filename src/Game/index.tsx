@@ -5,7 +5,6 @@ import Display from './Display';
 import Shop from './Shop';
 import { useEffect, useRef, useState } from 'react';
 import prettyNumber from '../prettyNumber';
-import { Autosave, useAutosave } from 'react-autosave';
 import { enqueueSnackbar } from 'notistack';
 import {DateTime} from 'luxon';
 
@@ -75,6 +74,8 @@ export default function Game() {
   const [buyAmount, setBuyAmount] = useState(1);
   const [dateStarted, setDateStarted] = useState(DateTime.now());
   const grainsRef = useRef(grains);
+  const shopItemsRef = useRef(shopItems);
+  const upgradeItemsRef = useRef(upgradeItems);
 
   const onClick = () => {
     setGrains(grains + 1);
@@ -84,6 +85,12 @@ export default function Game() {
   useEffect(() => {
     grainsRef.current = grains;
   }, [grains]);
+  useEffect(() => {
+    shopItemsRef.current = shopItems;
+  }, [shopItems]);
+  useEffect(() => {
+    upgradeItemsRef.current = upgradeItems;
+  }, [upgradeItems]);
 
   const buyShopItem = (id: number) => {
     const newShopItems = [...shopItems];
@@ -117,12 +124,13 @@ export default function Game() {
   };
 
   const saveData = () => {
-    data.g = grains;
+    data.g = grainsRef.current;
     data.si = [];
     data.u = [];
     data.c = collectedGrains;
     data.s = spentGrains;
     data.d = dateStarted.toSeconds();
+    data.cs = 0;
     shopItems.forEach((shopItem) => {
       if (shopItem.amount > 0) {
         const newShopItemData = {
@@ -144,9 +152,8 @@ export default function Game() {
     const saveData = JSON.stringify(data);
     data.cs = saveData.length;
     localStorage.setItem('data', btoa(JSON.stringify(data)));
+    enqueueSnackbar('Saved game data.', {autoHideDuration: 2000, anchorOrigin: {horizontal: 'right', vertical: 'bottom'}});
   };
-
-  useAutosave({ data: [grains, shopItems, upgradeItems], onSave: saveData, interval: 60000 });
 
   const checkSumFailed = () => {
     enqueueSnackbar('Unable to load your save data, it appears to be corrupted.', {variant: 'error', persist: true});
@@ -158,6 +165,7 @@ export default function Game() {
     // Little checksum
     console.log(saveData.length);
     console.log(parsedData.cs);
+    saveData = saveData.replace(',"cs":' + parsedData.cs, ',"cs":0');
     if(saveData.length != parsedData.cs) {
       checkSumFailed();
       return false;
@@ -277,7 +285,6 @@ export default function Game() {
             />
           </Box>
         </Grid>
-        <Autosave data={[grains, shopItems, upgradeItems]} onSave={saveData} interval={60000} />
       </Grid>
     </>
   );

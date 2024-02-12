@@ -19,7 +19,6 @@
     "luxon": "^3.4.4",
     "notistack": "^3.0.1",
     "react": "^18.2.0",
-    "react-autosave": "^0.4.4",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.21.3",
     "styled-components": "^6.1.8"
