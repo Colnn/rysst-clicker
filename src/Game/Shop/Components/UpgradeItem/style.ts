@@ -3,7 +3,6 @@ import { makeStyles } from '@mui/styles';
 export default makeStyles(() => {
   return {
     container: {
-      padding: '0px 10px',
       width: '75px',
       height: '75px',
       backgroundColor: '#bababa',
@@ -30,8 +29,11 @@ export default makeStyles(() => {
     price: {
       color: '#20e302',
     },
+    icon: {
+      width: '100%',
+      imageRendering: 'pixelated',
+    },
     disabled: {
-      padding: '0px 10px',
       width: '75px',
       height: '75px',
       backgroundColor: '#818181',

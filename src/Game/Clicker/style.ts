@@ -19,6 +19,7 @@ export default makeStyles(() => {
       width: '50%',
       outline: 0,
       border: 0,
+      imageRendering: 'pixelated',
     },
   };
 });
