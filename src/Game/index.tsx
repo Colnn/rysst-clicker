@@ -3,7 +3,7 @@ import useStyle from './style';
 import Clicker from './Clicker';
 import Display from './Display';
 import Shop from './Shop';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import prettyNumber from '../prettyNumber';
 import { Autosave, useAutosave } from 'react-autosave';
 import { enqueueSnackbar } from 'notistack';
@@ -56,14 +56,15 @@ export default function Game() {
     useState<UpgradeItem[]>(defaultShopUpgrades);
   const [shouldSell, setShouldSell] = useState(false);
   const [buyAmount, setBuyAmount] = useState(1);
+  const grainsRef = useRef(grains);
 
   const onClick = () => {
     setGrains(grains + 1);
   };
 
   useEffect(() => {
-    document.title = prettyNumber(grains, 3) + ' grains | RYSST Clicker';
-  }, [grains]);
+    grainsRef.current = grains;
+  }, [grains])
 
   const buyShopItem = (id: number) => {
     const newShopItems = [...shopItems];
@@ -149,6 +150,7 @@ export default function Game() {
     console.log(data);
 
     setGrains(data.g);
+    grainsRef.current = data.g;
     const newShopItems = [...defaultShopItems];
     data.s.forEach((shopItem) => {
       if (newShopItems[shopItem.i]) {
@@ -167,6 +169,10 @@ export default function Game() {
         newUpgradeItems[upgradeItem.i].unlocked = upgradeItem.u;
     });
     setUpgradeItems(newUpgradeItems);
+
+    setInterval(() => {
+      document.title = prettyNumber(grainsRef.current, 3) + ' grains | RYSST Clicker';
+    }, 2500);
   };
 
   const wipeData = () => {
