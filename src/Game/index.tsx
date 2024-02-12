@@ -6,6 +6,7 @@ import Shop from './Shop';
 import { useEffect, useState } from 'react';
 import prettyNumber from '../prettyNumber';
 import { Autosave, useAutosave } from 'react-autosave';
+import { enqueueSnackbar } from 'notistack';
 
 interface ShopItemData {
   i: number;
@@ -21,6 +22,7 @@ let data = {
   g: 0,
   s: [] as ShopItemData[],
   u: [] as UpgradeItemData[],
+  cs: 0,
 };
 
 const defaultShopItems: ShopItem[] = [
@@ -114,16 +116,38 @@ export default function Game() {
         data.u.push(newUpgradeItemData);
       }
     });
+    const saveData = JSON.stringify(data);
+    data.cs = saveData.length;
     localStorage.setItem('data', btoa(JSON.stringify(data)));
   };
 
   useAutosave({ data: [grains, shopItems, upgradeItems], onSave: saveData, interval: 60000 });
 
+  const checkSumFailed = () => {
+    enqueueSnackbar('Your save data appears to be corrupted, wiping data in 5 seconds.', {variant: 'error'});
+    setInterval(() => {
+      wipeData();
+    }, 5000)
+  }
+
   const loadData = () => {
-    if (localStorage.getItem('data'))
+    if (localStorage.getItem('data')) {
       // @ts-expect-error | The not-null check is right in front of it, TypeScript is just being autistic
-      data = JSON.parse(atob(localStorage.getItem('data')));
+      const saveData = atob(localStorage.getItem('data'));
+      const parsedData = JSON.parse(saveData);
+      data = parsedData;
+      console.log(saveData);
+      // Little checksum
+      console.log(saveData.length);
+      console.log(parsedData.cs);
+      if(saveData.length != parsedData.cs) {
+        checkSumFailed();
+        return;
+      }
+    }
+    else return;
     console.log(data);
+
     setGrains(data.g);
     const newShopItems = [...defaultShopItems];
     data.s.forEach((shopItem) => {
