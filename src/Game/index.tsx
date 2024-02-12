@@ -3,9 +3,10 @@ import useStyle from './style';
 import Clicker from './Clicker';
 import Display from './Display';
 import Shop from './Shop';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import prettyNumber from '../prettyNumber';
 import { Autosave, useAutosave } from 'react-autosave';
+import { enqueueSnackbar } from 'notistack';
 
 interface ShopItemData {
   // ID
@@ -32,6 +33,7 @@ let data = {
   s: 0,
   // Collected Grains
   c: 0,
+  cs: 0,
 };
 
 const defaultShopItems: ShopItem[] = [
@@ -67,6 +69,7 @@ export default function Game() {
     useState<UpgradeItem[]>(defaultShopUpgrades);
   const [shouldSell, setShouldSell] = useState(false);
   const [buyAmount, setBuyAmount] = useState(1);
+  const grainsRef = useRef(grains);
 
   const onClick = () => {
     setGrains(grains + 1);
@@ -74,7 +77,7 @@ export default function Game() {
   };
 
   useEffect(() => {
-    document.title = prettyNumber(grains, 3) + ' grains | RYSST Clicker';
+    grainsRef.current = grains;
   }, [grains]);
 
   const buyShopItem = (id: number) => {
@@ -132,17 +135,43 @@ export default function Game() {
         data.u.push(newUpgradeItemData);
       }
     });
+    const saveData = JSON.stringify(data);
+    data.cs = saveData.length;
     localStorage.setItem('data', btoa(JSON.stringify(data)));
   };
 
   useAutosave({ data: [grains, shopItems, upgradeItems], onSave: saveData, interval: 60000 });
 
+  const checkSumFailed = () => {
+    enqueueSnackbar('Unable to load your save data, it appears to be corrupted.', {variant: 'error', persist: true});
+  }
+
+  const checkData = (saveData: string) => {
+    const parsedData = JSON.parse(saveData);
+    console.log(saveData);
+    // Little checksum
+    console.log(saveData.length);
+    console.log(parsedData.cs);
+    if(saveData.length != parsedData.cs) {
+      checkSumFailed();
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   const loadData = () => {
-    if (localStorage.getItem('data'))
+    if (localStorage.getItem('data')) {
       // @ts-expect-error | The not-null check is right in front of it, TypeScript is just being autistic
-      data = JSON.parse(atob(localStorage.getItem('data')));
+      const saveData = atob(localStorage.getItem('data'));
+      if(checkData(saveData)) data = JSON.parse(saveData);
+      else return;
+    }
+    else return;
     console.log(data);
+
     setGrains(data.g);
+    grainsRef.current = data.g;
     setCollectedGrains(data.c);
     setSpentGrains(data.s);
     const newShopItems = [...defaultShopItems];
@@ -163,7 +192,19 @@ export default function Game() {
         newUpgradeItems[upgradeItem.i].unlocked = upgradeItem.u;
     });
     setUpgradeItems(newUpgradeItems);
+
+    startGame();
   };
+
+  const startGame = () => {
+    setInterval(() => {
+      saveData();
+    }, 60000);
+
+    setInterval(() => {
+      document.title = prettyNumber(grainsRef.current, 3) + ' grains | RYSST Clicker';
+    }, 2500);
+  }
 
   const wipeData = () => {
     localStorage.removeItem('data');
@@ -173,10 +214,6 @@ export default function Game() {
   useEffect(() => {
     loadData();
   }, []);
-
-  setInterval(() => {
-    saveData();
-  }, 60000);
 
   // useEffect(() => {
   //   saveData();
