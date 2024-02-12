@@ -64,7 +64,7 @@ export default function Game() {
 
   useEffect(() => {
     grainsRef.current = grains;
-  }, [grains])
+  }, [grains]);
 
   const buyShopItem = (id: number) => {
     const newShopItems = [...shopItems];
@@ -125,26 +125,29 @@ export default function Game() {
   useAutosave({ data: [grains, shopItems, upgradeItems], onSave: saveData, interval: 60000 });
 
   const checkSumFailed = () => {
-    enqueueSnackbar('Your save data appears to be corrupted, wiping data in 5 seconds.', {variant: 'error'});
-    setInterval(() => {
-      wipeData();
-    }, 5000)
+    enqueueSnackbar('Unable to load your save data, it appears to be corrupted.', {variant: 'error', persist: true});
+  }
+
+  const checkData = (saveData: string) => {
+    const parsedData = JSON.parse(saveData);
+    console.log(saveData);
+    // Little checksum
+    console.log(saveData.length);
+    console.log(parsedData.cs);
+    if(saveData.length != parsedData.cs) {
+      checkSumFailed();
+      return false;
+    } else {
+      return true;
+    }
   }
 
   const loadData = () => {
     if (localStorage.getItem('data')) {
       // @ts-expect-error | The not-null check is right in front of it, TypeScript is just being autistic
       const saveData = atob(localStorage.getItem('data'));
-      const parsedData = JSON.parse(saveData);
-      data = parsedData;
-      console.log(saveData);
-      // Little checksum
-      console.log(saveData.length);
-      console.log(parsedData.cs);
-      if(saveData.length != parsedData.cs) {
-        checkSumFailed();
-        return;
-      }
+      if(checkData(saveData)) data = JSON.parse(saveData);
+      else return;
     }
     else return;
     console.log(data);
@@ -170,10 +173,18 @@ export default function Game() {
     });
     setUpgradeItems(newUpgradeItems);
 
+    startGame();
+  };
+
+  const startGame = () => {
+    setInterval(() => {
+      saveData();
+    }, 60000);
+
     setInterval(() => {
       document.title = prettyNumber(grainsRef.current, 3) + ' grains | RYSST Clicker';
     }, 2500);
-  };
+  }
 
   const wipeData = () => {
     localStorage.removeItem('data');
@@ -183,10 +194,6 @@ export default function Game() {
   useEffect(() => {
     loadData();
   }, []);
-
-  setInterval(() => {
-    saveData();
-  }, 60000);
 
   // useEffect(() => {
   //   saveData();
