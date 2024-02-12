@@ -31,6 +31,7 @@ export default makeStyles(() => {
     },
     icon: {
       width: '100%',
+      imageRendering: 'pixelated',
     },
     disabled: {
       width: '75px',

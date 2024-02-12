@@ -52,6 +52,7 @@ export default makeStyles(() => {
     icon: {
       height: '120%',
       marginRight: '10px',
+      imageRendering: 'pixelated',
     },
     priceGreen: {
       color: '#20e302',
