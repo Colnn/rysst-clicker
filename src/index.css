@@ -45,6 +45,12 @@ button {
   transition: border-color 0.25s;
 }
 
+img {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

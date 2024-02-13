@@ -6,26 +6,41 @@ import Shop from './Shop';
 import { useEffect, useRef, useState } from 'react';
 import prettyNumber from '../prettyNumber';
 import { enqueueSnackbar } from 'notistack';
+import {DateTime} from 'luxon';
 
 interface ShopItemData {
+  // ID
   i: number;
+  // Amount
   a: number;
 }
 
 interface UpgradeItemData {
+  // ID
   i: number;
+  // Unlocked
   u: boolean;
 }
 
 let data = {
+  // Grains
   g: 0,
-  s: [] as ShopItemData[],
+  // Shop items
+  si: [] as ShopItemData[],
+  // Upgrades
   u: [] as UpgradeItemData[],
+  // Spent Grains
+  s: 0,
+  // Collected Grains
+  c: 0,
+  // Checksum
   cs: 0,
+  // Date started
+  d: 0,
 };
 
 const defaultShopItems: ShopItem[] = [
-  { id: 0, name: 'Developer', amount: 0, price: 15 },
+  { id: 0, name: 'Developer', amount: 0, price: 15 }, 
 ];
 
 const defaultShopUpgrades: UpgradeItem[] = [
@@ -50,17 +65,21 @@ export default function Game() {
   const classes = useStyle();
 
   const [grains, setGrains] = useState(0);
+  const [collectedGrains, setCollectedGrains] = useState(0);
+  const [spentGrains, setSpentGrains] = useState(0);
   const [shopItems, setShopItems] = useState<ShopItem[]>(defaultShopItems);
   const [upgradeItems, setUpgradeItems] =
     useState<UpgradeItem[]>(defaultShopUpgrades);
   const [shouldSell, setShouldSell] = useState(false);
   const [buyAmount, setBuyAmount] = useState(1);
+  const [dateStarted, setDateStarted] = useState(DateTime.now());
   const grainsRef = useRef(grains);
   const shopItemsRef = useRef(shopItems);
   const upgradeItemsRef = useRef(upgradeItems);
 
   const onClick = () => {
     setGrains(grains + 1);
+    setCollectedGrains(collectedGrains + 1);
   };
 
   useEffect(() => {
@@ -86,6 +105,7 @@ export default function Game() {
     } else {
       for (let index = 0; index < buyAmount; index++) {
         setGrains(grains - newShopItems[id].price);
+        setSpentGrains(spentGrains + newShopItems[id].price);
         newShopItems[id].amount += 1;
         newShopItems[id].price = Math.round(newShopItems[id].price * 1.15);
         console.log('Bought: ' + newShopItems[id].name);
@@ -97,6 +117,7 @@ export default function Game() {
   const buyUpgrade = (id: number) => {
     const newUpgradeItems = [...upgradeItems];
     setGrains(grains - newUpgradeItems[id].price);
+    setSpentGrains(spentGrains + newUpgradeItems[id].price);
     newUpgradeItems[id].unlocked = true;
     console.log('Bought: ' + newUpgradeItems[id].name);
     setUpgradeItems(newUpgradeItems);
@@ -104,8 +125,11 @@ export default function Game() {
 
   const saveData = () => {
     data.g = grainsRef.current;
-    data.s = [];
+    data.si = [];
     data.u = [];
+    data.c = collectedGrains;
+    data.s = spentGrains;
+    data.d = dateStarted.toSeconds();
     data.cs = 0;
     shopItems.forEach((shopItem) => {
       if (shopItem.amount > 0) {
@@ -113,7 +137,7 @@ export default function Game() {
           i: shopItem.id,
           a: shopItem.amount,
         };
-        data.s.push(newShopItemData);
+        data.si.push(newShopItemData);
       }
     });
     upgradeItems.forEach((upgradeItem) => {
@@ -151,19 +175,26 @@ export default function Game() {
   }
 
   const loadData = () => {
+    let saveData;
     if (localStorage.getItem('data')) {
       // @ts-expect-error | The not-null check is right in front of it, TypeScript is just being autistic
-      const saveData = atob(localStorage.getItem('data'));
+      saveData = atob(localStorage.getItem('data'));
       if(checkData(saveData)) data = JSON.parse(saveData);
       else return;
     }
     else return;
-    console.log(data);
+    const parsedData = JSON.parse(saveData);
+    console.log(parsedData);
 
-    setGrains(data.g);
-    grainsRef.current = data.g;
+    setGrains(parsedData.g);
+    grainsRef.current = parsedData.g;
+    setCollectedGrains(parsedData.c);
+    setSpentGrains(parsedData.s);
+    setDateStarted(DateTime.fromSeconds(parsedData.d));
+    console.log(DateTime.fromSeconds(parsedData.d).diffNow().minutes);
+    console.log(DateTime.now().toFormat('dd mm yyyy'));
     const newShopItems = [...defaultShopItems];
-    data.s.forEach((shopItem) => {
+    parsedData.si.forEach((shopItem: ShopItemData) => {
       if (newShopItems[shopItem.i]) {
         newShopItems[shopItem.i].amount = shopItem.a;
         for (let index = 0; index < shopItem.a; index++) {
@@ -175,7 +206,7 @@ export default function Game() {
     });
     setShopItems(newShopItems);
     const newUpgradeItems = [...defaultShopUpgrades];
-    data.u.forEach((upgradeItem) => {
+    parsedData.u.forEach((upgradeItem: UpgradeItemData) => {
       if (newUpgradeItems[upgradeItem.i])
         newUpgradeItems[upgradeItem.i].unlocked = upgradeItem.u;
     });
@@ -238,7 +269,7 @@ export default function Game() {
             <Clicker onClick={onClick} grains={grains} />
           </Box>
           <Box className={classes.displayContainer}>
-            <Display shopData={shopItems} />
+            <Display shopData={shopItems} upgradeData={upgradeItems} spentGrains={spentGrains} collectedGrains={collectedGrains} dateStarted={dateStarted} />
           </Box>
           <Box className={classes.shopContainer}>
             <Shop
