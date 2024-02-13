@@ -27,7 +27,12 @@ export default function Clicker({ onClick, grains }: ClickerProps) {
   const handleClick = () => {
     onClick();
     addParticle();
+    clickSound.play();
   }
+
+  const clickSound = new Audio();
+  clickSound.src = '/Click.wav';
+  clickSound.volume = 0.1;
 
   const cookerImg = new Image();
   cookerImg.src = '/rysst_cooker.png';
@@ -52,7 +57,7 @@ export default function Clicker({ onClick, grains }: ClickerProps) {
   };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  const draw = (frameCount: number) => {
+  const draw = () => {
       if(!context) return;
       context.canvas.width =
           (document.getElementById('container')?.offsetWidth || 0);
@@ -97,15 +102,13 @@ export default function Clicker({ onClick, grains }: ClickerProps) {
   }, []);
 
   useEffect(() => {
-    let frameCount = 0;
     let animationFrameId: number;
 
     // Check if null context has been replaced on component mount
     if (context) {
         //Our draw came here
         const render = () => {
-            frameCount++;
-            draw(frameCount);
+            draw();
             animationFrameId = window.requestAnimationFrame(render);
         };
         render();
