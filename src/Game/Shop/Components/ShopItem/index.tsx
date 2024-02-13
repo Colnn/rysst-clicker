@@ -10,6 +10,7 @@ import {
 import useStyle from './style';
 import ShopTooltip from '../ShopTooltip';
 import prettyNumber from '../../../../prettyNumber';
+import GrainsIndicator from '../../../Components/GrainsIndicator';
 
 interface ShopItemProps {
   id: number;
@@ -87,16 +88,11 @@ export default function ShopItem({
             />
             <Grid container>
               <Typography variant="h6">{name}</Typography>
-              <Grid container direction={'row'} alignItems={'flex-end'}>
+              <Grid container direction={'row'} alignItems={'flex-end'} wrap={'nowrap'}>
                 <Typography className={classes.buyAmount} fontWeight={600}>
                   x{buyAmount}
                 </Typography>
-                <Typography
-                  variant="h6"
-                  className={disabled ? classes.priceRed : classes.priceGreen}
-                >
-                  {prettyNumber(price, 3)}
-                </Typography>
+                <GrainsIndicator variant={disabled ? "priceRed" : "priceGreen"} value={price} precision={3}/>
               </Grid>
             </Grid>
           </Box>
