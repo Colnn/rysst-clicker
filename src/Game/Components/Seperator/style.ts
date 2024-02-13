@@ -3,11 +3,10 @@ import { makeStyles } from '@mui/styles';
 export default makeStyles(() => {
   return {
     container: {
-      width: '100%',
+      width: '20px',
       height: '100%',
-      backgroundImage: 'url("/header.png")',
-      backgroundRepeat: 'no-repeat',
-      backgroundSize: 'cover',
+      backgroundImage: 'url("/seperator.png")',
+      backgroundSize: 'contain',
       imageRendering: 'pixelated',
     },
   };

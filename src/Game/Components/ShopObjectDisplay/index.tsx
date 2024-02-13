@@ -31,6 +31,8 @@ export default function ShopObjectDisplay({
         (document.getElementById('canvas')?.offsetWidth || 0);
       ctx.canvas.height = 200;
 
+      ctx.imageSmoothingEnabled = false;
+
       let x = 0;
       let y = 0;
 
