@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import useStyle from './style';
-import MotivationalTexts from '../Components/motivationalTexts';
-import ShopObjectDisplay from '../Components/ShopObjectDisplay';
+import MotivationalTexts from './Components/motivationalTexts';
+import ShopObjectDisplay from './Components/ShopObjectDisplay';
 import { useEffect, useState } from 'react';
 import { defaultShopItems } from '..';
 
