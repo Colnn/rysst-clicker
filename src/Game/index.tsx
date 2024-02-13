@@ -76,6 +76,7 @@ export default function Game() {
   const grainsRef = useRef(grains);
   const shopItemsRef = useRef(shopItems);
   const upgradeItemsRef = useRef(upgradeItems);
+  const [wiping, setWiping] = useState(false);
 
   const onClick = () => {
     setGrains(grains + 1);
@@ -225,13 +226,16 @@ export default function Game() {
     }, 2500);
 
     window.onbeforeunload = () => {
-      saveData();
+      if(localStorage.getItem('data')) {
+        saveData();
+      }
     }
   }
 
   const wipeData = () => {
+    setWiping(true);
     localStorage.removeItem('data');
-    location.reload();
+    window.location.reload();
   };
 
   useEffect(() => {
@@ -270,7 +274,7 @@ export default function Game() {
           alignItems="center"
         >
           <Box className={classes.clickerContainer}>
-            <Clicker onClick={onClick} grains={grains} />
+            <Clicker onClick={onClick} grains={grains} gps={50}/>
           </Box>
           <Box className={classes.displayContainer}>
             <Display shopData={shopItems} upgradeData={upgradeItems} spentGrains={spentGrains} collectedGrains={collectedGrains} dateStarted={dateStarted} />

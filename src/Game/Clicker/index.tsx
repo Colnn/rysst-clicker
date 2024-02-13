@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from 'react';
 interface ClickerProps {
   onClick: () => void;
   grains: number;
+  gps: number;
 }
 
 interface RiceParticle {
@@ -17,18 +18,37 @@ interface RiceParticle {
   life: number;
 }
 
-export default function Clicker({ onClick, grains }: ClickerProps) {
+interface BackgroundParticle {
+  x: number;
+  y: number;
+  speed?: number;
+  initialSpeed: number;
+}
+
+export default function Clicker({ onClick, grains, gps }: ClickerProps) {
   const classes = useStyle();
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const contextRef = useRef<CanvasRenderingContext2D | null>(null);
   const [context, setContext] = useState<CanvasRenderingContext2D | null>(null);
-  const [mousePos, setMousePos] = useState({x: 0, y: 0});
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [particles, setParticles] = useState<RiceParticle[]>([]);
+  const [backgroundParticles, setBackgroundParticles] = useState<
+    BackgroundParticle[]
+  >([]);
+  const bgParticlesRef = useRef<BackgroundParticle[]>([]);
+  const gpsRef = useRef(gps);
+
+  useEffect(() => {
+    gpsRef.current = gps;
+    contextRef.current = context;
+    bgParticlesRef.current = backgroundParticles;
+  }, [gps, context, backgroundParticles]);
 
   const handleClick = () => {
     onClick();
     addParticle();
     clickSound.play();
-  }
+  };
 
   const clickSound = new Audio();
   clickSound.src = '/Click.wav';
@@ -41,14 +61,14 @@ export default function Clicker({ onClick, grains }: ClickerProps) {
   riceGrain.src = '/rice.png';
 
   const trackMouse = (e) => {
-    setMousePos({x: e.clientX, y: e.clientY});
-  }
+    setMousePos({ x: e.clientX - 20, y: e.clientY - 70 });
+  };
 
   const addParticle = () => {
     const newParticles = [...particles];
     newParticles.push({
-      x: mousePos.x - 20,
-      y: mousePos.y - 70,
+      x: mousePos.x,
+      y: mousePos.y,
       img: 'rice.png',
       text: '+' + 1,
       life: 0,
@@ -58,37 +78,44 @@ export default function Clicker({ onClick, grains }: ClickerProps) {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const draw = () => {
-      if(!context) return;
-      context.canvas.width =
-          (document.getElementById('container')?.offsetWidth || 0);
-      context.canvas.height = (document.getElementById('container')?.offsetHeight || 0);
-      
-      context.clearRect(0, 0, context.canvas.width, context.canvas.height);
+    if (!context) return;
+    context.canvas.width =
+      document.getElementById('container')?.offsetWidth || 0;
+    context.canvas.height =
+      document.getElementById('container')?.offsetHeight || 0;
 
-      context.imageSmoothingEnabled = false;
+    context.clearRect(0, 0, context.canvas.width, context.canvas.height);
 
-      const width = 250;
-      const height = 250;
+    context.imageSmoothingEnabled = false;
 
-      const x = (context.canvas.width / 2) - (width / 2);
-      const y = (context.canvas.height / 2) - (height / 2) - 100;
+    backgroundParticles.forEach((particle) => {
+      if (!particle.speed) particle.speed = particle.initialSpeed;
+      particle.y += particle.speed;
+      context.drawImage(riceGrain, particle.x, particle.y);
+    });
 
-      context.drawImage(cookerImg, x, y, width, height);
+    const width = 250;
+    const height = 250;
 
-      const newParticles = [...particles];
-      newParticles.forEach((particle) => {
-        context.save();
-        if(particle.life < 100) {
-          particle.life++;
-          const px = particle.x;
-          const py = particle.y - (particle.life / 2);
-          context.globalAlpha = 1 - (particle.life / 100);
-          // TODO: Find way to rotate without screwing up the entire canvas
-          context.drawImage(riceGrain, px, py, 50, 50);
-          context.fillText(particle.text, px, py);
-        }
-        context.restore();
-      });
+    const x = context.canvas.width / 2 - width / 2;
+    const y = context.canvas.height / 2 - height / 2 - 100;
+
+    context.drawImage(cookerImg, x, y, width, height);
+
+    const newParticles = [...particles];
+    newParticles.forEach((particle) => {
+      context.save();
+      if (particle.life < 100) {
+        particle.life++;
+        const px = particle.x;
+        const py = particle.y - particle.life / 2;
+        context.globalAlpha = 1 - particle.life / 100;
+        // TODO: Find way to rotate without screwing up the entire canvas
+        context.drawImage(riceGrain, px, py, 50, 50);
+        context.fillText(particle.text, px, py);
+      }
+      context.restore();
+    });
   };
 
   useEffect(() => {
@@ -98,7 +125,24 @@ export default function Clicker({ onClick, grains }: ClickerProps) {
     const ctx = canvas.getContext('2d');
 
     if (!ctx) return;
+
+    ctx.canvas.width = document.getElementById('container')?.offsetWidth || 0;
+    ctx.canvas.height = document.getElementById('container')?.offsetHeight || 0;
+
     setContext(ctx);
+
+    setInterval(() => {
+      if (!ctx || !contextRef.current) return;
+      const newParticles = [...bgParticlesRef.current];
+      for (let i = 0; i < Math.random() * gpsRef.current; i++) {
+        newParticles.push({
+          x: Math.min(Math.random() * 500, contextRef.current.canvas.width),
+          y: -(Math.random() * 20) - 20,
+          initialSpeed: Math.max(Math.random() * 3, 1),
+        });
+      }
+      setBackgroundParticles(newParticles);
+    }, 2000);
   }, []);
 
   useEffect(() => {
@@ -106,22 +150,32 @@ export default function Clicker({ onClick, grains }: ClickerProps) {
 
     // Check if null context has been replaced on component mount
     if (context) {
-        //Our draw came here
-        const render = () => {
-            draw();
-            animationFrameId = window.requestAnimationFrame(render);
-        };
-        render();
+      //Our draw came here
+      const render = () => {
+        draw();
+        animationFrameId = window.requestAnimationFrame(render);
+      };
+      render();
     }
     return () => {
-        window.cancelAnimationFrame(animationFrameId);
+      window.cancelAnimationFrame(animationFrameId);
     };
-}, [draw, context]);
+  }, [draw, context]);
 
   return (
     <>
-      <Grid container className={classes.container} onMouseMove={trackMouse} direction={'row'} wrap={'nowrap'}>
-        <canvas ref={canvasRef} id={'clickerCanvas'} className={classes.canvas}/>
+      <Grid
+        container
+        className={classes.container}
+        onMouseMove={trackMouse}
+        direction={'row'}
+        wrap={'nowrap'}
+      >
+        <canvas
+          ref={canvasRef}
+          id={'clickerCanvas'}
+          className={classes.canvas}
+        />
         <Grid id={'container'} container className={classes.innerContainer}>
           <Grid
             container
@@ -134,15 +188,12 @@ export default function Clicker({ onClick, grains }: ClickerProps) {
               <Box>
                 You have <b>{prettyNumber(grains, 3)}</b> RYSST-grains
               </Box>
-              <button
-                className={classes.button}
-                onClick={handleClick}
-              />
+              <button className={classes.button} onClick={handleClick} />
             </Box>
           </Grid>
           <Box></Box>
         </Grid>
-        <Seperator/>
+        <Seperator direction={'vertical'} />
       </Grid>
     </>
   );

@@ -12,6 +12,10 @@ export default makeStyles(() => {
     },
     options: {
       width: '10%',
+      backgroundImage: 'url("/options.png")',
+      backgroundRepeat: 'no-repeat',
+      backgroundSize: 'cover',
+      imageRendering: 'pixelated',
     },
     statsHeader: {
       width: '100%',

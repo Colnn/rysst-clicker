@@ -77,6 +77,7 @@ export default function Display({ shopData, upgradeData, spentGrains, collectedG
               </Grid>
             </Grid>
           </ToggleButtonGroup>
+          <Seperator direction={'horizontal'}/>
           {page == 0 &&
             shopData.map((item) => {
                 return (
@@ -141,7 +142,7 @@ export default function Display({ shopData, upgradeData, spentGrains, collectedG
             </Grid>
           )}
         </Grid>
-        <Seperator/>
+        <Seperator direction={'vertical'}/>
       </Grid>
     </>
   );

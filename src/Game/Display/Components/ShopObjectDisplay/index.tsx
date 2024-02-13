@@ -31,7 +31,7 @@ export default function ShopObjectDisplay({
     ctx.imageSmoothingEnabled = false;
 
     let x = 0;
-    let y = 0;
+    const y = 0;
 
     for (let i = 0; i < (canvas.width / 200); i++) {
       const img = new Image();

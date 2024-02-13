@@ -1,17 +1,17 @@
 import { useEffect } from "react";
 
 export default function Donut() {
-  let tmr1 = undefined,
+  const tmr1 = undefined,
     tmr2 = undefined;
   let A = 1,
     B = 1;
 
-  let asciiframe = () => {
-    let b = [];
-    let z = [];
+  const asciiframe = () => {
+    const b = [];
+    const z = [];
     A += 0.07;
     B += 0.03;
-    let cA = Math.cos(A),
+    const cA = Math.cos(A),
       sA = Math.sin(A),
       cB = Math.cos(B),
       sB = Math.sin(B);
@@ -21,17 +21,17 @@ export default function Donut() {
     }
     for (let j = 0; j < 6.28; j += 0.07) {
       // j <=> theta
-      let ct = Math.cos(j),
+      const ct = Math.cos(j),
         st = Math.sin(j);
       for (let i = 0; i < 6.28; i += 0.02) {
         // i <=> phi
-        let sp = Math.sin(i),
+        const sp = Math.sin(i),
           cp = Math.cos(i),
           h = ct + 2, // R1 + R2*cos(theta)
           D = 1 / (sp * h * sA + st * cA + 5), // this is 1/z
           t = sp * h * cA - st * sA; // this is a clever factoring of some of the terms in x' and y'
 
-        let x = 0 | (40 + 30 * D * (cp * h * cB - t * sB)),
+        const x = 0 | (40 + 30 * D * (cp * h * cB - t * sB)),
           y = 0 | (12 + 15 * D * (cp * h * sB + t * cB)),
           o = x + 80 * y,
           N =
