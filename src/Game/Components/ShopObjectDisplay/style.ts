@@ -1,16 +1,17 @@
 import { makeStyles } from '@mui/styles';
 
 export default makeStyles(() => {
-
   return {
+    container: {
+      width: '100%',
+      height: 200,
+    },
     canvas: {
-        width: '100%',
-        height: 130,
-        border: '5px solid #3cbdf0'
+      imageRendering: 'pixelated',
     },
     object: {
-        height: 70,
-        width: 70,
-    }
+      height: 70,
+      width: 70,
+    },
   };
 });

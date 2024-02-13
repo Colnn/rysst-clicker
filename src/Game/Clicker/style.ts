@@ -1,7 +1,6 @@
 import { makeStyles } from '@mui/styles';
 
 export default makeStyles(() => {
-
   return {
     container: {
       width: '100%',
@@ -20,6 +19,7 @@ export default makeStyles(() => {
       width: '50%',
       outline: 0,
       border: 0,
+      imageRendering: 'pixelated',
     },
   };
 });

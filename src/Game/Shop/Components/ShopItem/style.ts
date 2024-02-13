@@ -1,7 +1,6 @@
 import { makeStyles } from '@mui/styles';
 
 export default makeStyles(() => {
-
   return {
     container: {
       padding: '0px 10px',
@@ -23,8 +22,9 @@ export default makeStyles(() => {
       alignItems: 'center',
     },
     icon: {
-        height: '70%',
-        marginRight: '10px',
+      height: '70%',
+      marginRight: '10px',
+      imageRendering: 'pixelated',
     },
     priceGreen: {
       color: '#20e302',

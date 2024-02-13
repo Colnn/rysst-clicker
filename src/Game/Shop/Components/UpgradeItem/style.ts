@@ -1,10 +1,8 @@
 import { makeStyles } from '@mui/styles';
 
 export default makeStyles(() => {
-
   return {
     container: {
-      padding: '0px 10px',
       width: '75px',
       height: '75px',
       backgroundColor: '#bababa',
@@ -17,7 +15,7 @@ export default makeStyles(() => {
       margin: '5px',
       '&:hover #popup': {
         display: 'block',
-      }
+      },
     },
     partContainer: {
       width: '80%',
@@ -27,13 +25,15 @@ export default makeStyles(() => {
     },
     popup: {
       // display: 'none',
-
     },
     price: {
       color: '#20e302',
     },
+    icon: {
+      width: '100%',
+      imageRendering: 'pixelated',
+    },
     disabled: {
-      padding: '0px 10px',
       width: '75px',
       height: '75px',
       backgroundColor: '#818181',
@@ -45,7 +45,7 @@ export default makeStyles(() => {
       margin: '5px',
       '&:hover #popup': {
         display: 'block',
-      }
+      },
     },
   };
 });
