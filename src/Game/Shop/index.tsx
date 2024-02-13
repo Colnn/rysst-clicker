@@ -114,6 +114,7 @@ export default function Shop({
                   buyAmount={buyAmount}
                   handleClick={handleShopBuy}
                   disabled={disabled}
+                  gps={item.gps}
                 />
               );
             })}
