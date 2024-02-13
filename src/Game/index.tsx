@@ -192,6 +192,10 @@ export default function Game() {
     setInterval(() => {
       document.title = prettyNumber(grainsRef.current, 3) + ' grains | RYSST Clicker';
     }, 2500);
+
+    window.onbeforeunload = () => {
+      saveData();
+    }
   }
 
   const wipeData = () => {
