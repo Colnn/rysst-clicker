@@ -1,8 +1,8 @@
 import { Box, Grid, ToggleButton, ToggleButtonGroup, Tooltip, TooltipProps, Typography, styled, tooltipClasses } from '@mui/material';
 import useStyle from './style';
 import MotivationalTexts from './Components/MotivationalTexts';
-import ShopObjectDisplay from '../Components/ShopObjectDisplay';
-import { useState } from 'react';
+import ShopObjectDisplay from './Components/ShopObjectDisplay';
+import { useEffect, useState } from 'react';
 import { DateTime } from 'luxon';
 import GrainsIndicator from '../Components/GrainsIndicator';
 import UpgradeTooltip from '../Shop/Components/UpgradeTooltip';
