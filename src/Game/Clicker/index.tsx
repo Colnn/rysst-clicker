@@ -25,8 +25,8 @@ interface BackgroundParticle {
   initialSpeed: number;
 }
 
-export default function Clicker({ onClick, grains, gps }: ClickerProps) {
-  const classes = useStyle();
+export default function Clicker({ onClick, grains, gps, gps }: ClickerProps) {
+    const classes = useStyle();
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const contextRef = useRef<CanvasRenderingContext2D | null>(null);
   const [context, setContext] = useState<CanvasRenderingContext2D | null>(null);
@@ -188,6 +188,7 @@ export default function Clicker({ onClick, grains, gps }: ClickerProps) {
               <Box>
                 You have <b>{prettyNumber(grains, 3)}</b> RYSST-grains
               </Box>
+              <Box>Grains per second: <b>{ prettyNumber(gps, 3) }</b></Box>
               <button className={classes.button} onClick={handleClick} />
             </Box>
           </Grid>

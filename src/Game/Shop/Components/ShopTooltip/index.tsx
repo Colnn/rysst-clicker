@@ -4,11 +4,12 @@ import prettyNumber from '../../../../prettyNumber';
 import GrainsIndicator from '../../../Components/GrainsIndicator';
 
 interface ShopTooltipProps {
-  name: string;
-  icon: string;
-  amount: number;
-  price: number;
-  disabled: boolean;
+    name: string;
+    icon: string;
+    amount: number;
+    price: number;
+    disabled: boolean;
+    gps: number;
 }
 
 export default function ShopTooltip({
@@ -17,6 +18,7 @@ export default function ShopTooltip({
   amount,
   price,
   disabled,
+  gps,
 }: ShopTooltipProps) {
   const classes = useStyle();
 
@@ -40,7 +42,7 @@ export default function ShopTooltip({
         <Chip
           variant="outlined"
           size="small"
-          label={'Produces ' + 0 + ' grains per second'}
+          label={'Produces ' + gps + ' grains per second'}
         />
       </Box>
     </Box>

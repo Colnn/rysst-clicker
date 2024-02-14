@@ -13,14 +13,15 @@ import prettyNumber from '../../../../prettyNumber';
 import GrainsIndicator from '../../../Components/GrainsIndicator';
 
 interface ShopItemProps {
-  id: number;
-  name: string;
-  icon: string;
-  price: number;
-  amount: number;
-  buyAmount: number;
-  handleClick: (id: number) => void;
-  disabled: boolean;
+    id: number;
+    name: string;
+    icon: string;
+    price: number;
+    amount: number;
+    buyAmount: number;
+    handleClick: (id: number) => void;
+    disabled: boolean;
+    gps: number;
 }
 
 const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
@@ -42,6 +43,7 @@ export default function ShopItem({
   buyAmount,
   handleClick,
   disabled,
+  gps,
 }: ShopItemProps) {
   const classes = useStyle();
 
@@ -59,6 +61,7 @@ export default function ShopItem({
             amount={amount}
             price={price}
             disabled={disabled}
+            gps={gps}
           />
         }
         placement="left"
