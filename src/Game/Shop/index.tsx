@@ -106,7 +106,7 @@ export default function Shop({
                   id={item.id}
                   name={item.name}
                   icon={
-                    '/' + item.name.toLowerCase().replace(' ', '_') + '.svg'
+                    '/' + item.name.toLowerCase().replace(' ', '_') + '.png'
                   }
                   price={calculatePrice(item.price)}
                   amount={item.amount}

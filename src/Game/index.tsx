@@ -40,7 +40,8 @@ let data = {
 };
 
 const defaultShopItems: ShopItem[] = [
-  { id: 0, name: 'Developer', amount: 0, price: 15 }, 
+  { id: 0, name: 'Developer', amount: 0, price: 15 },
+  { id: 0, name: 'RYSST Ball', amount: 0, price: 15 },
 ];
 
 const defaultShopUpgrades: UpgradeItem[] = [
@@ -76,7 +77,6 @@ export default function Game() {
   const grainsRef = useRef(grains);
   const shopItemsRef = useRef(shopItems);
   const upgradeItemsRef = useRef(upgradeItems);
-  const [wiping, setWiping] = useState(false);
 
   const onClick = () => {
     setGrains(grains + 1);
@@ -233,7 +233,6 @@ export default function Game() {
   }
 
   const wipeData = () => {
-    setWiping(true);
     localStorage.removeItem('data');
     window.location.reload();
   };

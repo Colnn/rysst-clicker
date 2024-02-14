@@ -134,15 +134,15 @@ export default function Clicker({ onClick, grains, gps }: ClickerProps) {
     setInterval(() => {
       if (!ctx || !contextRef.current) return;
       const newParticles = [...bgParticlesRef.current];
-      for (let i = 0; i < Math.random() * gpsRef.current; i++) {
+      for (let i = 0; i < Math.random() * (gpsRef.current / 8); i++) {
         newParticles.push({
-          x: Math.min(Math.random() * 500, contextRef.current.canvas.width),
+          x: Math.random() * contextRef.current.canvas.width,
           y: -(Math.random() * 20) - 20,
           initialSpeed: Math.max(Math.random() * 3, 1),
         });
       }
       setBackgroundParticles(newParticles);
-    }, 2000);
+    }, 500);
   }, []);
 
   useEffect(() => {

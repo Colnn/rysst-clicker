@@ -35,7 +35,7 @@ export default function ShopObjectDisplay({
 
     for (let i = 0; i < (canvas.width / 200); i++) {
       const img = new Image();
-      img.src = `/${objectName.toLowerCase()}-background.png`;
+      img.src = `/${objectName.toLowerCase().replace(" ", "_")}-background.png`;
 
       img.onload = () => {
         ctx.drawImage(img, x, y, 200, 200);
@@ -49,7 +49,7 @@ export default function ShopObjectDisplay({
 
     for (let i = 0; i < amount; i++) {
       const img = new Image();
-      img.src = `/${objectName.toLowerCase() + i % 3}.png`;
+      img.src = `/${objectName.toLowerCase().replace(" ", "_") + i % 3}.png`;
 
       img.onload = () => {
         ctx.drawImage(img, x2, y2, 100, 100);
