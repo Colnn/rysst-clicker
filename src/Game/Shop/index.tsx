@@ -5,11 +5,12 @@ import UpgradeItem from './Components/UpgradeItem';
 import SettingsBar from './Components/SettingsBar';
 
 interface ShopItem {
-  id: number;
-  name: string;
-  amount: number;
-  price: number;
-}
+    id: number,
+    name: string,
+    amount: number,
+    price: number,
+    gps: number,
+  }
 
 interface UpgradeItem {
   id: number;
@@ -113,6 +114,7 @@ export default function Shop({
                   buyAmount={buyAmount}
                   handleClick={handleShopBuy}
                   disabled={disabled}
+                  gps={item.gps}
                 />
               );
             })}
