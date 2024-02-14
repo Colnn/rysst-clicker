@@ -1,4 +1,14 @@
-import { Box, Grid, ToggleButton, ToggleButtonGroup, Tooltip, TooltipProps, Typography, styled, tooltipClasses } from '@mui/material';
+import {
+  Box,
+  Grid,
+  ToggleButton,
+  ToggleButtonGroup,
+  Tooltip,
+  TooltipProps,
+  Typography,
+  styled,
+  tooltipClasses,
+} from '@mui/material';
 import useStyle from './style';
 import MotivationalTexts from './Components/MotivationalTexts';
 import ShopObjectDisplay from './Components/ShopObjectDisplay';
@@ -39,23 +49,30 @@ const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
   },
 }));
 
-export default function Display({ shopData, upgradeData, spentGrains, collectedGrains, dateStarted }: DisplayProps) {
+export default function Display({
+  shopData,
+  upgradeData,
+  spentGrains,
+  collectedGrains,
+  dateStarted,
+}: DisplayProps) {
   const classes = useStyle();
 
   const [page, setPage] = useState(0);
 
-  const changePage = (
-    event: React.MouseEvent<HTMLElement>,
-    page: number,
-  ) => {
-    if(!page) setPage(0);
+  const changePage = (event: React.MouseEvent<HTMLElement>, page: number) => {
+    if (!page) setPage(0);
     else setPage(page);
-  }
+  };
 
   return (
     <>
       <Box className={classes.container}>
-        <ToggleButtonGroup className={classes.topContainer} value={page} onChange={changePage}>
+        <ToggleButtonGroup
+          className={classes.topContainer}
+          value={page}
+          onChange={changePage}
+        >
           <Grid
             className={classes.topContainer}
             container
@@ -89,25 +106,57 @@ export default function Display({ shopData, upgradeData, spentGrains, collectedG
         {page == 1 && (
           <Grid container direction={'column'}>
             <Grid container direction={'column'}>
-              <Box className={classes.statsHeader}><Typography variant='h5'>General</Typography></Box>
-              <Grid container direction={'row'} alignItems={'center'} wrap={'nowrap'}><Typography>RYSST-grains sold: </Typography><GrainsIndicator variant={"default"} value={spentGrains} precision={3}/></Grid>
-              <Grid container direction={'row'} alignItems={'center'} wrap={'nowrap'}><Typography>RYSST-grains cooked: </Typography><GrainsIndicator variant={"default"} value={collectedGrains} precision={3}/></Grid>
+              <Box className={classes.statsHeader}>
+                <Typography variant="h5">General</Typography>
+              </Box>
+              <Grid
+                container
+                direction={'row'}
+                alignItems={'center'}
+                wrap={'nowrap'}
+              >
+                <Typography>RYSST-grains sold: </Typography>
+                <GrainsIndicator
+                  variant={'default'}
+                  value={spentGrains}
+                  precision={3}
+                />
+              </Grid>
+              <Grid
+                container
+                direction={'row'}
+                alignItems={'center'}
+                wrap={'nowrap'}
+              >
+                <Typography>RYSST-grains cooked: </Typography>
+                <GrainsIndicator
+                  variant={'default'}
+                  value={collectedGrains}
+                  precision={3}
+                />
+              </Grid>
               <Box>Run started: {dateStarted.toFormat('dd-MM-yyyy HH:mm')}</Box>
               <Box>RYSST-grains per second: {0}</Box>
               <Box>RYSST-grains per click: {0}</Box>
             </Grid>
             <Grid container direction={'column'}>
-              <Box className={classes.statsHeader}><Typography variant='h5'>Upgrades</Typography></Box>
+              <Box className={classes.statsHeader}>
+                <Typography variant="h5">Upgrades</Typography>
+              </Box>
               <Grid container direction={'row'}>
                 {upgradeData.map((upgrade) => {
-                  if(!upgrade.unlocked) return;
+                  if (!upgrade.unlocked) return;
                   return (
                     <>
                       <HtmlTooltip
                         title={
                           <UpgradeTooltip
                             name={upgrade.name}
-                            icon={'/' + upgrade.name.toLowerCase().replace(' ', '_') + '.png'}
+                            icon={
+                              '/' +
+                              upgrade.name.toLowerCase().replace(' ', '_') +
+                              '.png'
+                            }
                             price={upgrade.price}
                             disabled={false}
                           />
@@ -126,14 +175,21 @@ export default function Display({ shopData, upgradeData, spentGrains, collectedG
                           },
                         }}
                       >
-                        <Box
-                          className={classes.upgradeContainer}
-                        >
-                          <Box className={classes.icon} component={'img'} src={'/' + upgrade.name.toLowerCase().replace(' ', '_') + '.png'} draggable={false} />
+                        <Box className={classes.upgradeContainer}>
+                          <Box
+                            className={classes.icon}
+                            component={'img'}
+                            src={
+                              '/' +
+                              upgrade.name.toLowerCase().replace(' ', '_') +
+                              '.png'
+                            }
+                            draggable={false}
+                          />
                         </Box>
                       </HtmlTooltip>
                     </>
-                  )
+                  );
                 })}
               </Grid>
             </Grid>
