@@ -1,6 +1,7 @@
 import { Box, Chip, Typography } from '@mui/material';
 import useStyle from './style';
 import prettyNumber from '../../../../prettyNumber';
+import GrainsIndicator from '../../../Components/GrainsIndicator';
 
 interface UpgradeTooltipProps {
   name: string;
@@ -27,11 +28,7 @@ export default function UpgradeTooltip({
           </Box>
         </Box>
         <Box>
-          <Typography
-            className={disabled ? classes.priceRed : classes.priceGreen}
-          >
-            {prettyNumber(price, 3)}
-          </Typography>
+          <GrainsIndicator variant={disabled ? "priceRed" : "priceGreen"} value={price} precision={3}/>
         </Box>
       </Box>
       <Box className={classes.bottomContainer}>

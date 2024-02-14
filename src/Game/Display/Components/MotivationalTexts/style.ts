@@ -8,6 +8,7 @@ export default makeStyles(() => {
       padding: 20,
       textAlign: 'center',
       height: 90,
+      width: '80%',
     },
   };
 });
