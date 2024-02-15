@@ -1,11 +1,20 @@
 import RoutesProvider from './routes';
-import { CssBaseline } from '@mui/material';
+import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 
 function App() {
+  const theme = createTheme({
+  typography: {
+    fontFamily: [
+      'Pixeloid',
+      'serif',
+    ].join(','),
+  },});
   return (
     <>
-      <CssBaseline />
-      <RoutesProvider />
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <RoutesProvider />
+      </ThemeProvider>
     </>
   );
 }

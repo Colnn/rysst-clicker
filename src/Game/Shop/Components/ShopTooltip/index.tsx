@@ -1,6 +1,5 @@
 import { Box, Chip, Typography } from '@mui/material';
 import useStyle from './style';
-import prettyNumber from '../../../../prettyNumber';
 import GrainsIndicator from '../../../Components/GrainsIndicator';
 
 interface ShopTooltipProps {

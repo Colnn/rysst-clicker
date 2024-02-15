@@ -38,6 +38,9 @@ interface DisplayProps {
   spentGrains: number;
   collectedGrains: number;
   dateStarted: DateTime;
+  saveData: () => void;
+  loadData: () => void;
+  wipeData: () => void;
 }
 
 const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
@@ -56,6 +59,9 @@ export default function Display({
   spentGrains,
   collectedGrains,
   dateStarted,
+  saveData,
+  loadData,
+  wipeData,
 }: DisplayProps) {
   const classes = useStyle();
 
@@ -84,8 +90,8 @@ export default function Display({
               </Grid>
               <MotivationalTexts />
                 <Grid className={classes.options}>
-                <ToggleButton value={1} fullWidth>
-                  Test
+                <ToggleButton value={2} fullWidth>
+                  Options
                 </ToggleButton>
               </Grid>
             </Grid>
@@ -100,8 +106,8 @@ export default function Display({
                     objectName={item.name}
                   />
                 );
-              })}
-            {page == 1 && (
+          })}
+          {page == 1 && (
             <Grid container direction={'column'}>
               <Grid container direction={'column'}>
                 <Box className={classes.statsHeader}><Typography variant='h5'>General</Typography></Box>
@@ -152,6 +158,14 @@ export default function Display({
                   })}
                 </Grid>
               </Grid>
+            </Grid>
+          )}
+          {page == 2 && (
+            // TODO: Some styling necessary
+            <Grid>
+              <button onClick={saveData}>Save</button>
+              <button onClick={loadData}>Load</button>
+              <button onClick={wipeData}>Wipe</button>
             </Grid>
           )}
         </Grid>

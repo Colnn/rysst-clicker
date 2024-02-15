@@ -3,14 +3,13 @@ import { makeStyles } from '@mui/styles';
 export default makeStyles(() => {
   return {
     container: {
-      padding: '0px 10px',
+      padding: '0px 20px',
       width: '300px',
       height: '100px',
       display: 'flex',
       alignItems: 'flex-start',
       justifyContent: 'space-between',
       flexDirection: 'column',
-      borderRadius: '10px',
       cursor: 'pointer',
       userSelect: 'none',
       margin: '5px 0px',
@@ -70,11 +69,9 @@ export default makeStyles(() => {
       display: 'flex',
       alignItems: 'flex-end',
       justifyContent: 'space-between',
-      borderRadius: '10px',
       cursor: 'pointer',
       userSelect: 'none',
       margin: '5px 0px',
-      backgroundColor: '#818181',
     },
     amount: {
       width: '20%',
