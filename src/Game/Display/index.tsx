@@ -1,4 +1,14 @@
-import { Box, Grid, ToggleButton, ToggleButtonGroup, Tooltip, TooltipProps, Typography, styled, tooltipClasses } from '@mui/material';
+import {
+  Box,
+  Grid,
+  ToggleButton,
+  ToggleButtonGroup,
+  Tooltip,
+  TooltipProps,
+  Typography,
+  styled,
+  tooltipClasses,
+} from '@mui/material';
 import useStyle from './style';
 import MotivationalTexts from './Components/MotivationalTexts';
 import ShopObjectDisplay from './Components/ShopObjectDisplay';
@@ -40,18 +50,21 @@ const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
   },
 }));
 
-export default function Display({ shopData, upgradeData, spentGrains, collectedGrains, dateStarted }: DisplayProps) {
+export default function Display({
+  shopData,
+  upgradeData,
+  spentGrains,
+  collectedGrains,
+  dateStarted,
+}: DisplayProps) {
   const classes = useStyle();
 
   const [page, setPage] = useState(0);
 
-  const changePage = (
-    event: React.MouseEvent<HTMLElement>,
-    page: number,
-  ) => {
-    if(!page) setPage(0);
+  const changePage = (event: React.MouseEvent<HTMLElement>, page: number) => {
+    if (!page) setPage(0);
     else setPage(page);
-  }
+  };
 
   return (
     <>
