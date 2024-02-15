@@ -45,7 +45,7 @@ export default function ShopObjectDisplay({
     }
 
     let x2 = 0;
-    let y2 = 10;
+    let y2 = 30;
 
     for (let i = 0; i < amount; i++) {
       const img = new Image();
@@ -55,11 +55,11 @@ export default function ShopObjectDisplay({
         ctx.drawImage(img, x2, y2, 100, 100);
 
         // Adjust x and y for the next image
-        x2 += 55; // You can adjust the spacing between images
-        if (y2 === 55) {
-          y2 = 10;
-        } else if (y2 == 10) {
-          y2 = 55;
+        x2 += 75; // You can adjust the spacing between images
+        if (y2 === 75) {
+          y2 = 30;
+        } else if (y2 == 30) {
+          y2 = 75;
         }
       };
     }

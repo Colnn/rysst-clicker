@@ -90,14 +90,9 @@ export default function Game() {
     const buildings = newShopItems || shopItems;
     let totalGPS = 0;
 
-    console.log("totalGPS:")
-    console.log(totalGPS)
-
     for(let i = 0; i < buildings.length; i++) {
       let tempGPS = 0;
       tempGPS = buildings[i].gps * buildings[i].amount;
-      console.log("tempGPS:")
-      console.log(tempGPS)
       for(let j = 0; j < upgrades.length; j++) {
         const upgrade = upgrades[j];
         if(upgrade.unlocked) {
@@ -105,14 +100,9 @@ export default function Game() {
             tempGPS = upgrade.value * tempGPS;
           }
         }
-        console.log("tempGPS:")
-        console.log(tempGPS)
       }
       totalGPS += tempGPS;
     }
-
-    console.log("totalGPS:")
-    console.log(totalGPS)
     
     setGrainsPerSecond(totalGPS);
   }
@@ -138,11 +128,9 @@ export default function Game() {
     let newGrains = grains;
     if(shouldSell) {
       for (let index = 0; index < buyAmount; index++) {
-        console.log(buyAmount);
         newGrains += newShopItems[id].price;
         newShopItems[id].amount -= 1;
         newShopItems[id].price = Math.round(newShopItems[id].price / 1.15);
-        console.log('Sold: ' + newShopItems[id].name);
         setShopItems(newShopItems);
       }
     } else {
@@ -151,9 +139,7 @@ export default function Game() {
         setSpentGrains(spentGrains + newShopItems[id].price);
         newShopItems[id].amount += 1;
         newShopItems[id].price = Math.round(newShopItems[id].price * 1.15);
-        console.log('Bought: ' + newShopItems[id].name);
         setShopItems(newShopItems);
-        console.log(shopItems)
       }
     }
     calculateGrainsPerSecond(upgradeItems, newShopItems);
@@ -165,7 +151,6 @@ export default function Game() {
     setGrains(grains - newUpgradeItems[id].price);
     setSpentGrains(spentGrains + newUpgradeItems[id].price);
     newUpgradeItems[id].unlocked = true;
-    console.log('Bought: ' + newUpgradeItems[id].name);
     setUpgradeItems(newUpgradeItems);
     calculateGrainsPerSecond(newUpgradeItems)
   }
@@ -208,10 +193,7 @@ export default function Game() {
 
   const checkData = (saveData: string) => {
     const parsedData = JSON.parse(saveData);
-    console.log(saveData);
     // Little checksum
-    console.log(saveData.length);
-    console.log(parsedData.cs);
     saveData = saveData.replace(',"cs":' + parsedData.cs, ',"cs":0');
     if(saveData.length != parsedData.cs) {
       checkSumFailed();
@@ -231,15 +213,12 @@ export default function Game() {
     }
     else return;
     const parsedData = JSON.parse(saveData);
-    console.log(parsedData);
 
     setGrains(parsedData.g);
     grainsRef.current = parsedData.g;
     setCollectedGrains(parsedData.c);
     setSpentGrains(parsedData.s);
     setDateStarted(DateTime.fromSeconds(parsedData.d));
-    console.log(DateTime.fromSeconds(parsedData.d).diffNow().minutes);
-    console.log(DateTime.now().toFormat('dd mm yyyy'));
     const newShopItems = [...defaultShopItems];
     parsedData.si.forEach((shopItem: ShopItemData) => {
       if (newShopItems[shopItem.i]) {
@@ -263,7 +242,6 @@ export default function Game() {
       totalGPS = totalGPS + (shopItems[i].gps * shopItems[i].amount)
     }
     setGrainsPerSecond(totalGPS)
-    console.log(shopItems)
 
     startGame();
 
