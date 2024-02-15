@@ -49,8 +49,9 @@ const defaultShopItems: ShopItem[] = [
 
 const defaultShopUpgrades: UpgradeItem[] = [
   { id: 0, name: 'React Course', unlocked: false, price: 50, shopItemID: 0, action: 'multiplyGPS', value: 2},
-  { id: 1, name: 'React Course', unlocked: false, price: 50, shopItemID: 0, action: 'multiplyGPS', value: 2},
-  { id: 2, name: 'React Course', unlocked: false, price: 100, shopItemID: 1, action: 'multiplyGPS', value: 2},
+  { id: 1, name: 'MBO Study', unlocked: false, price: 50, shopItemID: 0, action: 'multiplyGPS', value: 2},
+  { id: 2, name: 'HBO Study', unlocked: false, price: 50, shopItemID: 0, action: 'multiplyGPS', value: 2},
+  { id: 3, name: 'React Course', unlocked: false, price: 100, shopItemID: 1, action: 'multiplyGPS', value: 2},
 ];
 
 interface ShopItem {
