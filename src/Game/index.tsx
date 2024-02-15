@@ -42,6 +42,9 @@ let data = {
 const defaultShopItems: ShopItem[] = [
   { id: 0, name: 'Developer', amount: 0, price: 15, gps: 1, },
   { id: 1, name: 'RYSST ball', amount: 0, price: 100, gps: 10 },
+  { id: 2, name: 'Team Push', amount: 0, price: 2500, gps: 100 },
+  { id: 3, name: 'Team Scrummit', amount: 0, price: 15000, gps: 421 },
+  { id: 4, name: 'CoCreate', amount: 0, price: 9e99, gps: 1e10 },
 ];
 
 const defaultShopUpgrades: UpgradeItem[] = [
@@ -103,7 +106,7 @@ export default function Game() {
       }
       totalGPS += tempGPS;
     }
-    
+
     setGrainsPerSecond(totalGPS);
   }
 
