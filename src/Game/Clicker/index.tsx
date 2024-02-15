@@ -94,11 +94,11 @@ export default function Clicker({ onClick, grains, gps, gpc }: ClickerProps) {
     let i = 0;
     backgroundParticles.forEach((particle) => {
       context.save();
-      particle.y += particle.speed;
-      if(particle.y > context.canvas.height) backgroundParticles.splice(i, 1);
       context.translate(particle.x, particle.y);
       context.rotate(particle.r/1000);
       context.drawImage(riceGrain, particle.x, particle.y);
+      particle.y += particle.speed;
+      if(particle.y > context.canvas.height) backgroundParticles.splice(i, 1);
       i++;
       context.restore();
     });

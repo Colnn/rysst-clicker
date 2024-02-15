@@ -99,14 +99,15 @@ export default function ShopItem({
               </Grid>
             </Grid>
           </Box>
-          <Typography
+          {/* Tends to clip outside of page */}
+          {/* <Typography
             fontSize={100}
             fontWeight={700}
             lineHeight={1}
             className={classes.amount}
           >
             {amount}
-          </Typography>
+          </Typography> */}
         </Box>
       </HtmlTooltip>
     </>

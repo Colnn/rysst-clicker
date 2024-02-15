@@ -7,6 +7,10 @@ export type GrainsIndicatorType =
     | 'priceRed'
     | 'default';
 
+export type GrainsIndicatorSize =
+    | 'small'
+    | 'big';
+
 interface GrainsIndicatorProps {
     variant: GrainsIndicatorType | 'default',
     value: number,
@@ -27,6 +31,6 @@ export default function GrainsIndicator({variant, value, precision}: GrainsIndic
     }
 
     return (
-        <Grid container direction={'row'} alignItems={'center'}><Box component={'img'} draggable={false} src="/rice.png"/><Typography variant={"h6"} className={getIndicatorClass()}>{ prettyNumber(value, precision) }</Typography></Grid>
+        <Grid container direction={'row'} alignItems={'center'} wrap={"nowrap"}><Box component={'img'} draggable={false} src="/rice.png"/><Typography variant={value >= 1e6 ? "caption" : "h6"} className={getIndicatorClass()}>{ prettyNumber(value, precision) }</Typography></Grid>
     )
 }
