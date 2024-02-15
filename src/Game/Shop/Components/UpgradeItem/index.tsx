@@ -15,6 +15,9 @@ interface UpgradeItemProps {
   price: number;
   handleClick: (id: number) => void;
   disabled: boolean;
+  itemName: string;
+  action: string;
+  description: string;
 }
 
 const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
@@ -34,6 +37,9 @@ export default function UpgradeItem({
   price,
   handleClick,
   disabled,
+  itemName,
+  action,
+  description,
 }: UpgradeItemProps) {
   const classes = useStyle();
 
@@ -50,6 +56,9 @@ export default function UpgradeItem({
             icon={icon}
             price={price}
             disabled={disabled}
+            itemName={itemName}
+            action={action}
+            description={description}
           />
         }
         placement="left"

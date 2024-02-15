@@ -45,9 +45,10 @@ export const defaultShopItems: ShopItem[] = [
 ];
 
 const defaultShopUpgrades: UpgradeItem[] = [
-  { id: 0, name: 'React Course', unlocked: false, price: 50, shopItemID: 0, action: 'multiplyGPS', value: 2},
-  { id: 1, name: 'React Course', unlocked: false, price: 50, shopItemID: 0, action: 'multiplyGPS', value: 2},
-  { id: 2, name: 'React Course', unlocked: false, price: 100, shopItemID: 1, action: 'multiplyGPS', value: 2},
+  { id: 0, name: 'This is just the beginning...', unlocked: false, price: 50, shopItemID: 0, action: 'multiplyGPS', value: 2, description: 'Your developers work TWICE as fast.\n"Your developers are now working on actual projects"'},
+  { id: 1, name: 'MOOORE Experience!!!', unlocked: false, price: 50, shopItemID: 0, action: 'multiplyGPS', value: 2, description: 'Your developers work TWICE as fast.\n"Your developers are gaining more and more experience by the day"'},
+  { id: 2, name: 'These are a great snack', unlocked: false, price: 100, shopItemID: 1, action: 'multiplyGPS', value: 2, description: 'These rysst balls are TWICE as efficient.\n"These rysst balls are reallyyy delicious!"'},
+  // { id: 3, name: ''}
 ];
 
 interface ShopItem {
@@ -66,6 +67,7 @@ interface UpgradeItem {
   shopItemID: number,
   action: string,
   value: any,
+  description: string,
 }
 
 export default function Game() {

@@ -17,6 +17,9 @@ interface UpgradeItem {
   name: string;
   unlocked: boolean;
   price: number;
+  shopItemID: number;
+  action: string;
+  description: string;
 }
 
 interface ShopProps {
@@ -75,6 +78,9 @@ export default function Shop({
                   price={upgrade.price}
                   handleClick={handleUpgradeBuy}
                   disabled={upgrade.price > grains}
+                  action={upgrade.action}
+                  description={upgrade.description}
+                  itemName={shopData.map(item => item.name)[upgrade.shopItemID]}
                 />
               );
           })}
