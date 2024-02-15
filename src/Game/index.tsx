@@ -39,7 +39,7 @@ let data = {
   d: 0,
 };
 
-export const defaultShopItems: ShopItem[] = [
+const defaultShopItems: ShopItem[] = [
   { id: 0, name: 'Developer', amount: 0, price: 15, gps: 1, },
   { id: 1, name: 'RYSST ball', amount: 0, price: 100, gps: 10 },
 ];
@@ -118,7 +118,9 @@ export default function Game() {
   }
 
   const onClick = () => {
-      setGrains(grains + ((Math.round(grainsPerSecond * grainsPerClick)) === 0 ? 1 : (Math.round(grainsPerSecond * grainsPerClick))));
+    const addedGrains = (Math.round(grainsPerSecond * grainsPerClick)) === 0 ? 1 : (Math.round(grainsPerSecond * grainsPerClick));
+    setCollectedGrains(collectedGrains + addedGrains);
+    setGrains(grains + addedGrains);
   }
 
   useEffect(() => {
@@ -308,8 +310,9 @@ export default function Game() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setGrains(prevGrains => prevGrains + grainsPerSecond);
-    }, 1000);
+      setCollectedGrains(prev => prev + grainsPerSecond / 10);
+      setGrains(prevGrains => prevGrains + grainsPerSecond / 10);
+    }, 100);
 
     return () => {
       clearInterval(interval);
@@ -333,7 +336,7 @@ export default function Game() {
           alignItems="center"
         >
           <Box className={classes.clickerContainer}>
-            <Clicker onClick={onClick} grains={grains} gps={grainsPerSecond}/>
+            <Clicker onClick={onClick} grains={grains} gps={grainsPerSecond} gpc={(Math.round(grainsPerSecond * grainsPerClick)) === 0 ? 1 : (Math.round(grainsPerSecond * grainsPerClick))}/>
           </Box>
           <Box className={classes.displayContainer}>
             <Display shopData={shopItems} upgradeData={upgradeItems} spentGrains={spentGrains} collectedGrains={collectedGrains} dateStarted={dateStarted} />

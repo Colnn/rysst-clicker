@@ -50,7 +50,6 @@ export default function Shop({
       if (shouldSell) price = Math.round(price / 1.2);
       totalPrice += price;
       price = shouldSell ? Math.round(price / 1.15) : Math.round(price * 1.15);
-      console.log(totalPrice);
     }
     return totalPrice;
   };
@@ -95,13 +94,6 @@ export default function Shop({
               const disabled = shouldSell
                 ? item.amount < buyAmount
                 : item.price * buyAmount > grains;
-              console.log(
-                item.amount +
-                  ', ' +
-                  calculatePrice(item.price) +
-                  ': ' +
-                  disabled,
-              );
               return (
                 <ShopItem
                   id={item.id}
