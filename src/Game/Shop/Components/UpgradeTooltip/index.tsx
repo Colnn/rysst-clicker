@@ -8,6 +8,9 @@ interface UpgradeTooltipProps {
   icon: string;
   price: number;
   disabled: boolean;
+  itemName: string;
+  action: string;
+  description: string;
 }
 
 export default function UpgradeTooltip({
@@ -15,8 +18,19 @@ export default function UpgradeTooltip({
   icon,
   price,
   disabled,
+  itemName,
+  action,
+  description,
 }: UpgradeTooltipProps) {
   const classes = useStyle();
+
+  const effect = () => {
+    switch(action) {
+      case 'multiplyGPS':
+        return "Your " + itemName + "'s are twice as efficient."
+        break;
+    }
+  }
 
   return (
     <Box className={classes.container}>
@@ -35,9 +49,9 @@ export default function UpgradeTooltip({
         <Chip
           variant="outlined"
           size="small"
-          label={'Insert description here'}
+          label={description}
         />
-        <Chip variant="outlined" size="small" label={'Insert effect here'} />
+        <Chip variant="outlined" size="small" label={effect()} />
       </Box>
     </Box>
   );
