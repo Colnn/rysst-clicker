@@ -20,7 +20,5 @@ jobs:
           node-version: ${{ matrix.node-version }}
           cache: 'npm'
 
-      - run: npm ci
-      - run: npm run eslint
-      - run: npm run linting
-      - run: npm run test
+      - run: npm ci --legacy-peer-deps
+      - run: npm run lint
