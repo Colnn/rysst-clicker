@@ -47,7 +47,7 @@ const defaultShopItems: ShopItem[] = [
 const defaultShopUpgrades: UpgradeItem[] = [
   {
     id: 0,
-    name: 'This is just the beginning...',
+    name: 'This is just the beninging...',
     unlocked: false,
     price: 50,
     shopItemID: 0,
