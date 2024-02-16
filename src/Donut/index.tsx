@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect } from 'react';
 
 export default function Donut() {
   const tmr1 = undefined,
@@ -16,7 +16,7 @@ export default function Donut() {
       cB = Math.cos(B),
       sB = Math.sin(B);
     for (let k = 0; k < 1760; k++) {
-      b[k] = k % 80 == 79 ? "\n" : " ";
+      b[k] = k % 80 == 79 ? '\n' : ' ';
       z[k] = 0;
     }
     for (let j = 0; j < 6.28; j += 0.07) {
@@ -43,11 +43,11 @@ export default function Donut() {
                 cp * ct * sB));
         if (y < 22 && y >= 0 && x >= 0 && x < 79 && D > z[o]) {
           z[o] = D;
-          b[o] = ".,-~:;=!*#$@"[N > 0 ? N : 0];
+          b[o] = '.,-~:;=!*#$@'[N > 0 ? N : 0];
         }
       }
     }
-    document.getElementById("test").innerHTML = b.join("");
+    document.getElementById('test').innerHTML = b.join('');
   };
 
   document.title = 'Donut :D';
@@ -58,12 +58,31 @@ export default function Donut() {
     }, 50);
     return () => {
       clearInterval(interval);
-    }
-  })
+    };
+  });
 
   return (
-    <div style={{width: '100vw', height: '100vh', backgroundColor: '#000', color: '#fff', display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
-      <pre style={{height: 'min-content', textAlign: 'center', verticalAlign: 'middle', fontFamily: 'monospace', whiteSpace: 'pre'}} id={"test"}></pre>
+    <div
+      style={{
+        width: '100vw',
+        height: '100vh',
+        backgroundColor: '#000',
+        color: '#fff',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+    >
+      <pre
+        style={{
+          height: 'min-content',
+          textAlign: 'center',
+          verticalAlign: 'middle',
+          fontFamily: 'monospace',
+          whiteSpace: 'pre',
+        }}
+        id={'test'}
+      ></pre>
     </div>
-  )
+  );
 }

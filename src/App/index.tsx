@@ -3,12 +3,10 @@ import { CssBaseline, ThemeProvider, createTheme } from '@mui/material';
 
 function App() {
   const theme = createTheme({
-  typography: {
-    fontFamily: [
-      'Pixeloid',
-      'serif',
-    ].join(','),
-  },});
+    typography: {
+      fontFamily: ['Pixeloid', 'serif'].join(','),
+    },
+  });
   return (
     <>
       <ThemeProvider theme={theme}>

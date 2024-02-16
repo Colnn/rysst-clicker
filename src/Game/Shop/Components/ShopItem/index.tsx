@@ -12,15 +12,15 @@ import ShopTooltip from '../ShopTooltip';
 import GrainsIndicator from '../../../Components/GrainsIndicator';
 
 interface ShopItemProps {
-    id: number;
-    name: string;
-    icon: string;
-    price: number;
-    amount: number;
-    buyAmount: number;
-    handleClick: (id: number) => void;
-    disabled: boolean;
-    gps: number;
+  id: number;
+  name: string;
+  icon: string;
+  price: number;
+  amount: number;
+  buyAmount: number;
+  handleClick: (id: number) => void;
+  disabled: boolean;
+  gps: number;
 }
 
 const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
@@ -94,11 +94,20 @@ export default function ShopItem({
             />
             <Grid container>
               <Typography variant="h6">{name}</Typography>
-              <Grid container direction={'row'} alignItems={'flex-end'} wrap={'nowrap'}>
+              <Grid
+                container
+                direction={'row'}
+                alignItems={'flex-end'}
+                wrap={'nowrap'}
+              >
                 <Typography className={classes.buyAmount} fontWeight={600}>
                   x{buyAmount}
                 </Typography>
-                <GrainsIndicator variant={disabled ? "priceRed" : "priceGreen"} value={price} precision={3}/>
+                <GrainsIndicator
+                  variant={disabled ? 'priceRed' : 'priceGreen'}
+                  value={price}
+                  precision={3}
+                />
               </Grid>
             </Grid>
           </Box>

@@ -6,7 +6,7 @@ import Shop from './Shop';
 import { useEffect, useRef, useState } from 'react';
 import prettyNumber from '../prettyNumber';
 import { enqueueSnackbar } from 'notistack';
-import {DateTime} from 'luxon';
+import { DateTime } from 'luxon';
 
 interface ShopItemData {
   // ID
@@ -40,14 +40,44 @@ let data = {
 };
 
 const defaultShopItems: ShopItem[] = [
-  { id: 0, name: 'Developer', amount: 0, price: 15, gps: 1, },
+  { id: 0, name: 'Developer', amount: 0, price: 15, gps: 1 },
   { id: 1, name: 'RYSST ball', amount: 0, price: 100, gps: 10 },
 ];
 
 const defaultShopUpgrades: UpgradeItem[] = [
-  { id: 0, name: 'This is just the beginning...', unlocked: false, price: 50, shopItemID: 0, action: 'multiplyGPS', value: 2, description: 'Your developers work TWICE as fast.\n"Your developers are now working on actual projects"'},
-  { id: 1, name: 'MOOORE Experience!!!', unlocked: false, price: 50, shopItemID: 0, action: 'multiplyGPS', value: 2, description: 'Your developers work TWICE as fast.\n"Your developers are gaining more and more experience by the day"'},
-  { id: 2, name: 'These are a great snack', unlocked: false, price: 100, shopItemID: 1, action: 'multiplyGPS', value: 2, description: 'These rysst balls are TWICE as efficient.\n"These rysst balls are reallyyy delicious!"'},
+  {
+    id: 0,
+    name: 'This is just the beginning...',
+    unlocked: false,
+    price: 50,
+    shopItemID: 0,
+    action: 'multiplyGPS',
+    value: 2,
+    description:
+      'Your developers work TWICE as fast.\n"Your developers are now working on actual projects"',
+  },
+  {
+    id: 1,
+    name: 'MOOORE Experience!!!',
+    unlocked: false,
+    price: 50,
+    shopItemID: 0,
+    action: 'multiplyGPS',
+    value: 2,
+    description:
+      'Your developers work TWICE as fast.\n"Your developers are gaining more and more experience by the day"',
+  },
+  {
+    id: 2,
+    name: 'These are a great snack',
+    unlocked: false,
+    price: 100,
+    shopItemID: 1,
+    action: 'multiplyGPS',
+    value: 2,
+    description:
+      'These rysst balls are TWICE as efficient.\n"These rysst balls are reallyyy delicious!"',
+  },
   // { id: 3, name: ''}
 ];
 
@@ -56,22 +86,22 @@ const defaultOptions: Options = {
 };
 
 interface ShopItem {
-  id: number,
-  name: string,
-  amount: number,
-  price: number,
-  gps: number,
+  id: number;
+  name: string;
+  amount: number;
+  price: number;
+  gps: number;
 }
 
 interface UpgradeItem {
-  id: number,
-  name: string,
-  unlocked: boolean,
-  price: number,
-  shopItemID: number,
-  action: string,
-  value: any,
-  description: string,
+  id: number;
+  name: string;
+  unlocked: boolean;
+  price: number;
+  shopItemID: number;
+  action: string;
+  value: any;
+  description: string;
 }
 
 interface Options {
@@ -100,18 +130,21 @@ export default function Game() {
   const shopItemsRef = useRef(shopItems);
   const upgradeItemsRef = useRef(upgradeItems);
 
-  const calculateGrainsPerSecond = (newUpgradeItems?: UpgradeItem[], newShopItems?: ShopItem[]) => {
+  const calculateGrainsPerSecond = (
+    newUpgradeItems?: UpgradeItem[],
+    newShopItems?: ShopItem[],
+  ) => {
     const upgrades = newUpgradeItems || upgradeItems;
     const buildings = newShopItems || shopItems;
     let totalGPS = 0;
 
-    for(let i = 0; i < buildings.length; i++) {
+    for (let i = 0; i < buildings.length; i++) {
       let tempGPS = 0;
       tempGPS = buildings[i].gps * buildings[i].amount;
-      for(let j = 0; j < upgrades.length; j++) {
+      for (let j = 0; j < upgrades.length; j++) {
         const upgrade = upgrades[j];
-        if(upgrade.unlocked) {
-          if(upgrade.shopItemID == i) {
+        if (upgrade.unlocked) {
+          if (upgrade.shopItemID == i) {
             tempGPS = upgrade.value * tempGPS;
           }
         }
@@ -120,13 +153,16 @@ export default function Game() {
     }
 
     setGrainsPerSecond(totalGPS);
-  }
+  };
 
   const onClick = () => {
-    const addedGrains = (Math.round(grainsPerSecond * grainsPerClick)) === 0 ? 1 : (Math.round(grainsPerSecond * grainsPerClick));
+    const addedGrains =
+      Math.round(grainsPerSecond * grainsPerClick) === 0
+        ? 1
+        : Math.round(grainsPerSecond * grainsPerClick);
     setCollectedGrains(collectedGrains + addedGrains);
     setGrains(grains + addedGrains);
-  }
+  };
 
   useEffect(() => {
     grainsRef.current = grains;
@@ -141,7 +177,7 @@ export default function Game() {
   const buyShopItem = (id: number) => {
     const newShopItems = [...shopItems];
     let newGrains = grains;
-    if(shouldSell) {
+    if (shouldSell) {
       for (let index = 0; index < buyAmount; index++) {
         newGrains += newShopItems[id].price;
         newShopItems[id].amount -= 1;
@@ -159,7 +195,7 @@ export default function Game() {
     }
     calculateGrainsPerSecond(upgradeItems, newShopItems);
     setGrains(newGrains);
-  }
+  };
 
   const buyUpgrade = (id: number) => {
     const newUpgradeItems = [...upgradeItems];
@@ -167,8 +203,8 @@ export default function Game() {
     setSpentGrains(spentGrains + newUpgradeItems[id].price);
     newUpgradeItems[id].unlocked = true;
     setUpgradeItems(newUpgradeItems);
-    calculateGrainsPerSecond(newUpgradeItems)
-  }
+    calculateGrainsPerSecond(newUpgradeItems);
+  };
 
   const saveData = () => {
     data.g = grainsRef.current;
@@ -199,34 +235,39 @@ export default function Game() {
     const saveData = JSON.stringify(data);
     data.cs = saveData.length;
     localStorage.setItem('data', btoa(JSON.stringify(data)));
-    enqueueSnackbar('Saved game data.', {autoHideDuration: 2000, anchorOrigin: {horizontal: 'right', vertical: 'bottom'}});
+    enqueueSnackbar('Saved game data.', {
+      autoHideDuration: 2000,
+      anchorOrigin: { horizontal: 'right', vertical: 'bottom' },
+    });
   };
 
   const checkSumFailed = () => {
-    enqueueSnackbar('Unable to load your save data, it appears to be corrupted.', {variant: 'error', persist: true});
-  }
+    enqueueSnackbar(
+      'Unable to load your save data, it appears to be corrupted.',
+      { variant: 'error', persist: true },
+    );
+  };
 
   const checkData = (saveData: string) => {
     const parsedData = JSON.parse(saveData);
     // Little checksum
     saveData = saveData.replace(',"cs":' + parsedData.cs, ',"cs":0');
-    if(saveData.length != parsedData.cs) {
+    if (saveData.length != parsedData.cs) {
       checkSumFailed();
       return false;
     } else {
       return true;
     }
-  }
+  };
 
   const loadData = () => {
     let saveData;
     if (localStorage.getItem('data')) {
       // @ts-expect-error | The not-null check is right in front of it, TypeScript is just being autistic
       saveData = atob(localStorage.getItem('data'));
-      if(checkData(saveData)) data = JSON.parse(saveData);
+      if (checkData(saveData)) data = JSON.parse(saveData);
       else return;
-    }
-    else return;
+    } else return;
     const parsedData = JSON.parse(saveData);
 
     setGrains(parsedData.g);
@@ -253,10 +294,10 @@ export default function Game() {
     });
     setUpgradeItems(newUpgradeItems);
     let totalGPS = 0;
-    for(let i = 0; i < newShopItems.length; i++) {
-      totalGPS = totalGPS + (shopItems[i].gps * shopItems[i].amount)
+    for (let i = 0; i < newShopItems.length; i++) {
+      totalGPS = totalGPS + shopItems[i].gps * shopItems[i].amount;
     }
-    setGrainsPerSecond(totalGPS)
+    setGrainsPerSecond(totalGPS);
 
     startGame();
 
@@ -269,15 +310,16 @@ export default function Game() {
     }, 60000);
 
     setInterval(() => {
-      document.title = prettyNumber(grainsRef.current, 3) + ' grains | RYSST Clicker';
+      document.title =
+        prettyNumber(grainsRef.current, 3) + ' grains | RYSST Clicker';
     }, 2500);
 
     window.onbeforeunload = () => {
-      if(localStorage.getItem('data')) {
+      if (localStorage.getItem('data')) {
         saveData();
       }
-    }
-  }
+    };
+  };
 
   const wipeData = () => {
     localStorage.removeItem('data');
@@ -303,8 +345,8 @@ export default function Game() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCollectedGrains(prev => prev + grainsPerSecond / 10);
-      setGrains(prevGrains => prevGrains + grainsPerSecond / 10);
+      setCollectedGrains((prev) => prev + grainsPerSecond / 10);
+      setGrains((prevGrains) => prevGrains + grainsPerSecond / 10);
     }, 100);
 
     return () => {
@@ -315,21 +357,39 @@ export default function Game() {
   return (
     <>
       <Grid>
-        <Box className={classes.header}>
-          {/* <Header/> */}
-        </Box>
+        <Box className={classes.header}>{/* <Header/> */}</Box>
         <Grid
-       className={classes.container}
+          className={classes.container}
           container
           direction="row"
           justifyContent="space-between"
           alignItems="center"
         >
           <Box className={classes.clickerContainer}>
-            <Clicker options={options} onClick={onClick} grains={grains} gps={grainsPerSecond} gpc={(Math.round(grainsPerSecond * grainsPerClick)) === 0 ? 1 : (Math.round(grainsPerSecond * grainsPerClick))}/>
+            <Clicker
+              options={options}
+              onClick={onClick}
+              grains={grains}
+              gps={grainsPerSecond}
+              gpc={
+                Math.round(grainsPerSecond * grainsPerClick) === 0
+                  ? 1
+                  : Math.round(grainsPerSecond * grainsPerClick)
+              }
+            />
           </Box>
           <Box className={classes.displayContainer}>
-            <Display options={options} setOptions={setOptions} shopData={shopItems} upgradeData={upgradeItems} spentGrains={spentGrains} collectedGrains={collectedGrains} dateStarted={dateStarted} saveData={saveData} loadData={loadData} wipeData={wipeData}/>
+            <Display
+              options={options}
+              setOptions={setOptions}
+              shopData={shopItems}
+              upgradeData={upgradeItems}
+              spentGrains={spentGrains}
+              collectedGrains={collectedGrains}
+              dateStarted={dateStarted}
+              saveData={saveData}
+              wipeData={wipeData}
+            />
           </Box>
           <Box className={classes.shopContainer}>
             <Shop

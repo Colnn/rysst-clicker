@@ -18,11 +18,11 @@ export default function ShopObjectDisplay({
   const [context, setContext] = useState<CanvasRenderingContext2D | null>(null);
 
   const backgroundImg = new Image();
-  backgroundImg.src = `/${objectName.toLowerCase().replace(" ", "_")}-background.png`;
+  backgroundImg.src = `/${objectName.toLowerCase().replace(' ', '_')}-background.png`;
 
   // TODO: Replace '0' with correct value (random 1 - 3);
   const img = new Image();
-  img.src = `/${objectName.toLowerCase().replace(" ", "_") + 0}.png`;
+  img.src = `/${objectName.toLowerCase().replace(' ', '_') + 0}.png`;
 
   useEffect(() => {
     contextRef.current = context;
@@ -39,8 +39,7 @@ export default function ShopObjectDisplay({
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      ctx.canvas.width =
-        (document.getElementById('canvas')?.offsetWidth || 0);
+      ctx.canvas.width = document.getElementById('canvas')?.offsetWidth || 0;
       ctx.canvas.height = 200;
 
       ctx.imageSmoothingEnabled = false;
@@ -48,7 +47,7 @@ export default function ShopObjectDisplay({
       let x = 0;
       const y = 0;
 
-      for (let i = 0; i < (canvas.width / 200); i++) {
+      for (let i = 0; i < canvas.width / 200; i++) {
         ctx.drawImage(backgroundImg, x, y, 200, 200);
 
         x += 200;
@@ -79,12 +78,11 @@ export default function ShopObjectDisplay({
 
     if (!ctx) return;
 
-    ctx.canvas.width =
-        (document.getElementById('canvas')?.offsetWidth || 0);
+    ctx.canvas.width = document.getElementById('canvas')?.offsetWidth || 0;
     ctx.canvas.height = 200;
 
     setContext(ctx);
-  }, [amount])
+  }, [amount]);
 
   useEffect(() => {
     let animationFrameId: number;
@@ -103,10 +101,10 @@ export default function ShopObjectDisplay({
   }, [draw, context]);
 
   return (
-    (amount > 0 && (
+    amount > 0 && (
       <Box id="canvas" className={classes.container}>
         <canvas className={classes.canvas} ref={canvasRef} />
       </Box>
-    ))
+    )
   );
 }

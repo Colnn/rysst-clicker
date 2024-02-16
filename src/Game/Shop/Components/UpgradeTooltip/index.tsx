@@ -24,12 +24,12 @@ export default function UpgradeTooltip({
   const classes = useStyle();
 
   const effect = () => {
-    switch(action) {
+    switch (action) {
       case 'multiplyGPS':
-        return "Your " + itemName + "'s are twice as efficient."
+        return 'Your ' + itemName + "'s are twice as efficient.";
         break;
     }
-  }
+  };
 
   return (
     <Box className={classes.container}>
@@ -41,15 +41,15 @@ export default function UpgradeTooltip({
           </Box>
         </Box>
         <Box>
-          <GrainsIndicator variant={disabled ? "priceRed" : "priceGreen"} value={price} precision={3}/>
+          <GrainsIndicator
+            variant={disabled ? 'priceRed' : 'priceGreen'}
+            value={price}
+            precision={3}
+          />
         </Box>
       </Box>
       <Box className={classes.bottomContainer}>
-        <Chip
-          variant="outlined"
-          size="small"
-          label={description}
-        />
+        <Chip variant="outlined" size="small" label={description} />
         <Chip variant="outlined" size="small" label={effect()} />
       </Box>
     </Box>

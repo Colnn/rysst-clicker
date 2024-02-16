@@ -9,7 +9,7 @@ interface ClickerProps {
   grains: number;
   gps: number;
   gpc: number;
-  options: Options,
+  options: Options;
 }
 
 interface Options {
@@ -31,8 +31,14 @@ interface BackgroundParticle {
   speed: number;
 }
 
-export default function Clicker({ onClick, grains, gps, gpc, options }: ClickerProps) {
-    const classes = useStyle();
+export default function Clicker({
+  onClick,
+  grains,
+  gps,
+  gpc,
+  options,
+}: ClickerProps) {
+  const classes = useStyle();
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const contextRef = useRef<CanvasRenderingContext2D | null>(null);
   const [context, setContext] = useState<CanvasRenderingContext2D | null>(null);
@@ -44,13 +50,15 @@ export default function Clicker({ onClick, grains, gps, gpc, options }: ClickerP
   const bgParticlesRef = useRef<BackgroundParticle[]>([]);
   const gpsRef = useRef(gps);
   const gpcRef = useRef(gpc);
+  const optionsRef = useRef(options);
 
   useEffect(() => {
     gpsRef.current = gps;
     gpcRef.current = gpc;
     contextRef.current = context;
     bgParticlesRef.current = backgroundParticles;
-  }, [gps, gpc, context, backgroundParticles]);
+    optionsRef.current = options;
+  }, [gps, gpc, context, backgroundParticles, options]);
 
   const handleClick = () => {
     onClick();
@@ -97,14 +105,15 @@ export default function Clicker({ onClick, grains, gps, gpc, options }: ClickerP
     context.imageSmoothingEnabled = false;
 
     let i = 0;
-    if(options.backgroundGrainsEnabled) {
+    if (options.backgroundGrainsEnabled) {
       backgroundParticles.forEach((particle) => {
         context.save();
         context.translate(particle.x, particle.y);
-        context.rotate(particle.r/1000);
+        context.rotate(particle.r / 1000);
         context.drawImage(riceGrain, particle.x, particle.y);
         particle.y += particle.speed;
-        if(particle.y > context.canvas.height) backgroundParticles.splice(i, 1);
+        if (particle.y > context.canvas.height)
+          backgroundParticles.splice(i, 1);
         i++;
         context.restore();
       });
@@ -148,7 +157,12 @@ export default function Clicker({ onClick, grains, gps, gpc, options }: ClickerP
     setContext(ctx);
 
     setInterval(() => {
-      if (!ctx || !contextRef.current) return;
+      if (
+        !ctx ||
+        !contextRef.current ||
+        !optionsRef.current.backgroundGrainsEnabled
+      )
+        return;
       const newParticles = [...bgParticlesRef.current];
       for (let i = 0; i < Math.random() * (gpsRef.current / 8); i++) {
         newParticles.push({
@@ -203,9 +217,12 @@ export default function Clicker({ onClick, grains, gps, gpc, options }: ClickerP
           >
             <Box className={classes.onTop}>
               <Box>
-                You have <b>{prettyNumber(Math.round(grains), 3)}</b> RYSST-grains
+                You have <b>{prettyNumber(Math.round(grains), 3)}</b>{' '}
+                RYSST-grains
               </Box>
-              <Box>Grains per second: <b>{ prettyNumber(gps, 3) }</b></Box>
+              <Box>
+                Grains per second: <b>{prettyNumber(gps, 3)}</b>
+              </Box>
               <button className={classes.button} onClick={handleClick} />
             </Box>
           </Grid>

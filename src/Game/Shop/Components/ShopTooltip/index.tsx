@@ -3,12 +3,12 @@ import useStyle from './style';
 import GrainsIndicator from '../../../Components/GrainsIndicator';
 
 interface ShopTooltipProps {
-    name: string;
-    icon: string;
-    amount: number;
-    price: number;
-    disabled: boolean;
-    gps: number;
+  name: string;
+  icon: string;
+  amount: number;
+  price: number;
+  disabled: boolean;
+  gps: number;
 }
 
 export default function ShopTooltip({
@@ -34,7 +34,11 @@ export default function ShopTooltip({
           </Box>
         </Box>
         <Box>
-          <GrainsIndicator variant={disabled ? "priceRed" : "priceGreen"} value={price} precision={3}/>
+          <GrainsIndicator
+            variant={disabled ? 'priceRed' : 'priceGreen'}
+            value={price}
+            precision={3}
+          />
         </Box>
       </Box>
       <Box className={classes.bottomContainer}>

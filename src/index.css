@@ -1,14 +1,18 @@
 @font-face {
   font-family: 'Pixeloid';
   font-weight: 300;
-  src: local('Pixeloid'), url(./fonts/font.ttf) format('truetype');
+  src:
+    local('Pixeloid'),
+    url(./fonts/font.ttf) format('truetype');
   /* other formats include: 'woff2', 'truetype, 'opentype',
                             'embedded-opentype', and 'svg' */
 }
 @font-face {
   font-family: 'Pixeloid';
   font-weight: 600;
-  src: local('Pixeloid'), url(./fonts/font-bold.ttf) format('truetype');
+  src:
+    local('Pixeloid'),
+    url(./fonts/font-bold.ttf) format('truetype');
   /* other formats include: 'woff2', 'truetype, 'opentype',
                             'embedded-opentype', and 'svg' */
 }
