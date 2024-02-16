@@ -51,6 +51,10 @@ const defaultShopUpgrades: UpgradeItem[] = [
   { id: 3, name: 'React Course', unlocked: false, price: 100, shopItemID: 1, action: 'multiplyGPS', value: 2},
 ];
 
+const defaultOptions: Options = {
+  backgroundGrainsEnabled: true,
+};
+
 interface ShopItem {
   id: number,
   name: string,
@@ -69,6 +73,10 @@ interface UpgradeItem {
   value: any,
 }
 
+interface Options {
+  backgroundGrainsEnabled: boolean;
+}
+
 export default function Game() {
   const classes = useStyle();
   const [grains, setGrains] = useState(0);
@@ -82,6 +90,7 @@ export default function Game() {
   const [shouldSell, setShouldSell] = useState(false);
   const [buyAmount, setBuyAmount] = useState(1);
   const [dateStarted, setDateStarted] = useState(DateTime.now());
+  const [options, setOptions] = useState<Options>(defaultOptions);
   const grainsRef = useRef(grains);
   const shopItemsRef = useRef(shopItems);
   const upgradeItemsRef = useRef(upgradeItems);
@@ -312,10 +321,10 @@ export default function Game() {
           alignItems="center"
         >
           <Box className={classes.clickerContainer}>
-            <Clicker onClick={onClick} grains={grains} gps={grainsPerSecond} gpc={(Math.round(grainsPerSecond * grainsPerClick)) === 0 ? 1 : (Math.round(grainsPerSecond * grainsPerClick))}/>
+            <Clicker options={options} onClick={onClick} grains={grains} gps={grainsPerSecond} gpc={(Math.round(grainsPerSecond * grainsPerClick)) === 0 ? 1 : (Math.round(grainsPerSecond * grainsPerClick))}/>
           </Box>
           <Box className={classes.displayContainer}>
-            <Display shopData={shopItems} upgradeData={upgradeItems} spentGrains={spentGrains} collectedGrains={collectedGrains} dateStarted={dateStarted} saveData={saveData} loadData={loadData} wipeData={wipeData}/>
+            <Display options={options} setOptions={setOptions} shopData={shopItems} upgradeData={upgradeItems} spentGrains={spentGrains} collectedGrains={collectedGrains} dateStarted={dateStarted} saveData={saveData} loadData={loadData} wipeData={wipeData}/>
           </Box>
           <Box className={classes.shopContainer}>
             <Shop

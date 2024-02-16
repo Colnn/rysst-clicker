@@ -9,6 +9,11 @@ interface ClickerProps {
   grains: number;
   gps: number;
   gpc: number;
+  options: Options,
+}
+
+interface Options {
+  backgroundGrainsEnabled: boolean;
 }
 
 interface RiceParticle {
@@ -26,7 +31,7 @@ interface BackgroundParticle {
   speed: number;
 }
 
-export default function Clicker({ onClick, grains, gps, gpc }: ClickerProps) {
+export default function Clicker({ onClick, grains, gps, gpc, options }: ClickerProps) {
     const classes = useStyle();
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const contextRef = useRef<CanvasRenderingContext2D | null>(null);
@@ -92,16 +97,18 @@ export default function Clicker({ onClick, grains, gps, gpc }: ClickerProps) {
     context.imageSmoothingEnabled = false;
 
     let i = 0;
-    backgroundParticles.forEach((particle) => {
-      context.save();
-      context.translate(particle.x, particle.y);
-      context.rotate(particle.r/1000);
-      context.drawImage(riceGrain, particle.x, particle.y);
-      particle.y += particle.speed;
-      if(particle.y > context.canvas.height) backgroundParticles.splice(i, 1);
-      i++;
-      context.restore();
-    });
+    if(options.backgroundGrainsEnabled) {
+      backgroundParticles.forEach((particle) => {
+        context.save();
+        context.translate(particle.x, particle.y);
+        context.rotate(particle.r/1000);
+        context.drawImage(riceGrain, particle.x, particle.y);
+        particle.y += particle.speed;
+        if(particle.y > context.canvas.height) backgroundParticles.splice(i, 1);
+        i++;
+        context.restore();
+      });
+    }
 
     const width = 250;
     const height = 250;

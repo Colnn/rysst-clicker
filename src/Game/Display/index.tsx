@@ -1,5 +1,6 @@
 import {
   Box,
+  Button,
   Grid,
   ToggleButton,
   ToggleButtonGroup,
@@ -12,7 +13,7 @@ import {
 import useStyle from './style';
 import MotivationalTexts from './Components/MotivationalTexts';
 import ShopObjectDisplay from './Components/ShopObjectDisplay';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DateTime } from 'luxon';
 import GrainsIndicator from '../Components/GrainsIndicator';
 import UpgradeTooltip from '../Shop/Components/UpgradeTooltip';
@@ -32,6 +33,10 @@ interface UpgradeItem {
   price: number;
 }
 
+interface Options {
+  backgroundGrainsEnabled: boolean;
+}
+
 interface DisplayProps {
   shopData: ShopItem[];
   upgradeData: UpgradeItem[];
@@ -41,6 +46,8 @@ interface DisplayProps {
   saveData: () => void;
   loadData: () => void;
   wipeData: () => void;
+  options: Options;
+  setOptions: (options: Options) => void;
 }
 
 const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
@@ -62,15 +69,28 @@ export default function Display({
   saveData,
   loadData,
   wipeData,
+  options,
+  setOptions,
 }: DisplayProps) {
   const classes = useStyle();
 
   const [page, setPage] = useState(0);
+  const [backgroundGrainsEnabled, setBackgroundParticlesEnabled] = useState(options.backgroundGrainsEnabled);
 
   const changePage = (event: React.MouseEvent<HTMLElement>, page: number) => {
     if (!page) setPage(0);
     else setPage(page);
   };
+
+  const toggleBackgroundParticles = () => {
+    setBackgroundParticlesEnabled(value => !value);
+  }
+
+  useEffect(() => {
+    const newOptions = {...options};
+    newOptions.backgroundGrainsEnabled = backgroundGrainsEnabled;
+    setOptions(newOptions);
+  }, [backgroundGrainsEnabled]);
 
   return (
     <>
@@ -166,6 +186,10 @@ export default function Display({
               <button onClick={saveData}>Save</button>
               <button onClick={loadData}>Load</button>
               <button onClick={wipeData}>Wipe</button>
+
+              <Grid>
+                <Button onClick={toggleBackgroundParticles}>Background particles: {backgroundGrainsEnabled ? 'On' : 'Off'}</Button>
+              </Grid>
             </Grid>
           )}
         </Grid>
