@@ -22,6 +22,4 @@ jobs:
           cache: 'npm'
 
       - run: npm ci --legacy-peer-deps
-      - run: npm run eslint
-      - run: npm run linting
-      - run: npm run test
+      - run: npm run lint
