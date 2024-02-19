@@ -16,6 +16,7 @@ export default function MotivationalTexts() {
     'Travelers pass through, not for the scenery, but for a taste of your renowned RYSST-grains.',
     'Your RYSST-grains are the talk of the town, sparking envy among fellow grain enthusiasts.',
     'The RYSST-grain industry bows down to your unparalleled success and prosperity.',
+    'A commit a day, keeps Jonatan away.',
   ];
   const gamePhase2 = [
     'Gossips about your RYSST-grains have reached neighboring kingdoms, making you a grain tycoon.',
