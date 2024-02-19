@@ -7,6 +7,7 @@ import { useEffect, useRef, useState } from 'react';
 import prettyNumber from '../prettyNumber';
 import { enqueueSnackbar } from 'notistack';
 import { DateTime } from 'luxon';
+import axios from 'axios';
 
 interface ShopItemData {
   // ID
@@ -124,6 +125,7 @@ export default function Game() {
   const [dateStarted, setDateStarted] = useState(DateTime.now());
   const [options, setOptions] = useState<Options>(defaultOptions);
   const [gamePhase, setGamePhase] = useState(1);
+  const version = 'v0.0.1';
 
   // Refs
   const grainsRef = useRef(grains);
@@ -260,6 +262,17 @@ export default function Game() {
     }
   };
 
+  const checkVersion = async () => {
+    const latest = (await axios.get('https://api.github.com/repos/Colnn/rysst-clicker/releases')).data[0];
+    if(latest.tag_name != version) {
+      console.log("A new version of RYSST Clicker is available! \n Contact the administrator about updating.\n If you're the administrator, check " + latest.url + ".");
+      enqueueSnackbar('New version available, check the console.', {
+        autoHideDuration: 2000,
+        anchorOrigin: { horizontal: 'right', vertical: 'bottom' },
+      });
+    }
+  }
+
   const loadData = () => {
     let saveData;
     if (localStorage.getItem('data')) {
@@ -300,6 +313,8 @@ export default function Game() {
     setGrainsPerSecond(totalGPS);
     checkGamePhase();
     calculateGrainsPerSecond(newUpgradeItems, newShopItems);
+
+    checkVersion();
 
     startGame();
   };
