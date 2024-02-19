@@ -51,6 +51,7 @@ interface DisplayProps {
   wipeData: () => void;
   options: Options;
   setOptions: (options: Options) => void;
+  gamePhase: number;
 }
 
 const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
@@ -73,6 +74,7 @@ export default function Display({
   wipeData,
   options,
   setOptions,
+  gamePhase,
 }: DisplayProps) {
   const classes = useStyle();
 
@@ -122,7 +124,7 @@ export default function Display({
                   Stats
                 </ToggleButton>
               </Grid>
-              <MotivationalTexts />
+              <MotivationalTexts gamePhase={gamePhase}/>
               <Grid className={classes.options}>
                 <ToggleButton value={2} fullWidth>
                   Options

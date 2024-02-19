@@ -1,8 +1,12 @@
 import { Box } from '@mui/material';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import useStyle from './style';
 
-export default function MotivationalTexts() {
+interface MotivationalTextsProps {
+    gamePhase: number;
+}
+
+export default function MotivationalTexts({gamePhase}: MotivationalTextsProps) {
   const classes = useStyle();
 
   const gamePhase1 = [
@@ -58,9 +62,11 @@ export default function MotivationalTexts() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setText(() => {
-        return gamePhase1[Math.floor(Math.random() * 10)];
-      });
+        const array = gamePhase1;
+        if(gamePhase >= 2) array.concat(gamePhase2);
+        if(gamePhase >= 3) array.concat(gamePhase3);
+        if(gamePhase == 4) array.concat(gamePhase4);
+      setText(array[Math.floor(Math.random() * array.length)]);
     }, 10000);
 
     return () => {

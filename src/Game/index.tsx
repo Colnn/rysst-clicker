@@ -122,6 +122,9 @@ export default function Game() {
   const [buyAmount, setBuyAmount] = useState(1);
   const [dateStarted, setDateStarted] = useState(DateTime.now());
   const [options, setOptions] = useState<Options>(defaultOptions);
+  const [gamePhase, setGamePhase] = useState(1);
+
+  // Refs
   const grainsRef = useRef(grains);
   const collectedGrainsRef = useRef(collectedGrains);
   const spentGrainsRef = useRef(spentGrains);
@@ -294,11 +297,22 @@ export default function Game() {
       totalGPS = totalGPS + shopItems[i].gps * shopItems[i].amount;
     }
     setGrainsPerSecond(totalGPS);
+    checkGamePhase();
+    calculateGrainsPerSecond(newUpgradeItems, newShopItems);
 
     startGame();
-
-    calculateGrainsPerSecond(newUpgradeItems, newShopItems);
   };
+
+  const checkGamePhase = () => {
+    const c = collectedGrainsRef.current;
+    if(c >= 1e6) {
+      setGamePhase(2);
+    } else if(c >= 1e12) {
+      setGamePhase(3);
+    } else if(c >= 1e24) {
+      setGamePhase(4);
+    }
+  }
 
   const startGame = () => {
     setInterval(() => {
@@ -309,6 +323,10 @@ export default function Game() {
       document.title =
         prettyNumber(grainsRef.current, 3) + ' grains | RYSST Clicker';
     }, 2500);
+
+    setInterval(() => {
+      checkGamePhase();
+    }, 180000)
 
     window.onbeforeunload = () => {
       if (localStorage.getItem('data')) {
@@ -385,6 +403,7 @@ export default function Game() {
               dateStarted={dateStarted}
               saveData={saveData}
               wipeData={wipeData}
+              gamePhase={gamePhase}
             />
           </Box>
           <Box className={classes.shopContainer}>
