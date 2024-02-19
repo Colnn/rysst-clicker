@@ -59,17 +59,6 @@ const defaultShopUpgrades: UpgradeItem[] = [
   },
   {
     id: 1,
-    name: 'HBO Study',
-    unlocked: false,
-    price: 50,
-    shopItemID: 0,
-    action: 'multiplyGPS',
-    value: 2,
-    description:
-      'Have your developers follow an HBO study.',
-  },
-  {
-    id: 2,
     name: 'These are a great snack',
     unlocked: false,
     price: 100,
@@ -78,6 +67,28 @@ const defaultShopUpgrades: UpgradeItem[] = [
     value: 2,
     description:
       'Improve your RYSST ball recipe.',
+  },
+  {
+    id: 2,
+    name: 'HBO Study',
+    unlocked: false,
+    price: 250,
+    shopItemID: 0,
+    action: 'multiplyGPS',
+    value: 2,
+    description:
+      'Have your developers follow an HBO study.',
+  },
+  {
+    id: 3,
+    name: 'Wait, I\'m supposed to work?',
+    unlocked: false,
+    price: 100,
+    shopItemID: 1,
+    action: 'multiplyGPS',
+    value: 2,
+    description:
+      'Hire a head-chef for your RYSST ball production.',
   },
 ];
 

@@ -53,7 +53,7 @@ export default function Shop({
                 <UpgradeItem
                   upgrade={upgrade}
                   icon={
-                    '/' + upgrade.name.toLowerCase().replace(' ', '_') + '.png'
+                    '/' + upgrade.name.toLowerCase().replace(/ /g, '_') + '.png'
                   }
                   handleClick={handleUpgradeBuy}
                   disabled={upgrade.price > grains}

@@ -21,7 +21,6 @@ export default function UpgradeTooltip({
     switch (upgrade.action) {
       case 'multiplyGPS':
         return 'Your ' + itemName + "s are " + upgrade.value + "times as efficient.";
-        break;
     }
   };
 
@@ -43,8 +42,20 @@ export default function UpgradeTooltip({
         </Box>
       </Box>
       <Box className={classes.bottomContainer}>
-        <Chip variant="outlined" size="small" label={upgrade.description} />
-        <Chip variant="outlined" size="small" label={effect()} />
+        <Chip sx={{
+          height: 'auto',
+          '& .MuiChip-label': {
+            display: 'block',
+            whiteSpace: 'normal',
+          },
+        }} variant="outlined" size="small" label={upgrade.description} />
+        <Chip sx={{
+          height: 'auto',
+          '& .MuiChip-label': {
+            display: 'block',
+            whiteSpace: 'normal',
+          },
+        }}  variant="outlined" size="small" label={effect()} />
       </Box>
     </Box>
   );
