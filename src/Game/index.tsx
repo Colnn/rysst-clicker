@@ -100,7 +100,7 @@ interface UpgradeItem {
   price: number;
   shopItemID: number;
   action: string;
-  value: any;
+  value: number;
   description: string;
 }
 
@@ -112,6 +112,7 @@ export default function Game() {
   const classes = useStyle();
   const [grains, setGrains] = useState(0);
   const [grainsPerSecond, setGrainsPerSecond] = useState(0);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [grainsPerClick, setGrainsPerClick] = useState(0.01);
   const [collectedGrains, setCollectedGrains] = useState(0);
   const [spentGrains, setSpentGrains] = useState(0);

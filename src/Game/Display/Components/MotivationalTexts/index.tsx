@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 import useStyle from './style';
 
 interface MotivationalTextsProps {

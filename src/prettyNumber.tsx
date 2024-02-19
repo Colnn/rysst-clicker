@@ -1,3 +1,4 @@
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function prettyNumber(nr: any, precision: number) {
   if (nr >= 1e66) {
     nr = nr / 1e66;

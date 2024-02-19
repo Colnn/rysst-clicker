@@ -33,7 +33,7 @@ interface UpgradeItem {
   price: number;
   shopItemID: number;
   action: string;
-  value: any;
+  value: number;
   description: string;
 }
 

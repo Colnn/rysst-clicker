@@ -1,8 +1,6 @@
 import { useEffect } from 'react';
 
 export default function Donut() {
-  const tmr1 = undefined,
-    tmr2 = undefined;
   let A = 1,
     B = 1;
 
@@ -47,7 +45,7 @@ export default function Donut() {
         }
       }
     }
-    document.getElementById('test').innerHTML = b.join('');
+    document.getElementById('donut').innerHTML = b.join('');
   };
 
   document.title = 'Donut :D';
@@ -81,7 +79,7 @@ export default function Donut() {
           fontFamily: 'monospace',
           whiteSpace: 'pre',
         }}
-        id={'test'}
+        id={'donut'}
       ></pre>
     </div>
   );
