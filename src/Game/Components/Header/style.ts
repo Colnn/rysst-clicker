@@ -5,7 +5,10 @@ export default makeStyles(() => {
     container: {
       width: '100%',
       height: '100%',
-      backgroundColor: '#eb4034',
+      backgroundImage: 'url("/header.png")',
+      backgroundRepeat: 'no-repeat',
+      backgroundSize: 'cover',
+      imageRendering: 'pixelated',
     },
   };
 });

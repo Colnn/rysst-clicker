@@ -24,9 +24,13 @@ const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
   <Tooltip {...props} classes={{ popper: className }} />
 ))(({ theme }) => ({
   [`& .${tooltipClasses.tooltip}`]: {
-    backgroundColor: '#f5f5f9',
     color: 'rgba(0, 0, 0, 0.87)',
     fontSize: theme.typography.pxToRem(12),
+    backgroundColor: 'transparent',
+    backgroundImage: 'url("/tooltip-background.png")',
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'cover',
+    imageRendering: 'pixelated',
   },
 }));
 
@@ -79,7 +83,12 @@ export default function UpgradeItem({
           className={disabled ? classes.disabled : classes.container}
           onClick={onClick}
         >
-          <Box className={classes.icon} component={'img'} src={icon} draggable={false} />
+          <Box
+            className={classes.icon}
+            component={'img'}
+            src={icon}
+            draggable={false}
+          />
         </Box>
       </HtmlTooltip>
     </>

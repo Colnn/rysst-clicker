@@ -5,12 +5,12 @@ import UpgradeItem from './Components/UpgradeItem';
 import SettingsBar from './Components/SettingsBar';
 
 interface ShopItem {
-    id: number,
-    name: string,
-    amount: number,
-    price: number,
-    gps: number,
-  }
+  id: number;
+  name: string;
+  amount: number;
+  price: number;
+  gps: number;
+}
 
 interface UpgradeItem {
   id: number;
@@ -53,7 +53,6 @@ export default function Shop({
       if (shouldSell) price = Math.round(price / 1.2);
       totalPrice += price;
       price = shouldSell ? Math.round(price / 1.15) : Math.round(price * 1.15);
-      console.log(totalPrice);
     }
     return totalPrice;
   };
@@ -80,7 +79,9 @@ export default function Shop({
                   disabled={upgrade.price > grains}
                   action={upgrade.action}
                   description={upgrade.description}
-                  itemName={shopData.map(item => item.name)[upgrade.shopItemID]}
+                  itemName={
+                    shopData.map((item) => item.name)[upgrade.shopItemID]
+                  }
                 />
               );
           })}
@@ -101,19 +102,12 @@ export default function Shop({
               const disabled = shouldSell
                 ? item.amount < buyAmount
                 : item.price * buyAmount > grains;
-              console.log(
-                item.amount +
-                  ', ' +
-                  calculatePrice(item.price) +
-                  ': ' +
-                  disabled,
-              );
               return (
                 <ShopItem
                   id={item.id}
                   name={item.name}
                   icon={
-                    '/' + item.name.toLowerCase().replace(' ', '_') + '.svg'
+                    '/' + item.name.toLowerCase().replace(' ', '_') + '.png'
                   }
                   price={calculatePrice(item.price)}
                   amount={item.amount}

@@ -2,7 +2,11 @@ import { Box } from '@mui/material';
 import { useEffect, useState } from 'react';
 import useStyle from './style';
 
-export default function MotivationalTexts() {
+interface MotivationalTextsProps {
+    gamePhase: number;
+}
+
+export default function MotivationalTexts({gamePhase}: MotivationalTextsProps) {
   const classes = useStyle();
 
   const gamePhase1 = [
@@ -16,6 +20,7 @@ export default function MotivationalTexts() {
     'Travelers pass through, not for the scenery, but for a taste of your renowned RYSST-grains.',
     'Your RYSST-grains are the talk of the town, sparking envy among fellow grain enthusiasts.',
     'The RYSST-grain industry bows down to your unparalleled success and prosperity.',
+    'A commit a day, keeps Jonatan away.',
   ];
   const gamePhase2 = [
     'Gossips about your RYSST-grains have reached neighboring kingdoms, making you a grain tycoon.',
@@ -57,9 +62,11 @@ export default function MotivationalTexts() {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setText(() => {
-        return gamePhase1[Math.floor(Math.random() * 10)];
-      });
+        const array = gamePhase1;
+        if(gamePhase >= 2) array.concat(gamePhase2);
+        if(gamePhase >= 3) array.concat(gamePhase3);
+        if(gamePhase == 4) array.concat(gamePhase4);
+      setText(array[Math.floor(Math.random() * array.length)]);
     }, 10000);
 
     return () => {

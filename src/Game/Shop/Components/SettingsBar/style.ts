@@ -4,7 +4,10 @@ export default makeStyles(() => {
   return {
     container: {
       width: '100%',
-      backgroundColor: '#bababa',
+      backgroundImage: 'url("/settingsbar-background.png")',
+      backgroundRepeat: 'no-repeat',
+      backgroundSize: 'cover',
+      imageRendering: 'pixelated',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-around',

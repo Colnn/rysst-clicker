@@ -28,7 +28,9 @@ export default makeStyles(() => {
     header: {
       width: '100%',
       height: '5vh',
-      backgroundColor: '#eb4034',
+      backgroundImage: 'url("/header.png")',
+      backgroundSize: 'contain',
+      imageRendering: 'pixelated',
     },
   };
 });
