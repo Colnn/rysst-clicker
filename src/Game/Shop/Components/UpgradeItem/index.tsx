@@ -9,15 +9,11 @@ import useStyle from './style';
 import UpgradeTooltip from '../UpgradeTooltip';
 
 interface UpgradeItemProps {
-  id: number;
-  name: string;
+  upgrade: UpgradeItem;
   icon: string;
-  price: number;
   handleClick: (id: number) => void;
   disabled: boolean;
   itemName: string;
-  action: string;
-  description: string;
 }
 
 const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
@@ -35,20 +31,16 @@ const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
 }));
 
 export default function UpgradeItem({
-  id,
-  name,
+  upgrade,
   icon,
-  price,
   handleClick,
   disabled,
   itemName,
-  action,
-  description,
 }: UpgradeItemProps) {
   const classes = useStyle();
 
   const onClick = () => {
-    if (!disabled) handleClick(id);
+    if (!disabled) handleClick(upgrade.id);
   };
 
   return (
@@ -56,13 +48,10 @@ export default function UpgradeItem({
       <HtmlTooltip
         title={
           <UpgradeTooltip
-            name={name}
+            upgrade={upgrade}
             icon={icon}
-            price={price}
             disabled={disabled}
             itemName={itemName}
-            action={action}
-            description={description}
           />
         }
         placement="left"

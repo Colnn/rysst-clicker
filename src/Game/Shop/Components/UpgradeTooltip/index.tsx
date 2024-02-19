@@ -3,30 +3,24 @@ import useStyle from './style';
 import GrainsIndicator from '../../../Components/GrainsIndicator';
 
 interface UpgradeTooltipProps {
-  name: string;
-  icon: string;
-  price: number;
-  disabled: boolean;
+  upgrade: UpgradeItem;
   itemName: string;
-  action: string;
-  description: string;
+  icon: string;
+  disabled: boolean;
 }
 
 export default function UpgradeTooltip({
-  name,
-  icon,
-  price,
-  disabled,
+  upgrade,
   itemName,
-  action,
-  description,
+  icon,
+  disabled,
 }: UpgradeTooltipProps) {
   const classes = useStyle();
 
   const effect = () => {
-    switch (action) {
+    switch (upgrade.action) {
       case 'multiplyGPS':
-        return 'Your ' + itemName + "'s are twice as efficient.";
+        return 'Your ' + itemName + "s are " + upgrade.value + "times as efficient.";
         break;
     }
   };
@@ -37,19 +31,19 @@ export default function UpgradeTooltip({
         <Box className={classes.top}>
           <Box component={'img'} src={icon} className={classes.icon} />
           <Box className={classes.partContainer}>
-            <Typography>{name}</Typography>
+            <Typography>{upgrade.name}</Typography>
           </Box>
         </Box>
         <Box>
           <GrainsIndicator
             variant={disabled ? 'priceRed' : 'priceGreen'}
-            value={price}
+            value={upgrade.price}
             precision={3}
           />
         </Box>
       </Box>
       <Box className={classes.bottomContainer}>
-        <Chip variant="outlined" size="small" label={description} />
+        <Chip variant="outlined" size="small" label={upgrade.description} />
         <Chip variant="outlined" size="small" label={effect()} />
       </Box>
     </Box>

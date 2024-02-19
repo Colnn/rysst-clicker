@@ -48,25 +48,25 @@ const defaultShopItems: ShopItem[] = [
 const defaultShopUpgrades: UpgradeItem[] = [
   {
     id: 0,
-    name: 'This is just the beninging...',
+    name: 'MBO Study',
     unlocked: false,
     price: 50,
     shopItemID: 0,
     action: 'multiplyGPS',
     value: 2,
     description:
-      'Your developers work TWICE as fast.\n"Your developers are now working on actual projects"',
+      'Have your developers follow an MBO study.',
   },
   {
     id: 1,
-    name: 'MOOORE Experience!!!',
+    name: 'HBO Study',
     unlocked: false,
     price: 50,
     shopItemID: 0,
     action: 'multiplyGPS',
     value: 2,
     description:
-      'Your developers work TWICE as fast.\n"Your developers are gaining more and more experience by the day"',
+      'Have your developers follow an HBO study.',
   },
   {
     id: 2,
@@ -77,33 +77,13 @@ const defaultShopUpgrades: UpgradeItem[] = [
     action: 'multiplyGPS',
     value: 2,
     description:
-      'These rysst balls are TWICE as efficient.\n"These rysst balls are reallyyy delicious!"',
+      'Improve your RYSST ball recipe.',
   },
-  // { id: 3, name: ''}
 ];
 
 const defaultOptions: Options = {
   backgroundGrainsEnabled: true,
 };
-
-interface ShopItem {
-  id: number;
-  name: string;
-  amount: number;
-  price: number;
-  gps: number;
-}
-
-interface UpgradeItem {
-  id: number;
-  name: string;
-  unlocked: boolean;
-  price: number;
-  shopItemID: number;
-  action: string;
-  value: number;
-  description: string;
-}
 
 interface Options {
   backgroundGrainsEnabled: boolean;
