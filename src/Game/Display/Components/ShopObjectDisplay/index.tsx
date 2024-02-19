@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Box } from '@mui/material';
 import useStyle from './style';
+import getImage from '../../../../images';
 
 interface ShopObjectProps {
   amount: number;
@@ -16,13 +17,35 @@ export default function ShopObjectDisplay({
   const contextRef = useRef<CanvasRenderingContext2D | null>(null);
   const amountRef = useRef(amount);
   const [context, setContext] = useState<CanvasRenderingContext2D | null>(null);
+  const images = getImage(objectName.toLowerCase().replace(" ", "_"));
 
   const backgroundImg = new Image();
-  backgroundImg.src = `/${objectName.toLowerCase().replace(' ', '_')}-background.png`;
+  backgroundImg.src = images.background;
 
-  // TODO: Replace '0' with correct value (random 1 - 3);
-  const img = new Image();
-  img.src = `/${objectName.toLowerCase().replace(' ', '_') + 0}.png`;
+  const img1 = new Image();
+  img1.src = images.images[0];
+
+  const img2 = new Image();
+  img2.src = images.images[1] || img1.src;
+
+  const img3 = new Image();
+  img3.src = images.images[2] || img2.src;
+
+  const getRandomImage = (length: number, i: number) => {
+    const j = Math.round(i % length);
+
+    switch (j) {
+      case 0:
+        return img1;
+      case 1:
+        return img2;
+      case 2:
+        return img3;
+      default:
+        console.log(j + ", " + i + " is not valid, reverting to default");
+        return img1;
+    }
+  }
 
   useEffect(() => {
     contextRef.current = context;
@@ -57,7 +80,7 @@ export default function ShopObjectDisplay({
       let y2 = 30;
 
       for (let i = 0; i < amountRef.current; i++) {
-        ctx.drawImage(img, x2, y2, 100, 100);
+        ctx.drawImage(getRandomImage(images.images.length, i), x2, y2, 100, 100);
 
         // Adjust x and y for the next image
         x2 += 75; // You can adjust the spacing between images

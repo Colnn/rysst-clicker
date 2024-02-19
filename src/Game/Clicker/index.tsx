@@ -3,6 +3,7 @@ import useStyle from './style';
 import prettyNumber from '../../prettyNumber';
 import Seperator from '../Components/Seperator';
 import { useEffect, useRef, useState } from 'react';
+import getImage from '../../images';
 
 interface ClickerProps {
   onClick: () => void;
@@ -51,6 +52,7 @@ export default function Clicker({
   const gpsRef = useRef(gps);
   const gpcRef = useRef(gpc);
   const optionsRef = useRef(options);
+  const images = getImage('clicker');
 
   useEffect(() => {
     gpsRef.current = gps;
@@ -71,10 +73,10 @@ export default function Clicker({
   clickSound.volume = 0.1;
 
   const cookerImg = new Image();
-  cookerImg.src = '/rysst_cooker.png';
+  cookerImg.src = images.images[0];
 
   const riceGrain = new Image();
-  riceGrain.src = '/rice.png';
+  riceGrain.src = images.images[1] || cookerImg.src;
 
   const trackMouse = (e) => {
     setMousePos({ x: e.clientX - 20, y: e.clientY - 70 });
@@ -165,6 +167,7 @@ export default function Clicker({
         return;
       const newParticles = [...bgParticlesRef.current];
       for (let i = 0; i < Math.random() * (gpsRef.current / 8); i++) {
+        if(newParticles.length > 1500) return;
         newParticles.push({
           x: Math.random() * contextRef.current.canvas.width,
           y: -(Math.random() * 20) - 20,

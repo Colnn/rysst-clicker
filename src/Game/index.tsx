@@ -108,10 +108,6 @@ interface Options {
   backgroundGrainsEnabled: boolean;
 }
 
-interface Options {
-  backgroundGrainsEnabled: boolean;
-}
-
 export default function Game() {
   const classes = useStyle();
   const [grains, setGrains] = useState(0);
@@ -127,6 +123,8 @@ export default function Game() {
   const [dateStarted, setDateStarted] = useState(DateTime.now());
   const [options, setOptions] = useState<Options>(defaultOptions);
   const grainsRef = useRef(grains);
+  const collectedGrainsRef = useRef(collectedGrains);
+  const spentGrainsRef = useRef(spentGrains);
   const shopItemsRef = useRef(shopItems);
   const upgradeItemsRef = useRef(upgradeItems);
 
@@ -166,13 +164,11 @@ export default function Game() {
 
   useEffect(() => {
     grainsRef.current = grains;
-  }, [grains]);
-  useEffect(() => {
+    collectedGrainsRef.current = collectedGrains;
+    spentGrainsRef.current = spentGrains;
     shopItemsRef.current = shopItems;
-  }, [shopItems]);
-  useEffect(() => {
     upgradeItemsRef.current = upgradeItems;
-  }, [upgradeItems]);
+  }, [grains, collectedGrains, spentGrains, shopItems, upgradeItems]);
 
   const buyShopItem = (id: number) => {
     const newShopItems = [...shopItems];
@@ -210,8 +206,8 @@ export default function Game() {
     data.g = grainsRef.current;
     data.si = [];
     data.u = [];
-    data.c = collectedGrains;
-    data.s = spentGrains;
+    data.c = collectedGrainsRef.current;
+    data.s = spentGrainsRef.current;
     data.d = dateStarted.toSeconds();
     data.cs = 0;
     shopItems.forEach((shopItem) => {

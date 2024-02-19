@@ -109,6 +109,7 @@ export default function Display({
             className={classes.topContainer}
             value={page}
             onChange={changePage}
+            exclusive
           >
             <Grid
               className={classes.topContainer}
