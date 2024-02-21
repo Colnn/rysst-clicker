@@ -48,12 +48,13 @@ export default function Shop({
         <Box className={classes.upgradesContainer}>
           {/* Upgrades here */}
           {upgradeData.map((upgrade) => {
-            if (!upgrade.unlocked)
-              return (
+            if (upgrade.unlocked) return;
+            if(upgrade.parent != undefined && !upgradeData[upgrade.parent].unlocked) return;
+            return (
                 <UpgradeItem
                   upgrade={upgrade}
                   icon={
-                    '/' + upgrade.name.toLowerCase().replace(/ /g, '_') + '.png'
+                    '/' + upgrade.name.toLowerCase().replace(/ /g, '_').replace(/!/g, '').replace(/\?/g, '').replace(/,/g, '').replace(/'/g, '') + '.png'
                   }
                   handleClick={handleUpgradeBuy}
                   disabled={upgrade.price > grains}
@@ -77,15 +78,17 @@ export default function Shop({
             className={classes.shopItemsContainer}
           >
             {shopData.map((item) => {
+              if(item.parent != undefined && shopData[item.parent].amount == 0) return;
+              const price = calculatePrice(item.price);
               const disabled = shouldSell
                 ? item.amount < buyAmount
-                : item.price * buyAmount > grains;
+                : price > grains;
               return (
                 <ShopItem
                   shopItem={item}
-                  price={calculatePrice(item.price)}
+                  price={price}
                   icon={
-                    '/' + item.name.toLowerCase().replace(' ', '_') + '.png'
+                    '/' + item.name.toLowerCase().replace(' ', '_').replace(/!/g, '').replace(/\?/g, '').replace(/,/g, '').replace(/'/g, '') + '.png'
                   }
                   amount={item.amount}
                   buyAmount={buyAmount}

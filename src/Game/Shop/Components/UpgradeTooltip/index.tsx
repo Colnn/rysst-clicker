@@ -20,7 +20,7 @@ export default function UpgradeTooltip({
   const effect = () => {
     switch (upgrade.action) {
       case 'multiplyGPS':
-        return 'Your ' + itemName + "s are " + upgrade.value + "times as efficient.";
+        return 'Your ' + itemName + "s are " + upgrade.value + " times as efficient.";
     }
   };
 

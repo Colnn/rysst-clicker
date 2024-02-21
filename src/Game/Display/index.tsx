@@ -43,7 +43,7 @@ const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
     color: 'rgba(0, 0, 0, 0.87)',
     fontSize: theme.typography.pxToRem(12),
     backgroundColor: 'transparent',
-    backgroundImage: 'url("/upgrade-tooltip-background.png")',
+    backgroundImage: 'url("/tooltip-background.png")',
     backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
     imageRendering: 'pixelated',
@@ -180,7 +180,7 @@ export default function Display({
                           title={
                             <UpgradeTooltip
                               upgrade={upgrade}
-                              icon={'/' + upgrade.name.toLowerCase().replace(/ /g, '_') + '.png'}
+                              icon={'/' + upgrade.name.toLowerCase().replace(/ /g, '_').replace(/!/g, '').replace(/\?/g, '').replace(/,/g, '').replace(/'/g, '') + '.png'}
                               disabled={false}
                               itemName={shopData[upgrade.shopItemID].name}
                             />
@@ -203,7 +203,7 @@ export default function Display({
                             <Box
                               className={classes.icon}
                               component={'img'}
-                              src={'/' + upgrade.name.toLowerCase().replace(/ /g, '_') + '.png'}
+                              src={'/' + upgrade.name.toLowerCase().replace(/ /g, '_').replace(/!/g, '').replace(/\?/g, '').replace(/,/g, '').replace(/'/g, '') + '.png'}
                               draggable={false}
                             />
                           </Box>

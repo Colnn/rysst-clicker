@@ -41,8 +41,9 @@ let data = {
 };
 
 const defaultShopItems: ShopItem[] = [
-  { id: 0, name: 'Developer', amount: 0, price: 15, gps: 1 },
-  { id: 1, name: 'RYSST ball', amount: 0, price: 100, gps: 10 },
+  { id: 0, name: 'Developer', description: 'Just a normal developer.', amount: 0, price: 15, gps: 1 },
+  { id: 1, name: 'RYSST ball', description: 'Damn these taste good!', amount: 0, price: 100, gps: 10, parent: 0 },
+  { id: 2, name: 'Server', description: 'A new server for your customers.', amount: 0, price: 250, gps: 20, parent: 0 },
 ];
 
 const defaultShopUpgrades: UpgradeItem[] = [
@@ -78,17 +79,30 @@ const defaultShopUpgrades: UpgradeItem[] = [
     value: 2,
     description:
       'Have your developers follow an HBO study.',
+    parent: 0,
   },
   {
     id: 3,
     name: 'Wait, I\'m supposed to work?',
     unlocked: false,
-    price: 100,
+    price: 250,
     shopItemID: 1,
     action: 'multiplyGPS',
     value: 2,
     description:
       'Hire a head-chef for your RYSST ball production.',
+    parent: 1,
+  },
+  {
+    id: 4,
+    name: 'Download more RAM!',
+    unlocked: false,
+    price: 300,
+    shopItemID: 2,
+    action: 'multiplyGPS',
+    value: 2,
+    description:
+      'Upgrade your servers.',
   },
 ];
 

@@ -14,6 +14,7 @@ import GrainsIndicator from '../../../Components/GrainsIndicator';
 interface ShopItemProps {
   shopItem: ShopItem
   icon: string;
+  price: number;
   amount: number;
   buyAmount: number;
   handleClick: (id: number) => void;
@@ -42,6 +43,7 @@ export default function ShopItem({
   buyAmount,
   handleClick,
   disabled,
+  
 }: ShopItemProps) {
   const classes = useStyle();
 

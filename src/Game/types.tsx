@@ -7,12 +7,15 @@ interface UpgradeItem {
     action: string;
     value: number;
     description: string;
+    parent?: number;
 }
 
 interface ShopItem {
     id: number;
     name: string;
+    description: string;
     amount: number;
     price: number;
     gps: number;
+    parent?: number;
 }

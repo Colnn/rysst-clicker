@@ -4,7 +4,7 @@ export default makeStyles(() => {
   return {
     container: {
       padding: '0px 10px',
-      width: '350px',
+      width: '300px',
       height: '150px',
       display: 'flex',
       alignItems: 'flex-start',

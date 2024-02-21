@@ -39,6 +39,25 @@ export default function ShopTooltip({
       </Box>
       <Box className={classes.bottomContainer}>
         <Chip
+          sx={{
+            height: 'auto',
+            '& .MuiChip-label': {
+              display: 'block',
+              whiteSpace: 'normal',
+            },
+          }} 
+          variant="outlined"
+          size="small"
+          label={shopItem.description}
+        />
+        <Chip
+          sx={{
+            height: 'auto',
+            '& .MuiChip-label': {
+              display: 'block',
+              whiteSpace: 'normal',
+            },
+          }} 
           variant="outlined"
           size="small"
           label={'Produces ' + shopItem.gps + ' grains per second'}
