@@ -41,35 +41,25 @@ let data = {
 };
 
 const defaultShopItems: ShopItem[] = [
-  { id: 0, name: 'Developer', amount: 0, price: 15, gps: 1 },
-  { id: 1, name: 'RYSST ball', amount: 0, price: 100, gps: 10 },
+  { id: 0, name: 'Developer', description: 'Just a normal developer.', amount: 0, price: 15, gps: 1 },
+  { id: 1, name: 'RYSST ball', description: 'Damn these taste good!', amount: 0, price: 100, gps: 10, parent: 0 },
+  { id: 2, name: 'Server', description: 'A new server for your customers.', amount: 0, price: 250, gps: 20, parent: 0 },
 ];
 
 const defaultShopUpgrades: UpgradeItem[] = [
   {
     id: 0,
-    name: 'This is just the beninging...',
+    name: 'MBO Study',
     unlocked: false,
     price: 50,
     shopItemID: 0,
     action: 'multiplyGPS',
     value: 2,
     description:
-      'Your developers work TWICE as fast.\n"Your developers are now working on actual projects"',
+      'Have your developers follow an MBO study.',
   },
   {
     id: 1,
-    name: 'MOOORE Experience!!!',
-    unlocked: false,
-    price: 50,
-    shopItemID: 0,
-    action: 'multiplyGPS',
-    value: 2,
-    description:
-      'Your developers work TWICE as fast.\n"Your developers are gaining more and more experience by the day"',
-  },
-  {
-    id: 2,
     name: 'These are a great snack',
     unlocked: false,
     price: 100,
@@ -77,33 +67,48 @@ const defaultShopUpgrades: UpgradeItem[] = [
     action: 'multiplyGPS',
     value: 2,
     description:
-      'These rysst balls are TWICE as efficient.\n"These rysst balls are reallyyy delicious!"',
+      'Improve your RYSST ball recipe.',
   },
-  // { id: 3, name: ''}
+  {
+    id: 2,
+    name: 'HBO Study',
+    unlocked: false,
+    price: 250,
+    shopItemID: 0,
+    action: 'multiplyGPS',
+    value: 2,
+    description:
+      'Have your developers follow an HBO study.',
+    parent: 0,
+  },
+  {
+    id: 3,
+    name: 'Wait, I\'m supposed to work?',
+    unlocked: false,
+    price: 250,
+    shopItemID: 1,
+    action: 'multiplyGPS',
+    value: 2,
+    description:
+      'Hire a head-chef for your RYSST ball production.',
+    parent: 1,
+  },
+  {
+    id: 4,
+    name: 'Download more RAM!',
+    unlocked: false,
+    price: 300,
+    shopItemID: 2,
+    action: 'multiplyGPS',
+    value: 2,
+    description:
+      'Upgrade your servers.',
+  },
 ];
 
 const defaultOptions: Options = {
   backgroundGrainsEnabled: true,
 };
-
-interface ShopItem {
-  id: number;
-  name: string;
-  amount: number;
-  price: number;
-  gps: number;
-}
-
-interface UpgradeItem {
-  id: number;
-  name: string;
-  unlocked: boolean;
-  price: number;
-  shopItemID: number;
-  action: string;
-  value: number;
-  description: string;
-}
 
 interface Options {
   backgroundGrainsEnabled: boolean;

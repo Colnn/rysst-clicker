@@ -3,21 +3,17 @@ import useStyle from './style';
 import GrainsIndicator from '../../../Components/GrainsIndicator';
 
 interface ShopTooltipProps {
-  name: string;
+  shopItem: ShopItem;
   icon: string;
   amount: number;
-  price: number;
   disabled: boolean;
-  gps: number;
 }
 
 export default function ShopTooltip({
-  name,
+  shopItem,
   icon,
   amount,
-  price,
   disabled,
-  gps,
 }: ShopTooltipProps) {
   const classes = useStyle();
 
@@ -27,7 +23,7 @@ export default function ShopTooltip({
         <Box className={classes.top}>
           <Box component={'img'} src={icon} className={classes.icon} />
           <Box className={classes.partContainer}>
-            <Typography>{name}</Typography>
+            <Typography>{shopItem.name}</Typography>
             <Box className={classes.statContainer}>
               <Chip size={'small'} label={'Owned: ' + amount} />
             </Box>
@@ -36,16 +32,35 @@ export default function ShopTooltip({
         <Box>
           <GrainsIndicator
             variant={disabled ? 'priceRed' : 'priceGreen'}
-            value={price}
+            value={shopItem.price}
             precision={3}
           />
         </Box>
       </Box>
       <Box className={classes.bottomContainer}>
         <Chip
+          sx={{
+            height: 'auto',
+            '& .MuiChip-label': {
+              display: 'block',
+              whiteSpace: 'normal',
+            },
+          }} 
           variant="outlined"
           size="small"
-          label={'Produces ' + gps + ' grains per second'}
+          label={shopItem.description}
+        />
+        <Chip
+          sx={{
+            height: 'auto',
+            '& .MuiChip-label': {
+              display: 'block',
+              whiteSpace: 'normal',
+            },
+          }} 
+          variant="outlined"
+          size="small"
+          label={'Produces ' + shopItem.gps + ' grains per second'}
         />
       </Box>
     </Box>

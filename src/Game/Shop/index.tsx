@@ -4,24 +4,6 @@ import ShopItem from './Components/ShopItem';
 import UpgradeItem from './Components/UpgradeItem';
 import SettingsBar from './Components/SettingsBar';
 
-interface ShopItem {
-  id: number;
-  name: string;
-  amount: number;
-  price: number;
-  gps: number;
-}
-
-interface UpgradeItem {
-  id: number;
-  name: string;
-  unlocked: boolean;
-  price: number;
-  shopItemID: number;
-  action: string;
-  description: string;
-}
-
 interface ShopProps {
   grains: number;
   shopData: ShopItem[];
@@ -66,19 +48,16 @@ export default function Shop({
         <Box className={classes.upgradesContainer}>
           {/* Upgrades here */}
           {upgradeData.map((upgrade) => {
-            if (!upgrade.unlocked)
-              return (
+            if (upgrade.unlocked) return;
+            if(upgrade.parent != undefined && !upgradeData[upgrade.parent].unlocked) return;
+            return (
                 <UpgradeItem
-                  id={upgrade.id}
-                  name={upgrade.name}
+                  upgrade={upgrade}
                   icon={
-                    '/' + upgrade.name.toLowerCase().replace(' ', '_') + '.png'
+                    '/' + upgrade.name.toLowerCase().replace(/ /g, '_').replace(/!/g, '').replace(/\?/g, '').replace(/,/g, '').replace(/'/g, '') + '.png'
                   }
-                  price={upgrade.price}
                   handleClick={handleUpgradeBuy}
                   disabled={upgrade.price > grains}
-                  action={upgrade.action}
-                  description={upgrade.description}
                   itemName={
                     shopData.map((item) => item.name)[upgrade.shopItemID]
                   }
@@ -99,22 +78,22 @@ export default function Shop({
             className={classes.shopItemsContainer}
           >
             {shopData.map((item) => {
+              if(item.parent != undefined && shopData[item.parent].amount == 0) return;
+              const price = calculatePrice(item.price);
               const disabled = shouldSell
                 ? item.amount < buyAmount
-                : item.price * buyAmount > grains;
+                : price > grains;
               return (
                 <ShopItem
-                  id={item.id}
-                  name={item.name}
+                  shopItem={item}
+                  price={price}
                   icon={
-                    '/' + item.name.toLowerCase().replace(' ', '_') + '.png'
+                    '/' + item.name.toLowerCase().replace(' ', '_').replace(/!/g, '').replace(/\?/g, '').replace(/,/g, '').replace(/'/g, '') + '.png'
                   }
-                  price={calculatePrice(item.price)}
                   amount={item.amount}
                   buyAmount={buyAmount}
                   handleClick={handleShopBuy}
                   disabled={disabled}
-                  gps={item.gps}
                 />
               );
             })}

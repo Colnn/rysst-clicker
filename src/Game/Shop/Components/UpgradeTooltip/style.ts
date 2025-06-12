@@ -5,7 +5,7 @@ export default makeStyles(() => {
     container: {
       padding: '0px 10px',
       width: '300px',
-      height: '100px',
+      height: '150px',
       display: 'flex',
       alignItems: 'flex-start',
       justifyContent: 'space-between',
@@ -28,13 +28,16 @@ export default makeStyles(() => {
     },
     bottomContainer: {
       display: 'flex',
-      height: '50%',
+      height: '100%',
       width: '80%',
+      paddingBottom: '10px',
       flexDirection: 'column',
+      justifyContent: 'space-between',
+      flexWrap: 'nowrap',
       paddingTop: '5px',
     },
     partContainer: {
-      width: '80%',
+      width: '100%',
       height: '100%',
       display: 'flex',
       flexDirection: 'column',

@@ -19,24 +19,6 @@ import GrainsIndicator from '../Components/GrainsIndicator';
 import UpgradeTooltip from '../Shop/Components/UpgradeTooltip';
 import Seperator from '../Components/Seperator';
 
-interface ShopItem {
-  id: number;
-  name: string;
-  amount: number;
-  price: number;
-}
-
-interface UpgradeItem {
-  id: number;
-  name: string;
-  unlocked: boolean;
-  price: number;
-  shopItemID: number;
-  action: string;
-  value: number;
-  description: string;
-}
-
 interface Options {
   backgroundGrainsEnabled: boolean;
 }
@@ -58,9 +40,13 @@ const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
   <Tooltip {...props} classes={{ popper: className }} />
 ))(({ theme }) => ({
   [`& .${tooltipClasses.tooltip}`]: {
-    backgroundColor: '#f5f5f9',
     color: 'rgba(0, 0, 0, 0.87)',
     fontSize: theme.typography.pxToRem(12),
+    backgroundColor: 'transparent',
+    backgroundImage: 'url("/tooltip-background.png")',
+    backgroundRepeat: 'no-repeat',
+    backgroundSize: 'cover',
+    imageRendering: 'pixelated',
   },
 }));
 
@@ -194,17 +180,10 @@ export default function Display({
                         <HtmlTooltip
                           title={
                             <UpgradeTooltip
-                              name={upgrade.name}
-                              icon={
-                                '/' +
-                                upgrade.name.toLowerCase().replace(' ', '_') +
-                                '.png'
-                              }
-                              price={upgrade.price}
+                              upgrade={upgrade}
+                              icon={'/' + upgrade.name.toLowerCase().replace(/ /g, '_').replace(/!/g, '').replace(/\?/g, '').replace(/,/g, '').replace(/'/g, '') + '.png'}
                               disabled={false}
                               itemName={shopData[upgrade.shopItemID].name}
-                              action={upgrade.action}
-                              description={upgrade.description}
                             />
                           }
                           placement="top"
@@ -225,11 +204,7 @@ export default function Display({
                             <Box
                               className={classes.icon}
                               component={'img'}
-                              src={
-                                '/' +
-                                upgrade.name.toLowerCase().replace(' ', '_') +
-                                '.png'
-                              }
+                              src={'/' + upgrade.name.toLowerCase().replace(/ /g, '_').replace(/!/g, '').replace(/\?/g, '').replace(/,/g, '').replace(/'/g, '') + '.png'}
                               draggable={false}
                             />
                           </Box>

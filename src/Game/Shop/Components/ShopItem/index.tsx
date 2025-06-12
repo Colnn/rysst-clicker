@@ -12,15 +12,13 @@ import ShopTooltip from '../ShopTooltip';
 import GrainsIndicator from '../../../Components/GrainsIndicator';
 
 interface ShopItemProps {
-  id: number;
-  name: string;
+  shopItem: ShopItem
   icon: string;
   price: number;
   amount: number;
   buyAmount: number;
   handleClick: (id: number) => void;
   disabled: boolean;
-  gps: number;
 }
 
 const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
@@ -38,20 +36,19 @@ const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
 }));
 
 export default function ShopItem({
-  id,
-  name,
+  shopItem,
   icon,
   price,
   amount,
   buyAmount,
   handleClick,
   disabled,
-  gps,
+  
 }: ShopItemProps) {
   const classes = useStyle();
 
   const onClick = () => {
-    if (!disabled) handleClick(id);
+    if (!disabled) handleClick(shopItem.id);
   };
 
   return (
@@ -59,12 +56,10 @@ export default function ShopItem({
       <HtmlTooltip
         title={
           <ShopTooltip
-            name={name}
+            shopItem={shopItem}
             icon={icon}
             amount={amount}
-            price={price}
             disabled={disabled}
-            gps={gps}
           />
         }
         placement="left"
@@ -93,7 +88,7 @@ export default function ShopItem({
               className={classes.icon}
             />
             <Grid container>
-              <Typography variant="h6">{name}</Typography>
+              <Typography variant="h6">{shopItem.name}</Typography>
               <Grid
                 container
                 direction={'row'}

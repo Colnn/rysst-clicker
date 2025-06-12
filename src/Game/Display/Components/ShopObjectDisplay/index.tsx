@@ -22,6 +22,9 @@ export default function ShopObjectDisplay({
   const backgroundImg = new Image();
   backgroundImg.src = images.background;
 
+  const bottomBar = new Image();
+  bottomBar.src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAFCAYAAAAHQL+kAAAAAXNSR0IArs4c6QAAACZJREFUKJFjtLOz+88wDABLcHDwQLuBKoBpoB1ALTBsPMI4XPIIADxqBHb19d81AAAAAElFTkSuQmCC';
+
   const img1 = new Image();
   img1.src = images.images[0];
 
@@ -70,25 +73,34 @@ export default function ShopObjectDisplay({
       let x = 0;
       const y = 0;
 
-      for (let i = 0; i < canvas.width / 200; i++) {
-        ctx.drawImage(backgroundImg, x, y, 200, 200);
-
-        x += 200;
-      }
-
       let x2 = 0;
       let y2 = 30;
 
       for (let i = 0; i < amountRef.current; i++) {
-        ctx.drawImage(getRandomImage(images.images.length, i), x2, y2, 100, 100);
+        if(i % 2 == 0) {
+          ctx.globalCompositeOperation = 'destination-over';
+        } else {
+          ctx.globalCompositeOperation = 'source-over';
+        }
+        ctx.drawImage(getRandomImage(images.images.length, i), x2, y2, images.width || 100, images.height || 100);
 
         // Adjust x and y for the next image
-        x2 += 75; // You can adjust the spacing between images
+        x2 += images.distance || 75; // You can adjust the spacing between images
         if (y2 === 75) {
           y2 = 30;
         } else if (y2 == 30) {
           y2 = 75;
         }
+      }
+
+      for (let i = 0; i < canvas.width / 200; i++) {
+        ctx.globalCompositeOperation = 'destination-over';
+        ctx.drawImage(backgroundImg, x, y, 200, 200);
+
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.drawImage(bottomBar, x, ctx.canvas.height - 10, 200, 10);
+
+        x += 200;
       }
     }
   };
