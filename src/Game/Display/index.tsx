@@ -83,6 +83,7 @@ export default function Display({
     options.backgroundGrainsEnabled,
   );
 
+  // @ts-expect-error | Event is required
   const changePage = (event: React.MouseEvent<HTMLElement>, page: number) => {
     if (!page) setPage(0);
     else setPage(page);

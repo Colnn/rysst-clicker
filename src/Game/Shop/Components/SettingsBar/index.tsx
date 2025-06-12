@@ -17,6 +17,7 @@ export default function SettingsBar({
   const classes = useStyle();
 
   const handleAction = (
+    // @ts-expect-error | Event is required
     event: React.MouseEvent<HTMLElement>,
     action: boolean,
   ) => {
@@ -25,6 +26,7 @@ export default function SettingsBar({
   };
 
   const handleAmount = (
+    // @ts-expect-error | Event is required
     event: React.MouseEvent<HTMLElement>,
     amount: number,
   ) => {

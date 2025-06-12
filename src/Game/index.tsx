@@ -114,7 +114,7 @@ export default function Game() {
   const [grains, setGrains] = useState(0);
   const [grainsPerSecond, setGrainsPerSecond] = useState(0);
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const [grainsPerClick, setGrainsPerClick] = useState(0.01);
+  const [grainsPerClick] = useState(0.01);
   const [collectedGrains, setCollectedGrains] = useState(0);
   const [spentGrains, setSpentGrains] = useState(0);
   const [shopItems, setShopItems] = useState<ShopItem[]>(defaultShopItems);
@@ -276,7 +276,6 @@ export default function Game() {
   const loadData = () => {
     let saveData;
     if (localStorage.getItem('data')) {
-      // @ts-expect-error | The not-null check is right in front of it, TypeScript is just being autistic
       saveData = atob(localStorage.getItem('data'));
       if (checkData(saveData)) data = JSON.parse(saveData);
       else return;

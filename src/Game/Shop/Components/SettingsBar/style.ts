@@ -17,7 +17,7 @@ export default makeStyles(() => {
     },
     actionSelect: {
       display: 'flex',
-      direction: 'row',
+      flexDirection: 'row',
     },
   };
 });
