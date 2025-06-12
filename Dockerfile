@@ -12,4 +12,4 @@ WORKDIR /app
 COPY --from=build /app/dist ./
 RUN npm install -g serve
 EXPOSE 8000
-CMD ["serve", "-p", "8000", "/app"]
+CMD ["serve", "-s", "-p", "8000", "/app"]
