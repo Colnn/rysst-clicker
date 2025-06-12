@@ -32,6 +32,10 @@ interface BackgroundParticle {
   speed: number;
 }
 
+const clickSound = new Audio();
+clickSound.src = '/Click.wav';
+clickSound.volume = 0.1;
+
 export default function Clicker({
   onClick,
   grains,
@@ -43,7 +47,6 @@ export default function Clicker({
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const contextRef = useRef<CanvasRenderingContext2D | null>(null);
   const [context, setContext] = useState<CanvasRenderingContext2D | null>(null);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const [particles, setParticles] = useState<RiceParticle[]>([]);
   const [backgroundParticles, setBackgroundParticles] = useState<
     BackgroundParticle[]
@@ -62,15 +65,11 @@ export default function Clicker({
     optionsRef.current = options;
   }, [gps, gpc, context, backgroundParticles, options]);
 
-  const handleClick = () => {
+  const handleClick = (e) => {
     onClick();
-    addParticle();
+    addParticle(e.clientX - 20, e.clientY - 70);
     clickSound.play();
   };
-
-  const clickSound = new Audio();
-  clickSound.src = '/Click.wav';
-  clickSound.volume = 0.1;
 
   const cookerImg = new Image();
   cookerImg.src = images.images[0];
@@ -78,15 +77,11 @@ export default function Clicker({
   const riceGrain = new Image();
   riceGrain.src = images.images[1] || cookerImg.src;
 
-  const trackMouse = (e) => {
-    setMousePos({ x: e.clientX - 20, y: e.clientY - 70 });
-  };
-
-  const addParticle = () => {
+  const addParticle = (x: number, y: number) => {
     const newParticles = [...particles];
     newParticles.push({
-      x: mousePos.x,
-      y: mousePos.y,
+      x: x,
+      y: y,
       img: 'rice.png',
       text: '+' + gpcRef.current,
       life: 0,
@@ -201,7 +196,6 @@ export default function Clicker({
       <Grid
         container
         className={classes.container}
-        onMouseMove={trackMouse}
         direction={'row'}
         wrap={'nowrap'}
       >
