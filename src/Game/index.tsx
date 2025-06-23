@@ -41,9 +41,32 @@ let data = {
 };
 
 const defaultShopItems: ShopItem[] = [
-  { id: 0, name: 'Developer', description: 'Just a normal developer.', amount: 0, price: 15, gps: 1 },
-  { id: 1, name: 'RYSST ball', description: 'Damn these taste good!', amount: 0, price: 100, gps: 10, parent: 0 },
-  { id: 2, name: 'Server', description: 'A new server for your customers.', amount: 0, price: 250, gps: 20, parent: 0 },
+  {
+    id: 0,
+    name: 'Developer',
+    description: 'Just a normal developer.',
+    amount: 0,
+    price: 15,
+    gps: 1,
+  },
+  {
+    id: 1,
+    name: 'RYSST ball',
+    description: 'Damn these taste good!',
+    amount: 0,
+    price: 100,
+    gps: 10,
+    parent: 0,
+  },
+  {
+    id: 2,
+    name: 'Server',
+    description: 'A new server for your customers.',
+    amount: 0,
+    price: 250,
+    gps: 20,
+    parent: 0,
+  },
 ];
 
 const defaultShopUpgrades: UpgradeItem[] = [
@@ -55,8 +78,7 @@ const defaultShopUpgrades: UpgradeItem[] = [
     shopItemID: 0,
     action: 'multiplyGPS',
     value: 2,
-    description:
-      'Have your developers follow an MBO study.',
+    description: 'Have your developers follow an MBO study.',
   },
   {
     id: 1,
@@ -66,8 +88,7 @@ const defaultShopUpgrades: UpgradeItem[] = [
     shopItemID: 1,
     action: 'multiplyGPS',
     value: 2,
-    description:
-      'Improve your RYSST ball recipe.',
+    description: 'Improve your RYSST ball recipe.',
   },
   {
     id: 2,
@@ -77,20 +98,18 @@ const defaultShopUpgrades: UpgradeItem[] = [
     shopItemID: 0,
     action: 'multiplyGPS',
     value: 2,
-    description:
-      'Have your developers follow an HBO study.',
+    description: 'Have your developers follow an HBO study.',
     parent: 0,
   },
   {
     id: 3,
-    name: 'Wait, I\'m supposed to work?',
+    name: "Wait, I'm supposed to work?",
     unlocked: false,
     price: 250,
     shopItemID: 1,
     action: 'multiplyGPS',
     value: 2,
-    description:
-      'Hire a head-chef for your RYSST ball production.',
+    description: 'Hire a head-chef for your RYSST ball production.',
     parent: 1,
   },
   {
@@ -101,8 +120,29 @@ const defaultShopUpgrades: UpgradeItem[] = [
     shopItemID: 2,
     action: 'multiplyGPS',
     value: 2,
-    description:
-      'Upgrade your servers.',
+    description: 'Upgrade your servers.',
+  },
+  {
+    id: 5,
+    name: 'Install Docker',
+    unlocked: false,
+    price: 500,
+    shopItemID: 2,
+    action: 'multiplyGPS',
+    value: 2,
+    description: 'Install Docker on your servers',
+    parent: 4,
+  },
+  {
+    id: 6,
+    name: 'Pay rise',
+    unlocked: false,
+    price: 1200,
+    shopItemID: 0,
+    action: 'multiplyGPS',
+    value: 1.5,
+    description: 'Give your developers a pay rise',
+    parent: 2,
   },
 ];
 
@@ -268,15 +308,23 @@ export default function Game() {
   };
 
   const checkVersion = async () => {
-    const latest = (await axios.get('https://api.github.com/repos/Colnn/rysst-clicker/releases')).data[0];
-    if(latest.tag_name != version) {
-      console.log("A new version of RYSST Clicker is available! \n Contact the administrator about updating.\n If you're the administrator, check " + latest.url + ".");
+    const latest = (
+      await axios.get(
+        'https://api.github.com/repos/Colnn/rysst-clicker/releases',
+      )
+    ).data[0];
+    if (latest.tag_name != version) {
+      console.log(
+        "A new version of RYSST Clicker is available! \n Contact the administrator about updating.\n If you're the administrator, check " +
+          latest.url +
+          '.',
+      );
       enqueueSnackbar('New version available, check the console.', {
         autoHideDuration: 2000,
         anchorOrigin: { horizontal: 'right', vertical: 'bottom' },
       });
     }
-  }
+  };
 
   const loadData = () => {
     let saveData;
@@ -325,14 +373,14 @@ export default function Game() {
 
   const checkGamePhase = () => {
     const c = collectedGrainsRef.current;
-    if(c >= 1e6) {
+    if (c >= 1e6) {
       setGamePhase(2);
-    } else if(c >= 1e12) {
+    } else if (c >= 1e12) {
       setGamePhase(3);
-    } else if(c >= 1e24) {
+    } else if (c >= 1e24) {
       setGamePhase(4);
     }
-  }
+  };
 
   const startGame = () => {
     setInterval(() => {
@@ -346,7 +394,7 @@ export default function Game() {
 
     setInterval(() => {
       checkGamePhase();
-    }, 180000)
+    }, 180000);
 
     window.onbeforeunload = () => {
       if (localStorage.getItem('data')) {
@@ -420,6 +468,8 @@ export default function Game() {
               upgradeData={upgradeItems}
               spentGrains={spentGrains}
               collectedGrains={collectedGrains}
+              grainsPerSecond={grainsPerSecond}
+              grainsPerClick={grainsPerSecond * grainsPerClick}
               dateStarted={dateStarted}
               saveData={saveData}
               wipeData={wipeData}

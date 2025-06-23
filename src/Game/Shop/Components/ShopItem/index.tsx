@@ -12,9 +12,10 @@ import ShopTooltip from '../ShopTooltip';
 import GrainsIndicator from '../../../Components/GrainsIndicator';
 
 interface ShopItemProps {
-  shopItem: ShopItem
+  shopItem: ShopItem;
   icon: string;
   price: number;
+  gps: number;
   amount: number;
   buyAmount: number;
   handleClick: (id: number) => void;
@@ -39,11 +40,11 @@ export default function ShopItem({
   shopItem,
   icon,
   price,
+  gps,
   amount,
   buyAmount,
   handleClick,
   disabled,
-  
 }: ShopItemProps) {
   const classes = useStyle();
 
@@ -58,6 +59,7 @@ export default function ShopItem({
           <ShopTooltip
             shopItem={shopItem}
             icon={icon}
+            gps={gps}
             amount={amount}
             disabled={disabled}
           />

@@ -15,7 +15,11 @@ export default makeStyles(() => {
     },
     riceContainer: {
       width: '100%',
-      height: '65%',
+      height: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'start',
+      alignItems: 'center',
     },
     button: {
       marginTop: '13%',
@@ -23,8 +27,8 @@ export default makeStyles(() => {
       fontWeight: 500,
       fontFamily: 'inherit',
       cursor: 'pointer',
-      width: '100%',
-      height: '100%',
+      width: '250px',
+      height: '250px',
       outline: 0,
       border: 0,
       background: 'transparent',
@@ -36,10 +40,13 @@ export default makeStyles(() => {
     },
     onTop: {
       height: '40%',
-      marginTop: '15%',
       display: 'flex',
-      alignItems: 'start',
+      alignItems: 'center',
       flexDirection: 'column',
+      justifyContent: 'center',
+    },
+    textContainer: {
+      width: '100%',
     },
   };
 });

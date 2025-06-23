@@ -28,6 +28,8 @@ interface DisplayProps {
   upgradeData: UpgradeItem[];
   spentGrains: number;
   collectedGrains: number;
+  grainsPerSecond: number;
+  grainsPerClick: number;
   dateStarted: DateTime;
   saveData: () => void;
   wipeData: () => void;
@@ -55,6 +57,8 @@ export default function Display({
   upgradeData,
   spentGrains,
   collectedGrains,
+  grainsPerSecond,
+  grainsPerClick,
   dateStarted,
   saveData,
   wipeData,
@@ -111,7 +115,7 @@ export default function Display({
                   Stats
                 </ToggleButton>
               </Grid>
-              <MotivationalTexts gamePhase={gamePhase}/>
+              <MotivationalTexts gamePhase={gamePhase} />
               <Grid className={classes.options}>
                 <ToggleButton value={2} fullWidth>
                   Options
@@ -165,8 +169,8 @@ export default function Display({
                 <Box>
                   Run started: {dateStarted.toFormat('dd-MM-yyyy HH:mm')}
                 </Box>
-                <Box>RYSST-grains per second: {0}</Box>
-                <Box>RYSST-grains per click: {0}</Box>
+                <Box>RYSST-grains per second: {grainsPerSecond}</Box>
+                <Box>RYSST-grains per click: {grainsPerClick}</Box>
               </Grid>
               <Grid container direction={'column'}>
                 <Box className={classes.statsHeader}>
@@ -181,7 +185,17 @@ export default function Display({
                           title={
                             <UpgradeTooltip
                               upgrade={upgrade}
-                              icon={'/' + upgrade.name.toLowerCase().replace(/ /g, '_').replace(/!/g, '').replace(/\?/g, '').replace(/,/g, '').replace(/'/g, '') + '.png'}
+                              icon={
+                                '/' +
+                                upgrade.name
+                                  .toLowerCase()
+                                  .replace(/ /g, '_')
+                                  .replace(/!/g, '')
+                                  .replace(/\?/g, '')
+                                  .replace(/,/g, '')
+                                  .replace(/'/g, '') +
+                                '.png'
+                              }
                               disabled={false}
                               itemName={shopData[upgrade.shopItemID].name}
                             />
@@ -204,7 +218,17 @@ export default function Display({
                             <Box
                               className={classes.icon}
                               component={'img'}
-                              src={'/' + upgrade.name.toLowerCase().replace(/ /g, '_').replace(/!/g, '').replace(/\?/g, '').replace(/,/g, '').replace(/'/g, '') + '.png'}
+                              src={
+                                '/' +
+                                upgrade.name
+                                  .toLowerCase()
+                                  .replace(/ /g, '_')
+                                  .replace(/!/g, '')
+                                  .replace(/\?/g, '')
+                                  .replace(/,/g, '')
+                                  .replace(/'/g, '') +
+                                '.png'
+                              }
                               draggable={false}
                             />
                           </Box>

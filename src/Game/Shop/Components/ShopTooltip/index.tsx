@@ -5,6 +5,7 @@ import GrainsIndicator from '../../../Components/GrainsIndicator';
 interface ShopTooltipProps {
   shopItem: ShopItem;
   icon: string;
+  gps: number;
   amount: number;
   disabled: boolean;
 }
@@ -12,6 +13,7 @@ interface ShopTooltipProps {
 export default function ShopTooltip({
   shopItem,
   icon,
+  gps,
   amount,
   disabled,
 }: ShopTooltipProps) {
@@ -45,7 +47,7 @@ export default function ShopTooltip({
               display: 'block',
               whiteSpace: 'normal',
             },
-          }} 
+          }}
           variant="outlined"
           size="small"
           label={shopItem.description}
@@ -57,10 +59,10 @@ export default function ShopTooltip({
               display: 'block',
               whiteSpace: 'normal',
             },
-          }} 
+          }}
           variant="outlined"
           size="small"
-          label={'Produces ' + shopItem.gps + ' grains per second'}
+          label={'Produces ' + gps + ' grains per second'}
         />
       </Box>
     </Box>

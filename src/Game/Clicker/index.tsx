@@ -51,6 +51,7 @@ export default function Clicker({
   const [backgroundParticles, setBackgroundParticles] = useState<
     BackgroundParticle[]
   >([]);
+  const clickerRef = useRef<HTMLButtonElement | null>(null);
   const bgParticlesRef = useRef<BackgroundParticle[]>([]);
   const gpsRef = useRef(gps);
   const gpcRef = useRef(gpc);
@@ -89,6 +90,10 @@ export default function Clicker({
     setParticles(newParticles);
   };
 
+  document.onresize = (e: UIEvent) => {
+    context.scale(window.devicePixelRatio, window.devicePixelRatio);
+  };
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const draw = () => {
     if (!context) return;
@@ -96,7 +101,6 @@ export default function Clicker({
       document.getElementById('container')?.offsetWidth || 0;
     context.canvas.height =
       document.getElementById('container')?.offsetHeight || 0;
-
     context.clearRect(0, 0, context.canvas.width, context.canvas.height);
 
     context.imageSmoothingEnabled = false;
@@ -116,11 +120,13 @@ export default function Clicker({
       });
     }
 
+    const clickerBoundingBox = clickerRef.current.getBoundingClientRect();
+
     const width = 250;
     const height = 250;
 
-    const x = context.canvas.width / 2 - width / 2;
-    const y = context.canvas.height / 2 - height / 2 - 100;
+    const x = clickerRef.current.getBoundingClientRect().x;
+    const y = clickerRef.current.getBoundingClientRect().y - 50;
 
     context.drawImage(cookerImg, x, y, width, height);
 
@@ -162,7 +168,7 @@ export default function Clicker({
         return;
       const newParticles = [...bgParticlesRef.current];
       for (let i = 0; i < Math.random() * (gpsRef.current / 8); i++) {
-        if(newParticles.length > 1500) return;
+        if (newParticles.length > 1500) return;
         newParticles.push({
           x: Math.random() * contextRef.current.canvas.width,
           y: -(Math.random() * 20) - 20,
@@ -213,14 +219,20 @@ export default function Clicker({
             className={classes.riceContainer}
           >
             <Box className={classes.onTop}>
-              <Box>
-                You have <b>{prettyNumber(Math.round(grains), 3)}</b>{' '}
-                RYSST-grains
+              <Box className={classes.textContainer}>
+                <Box>
+                  You have <b>{prettyNumber(Math.round(grains), 3)}</b>{' '}
+                  RYSST-grains
+                </Box>
+                <Box>
+                  Grains per second: <b>{prettyNumber(gps, 3)}</b>
+                </Box>
               </Box>
-              <Box>
-                Grains per second: <b>{prettyNumber(gps, 3)}</b>
-              </Box>
-              <button className={classes.button} onClick={handleClick} />
+              <button
+                ref={clickerRef}
+                className={classes.button}
+                onClick={handleClick}
+              />
             </Box>
           </Grid>
           <Box></Box>

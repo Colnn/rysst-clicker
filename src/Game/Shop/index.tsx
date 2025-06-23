@@ -39,6 +39,21 @@ export default function Shop({
     return totalPrice;
   };
 
+  const calculateGPSForItem = (item: ShopItem) => {
+    let totalGPS = item.gps;
+
+    for (const i in upgradeData) {
+      const upgrade = upgradeData[i];
+      if (upgrade.shopItemID === item.id) {
+        if (upgrade.action === 'multiplyGPS') {
+          totalGPS *= upgrade.value;
+        }
+      }
+    }
+
+    return totalGPS;
+  };
+
   return (
     <>
       <Grid container direction={'column'} className={classes.container}>
@@ -49,20 +64,30 @@ export default function Shop({
           {/* Upgrades here */}
           {upgradeData.map((upgrade) => {
             if (upgrade.unlocked) return;
-            if(upgrade.parent != undefined && !upgradeData[upgrade.parent].unlocked) return;
+            if (
+              upgrade.parent != undefined &&
+              !upgradeData[upgrade.parent].unlocked
+            )
+              return;
             return (
-                <UpgradeItem
-                  upgrade={upgrade}
-                  icon={
-                    '/' + upgrade.name.toLowerCase().replace(/ /g, '_').replace(/!/g, '').replace(/\?/g, '').replace(/,/g, '').replace(/'/g, '') + '.png'
-                  }
-                  handleClick={handleUpgradeBuy}
-                  disabled={upgrade.price > grains}
-                  itemName={
-                    shopData.map((item) => item.name)[upgrade.shopItemID]
-                  }
-                />
-              );
+              <UpgradeItem
+                upgrade={upgrade}
+                icon={
+                  '/' +
+                  upgrade.name
+                    .toLowerCase()
+                    .replace(/ /g, '_')
+                    .replace(/!/g, '')
+                    .replace(/\?/g, '')
+                    .replace(/,/g, '')
+                    .replace(/'/g, '') +
+                  '.png'
+                }
+                handleClick={handleUpgradeBuy}
+                disabled={upgrade.price > grains}
+                itemName={shopData.map((item) => item.name)[upgrade.shopItemID]}
+              />
+            );
           })}
         </Box>
         <Box>
@@ -78,8 +103,10 @@ export default function Shop({
             className={classes.shopItemsContainer}
           >
             {shopData.map((item) => {
-              if(item.parent != undefined && shopData[item.parent].amount == 0) return;
+              if (item.parent != undefined && shopData[item.parent].amount == 0)
+                return;
               const price = calculatePrice(item.price);
+              const gps = calculateGPSForItem(item);
               const disabled = shouldSell
                 ? item.amount < buyAmount
                 : price > grains;
@@ -88,8 +115,17 @@ export default function Shop({
                   shopItem={item}
                   price={price}
                   icon={
-                    '/' + item.name.toLowerCase().replace(' ', '_').replace(/!/g, '').replace(/\?/g, '').replace(/,/g, '').replace(/'/g, '') + '.png'
+                    '/' +
+                    item.name
+                      .toLowerCase()
+                      .replace(' ', '_')
+                      .replace(/!/g, '')
+                      .replace(/\?/g, '')
+                      .replace(/,/g, '')
+                      .replace(/'/g, '') +
+                    '.png'
                   }
+                  gps={gps}
                   amount={item.amount}
                   buyAmount={buyAmount}
                   handleClick={handleShopBuy}

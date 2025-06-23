@@ -17,13 +17,14 @@ export default function ShopObjectDisplay({
   const contextRef = useRef<CanvasRenderingContext2D | null>(null);
   const amountRef = useRef(amount);
   const [context, setContext] = useState<CanvasRenderingContext2D | null>(null);
-  const images = getImage(objectName.toLowerCase().replace(" ", "_"));
+  const images = getImage(objectName.toLowerCase().replace(' ', '_'));
 
   const backgroundImg = new Image();
   backgroundImg.src = images.background;
 
   const bottomBar = new Image();
-  bottomBar.src = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAFCAYAAAAHQL+kAAAAAXNSR0IArs4c6QAAACZJREFUKJFjtLOz+88wDABLcHDwQLuBKoBpoB1ALTBsPMI4XPIIADxqBHb19d81AAAAAElFTkSuQmCC';
+  bottomBar.src =
+    'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAFCAYAAAAHQL+kAAAAAXNSR0IArs4c6QAAACZJREFUKJFjtLOz+88wDABLcHDwQLuBKoBpoB1ALTBsPMI4XPIIADxqBHb19d81AAAAAElFTkSuQmCC';
 
   const img1 = new Image();
   img1.src = images.images[0];
@@ -45,10 +46,10 @@ export default function ShopObjectDisplay({
       case 2:
         return img3;
       default:
-        console.log(j + ", " + i + " is not valid, reverting to default");
+        console.log(j + ', ' + i + ' is not valid, reverting to default');
         return img1;
     }
-  }
+  };
 
   useEffect(() => {
     contextRef.current = context;
@@ -74,22 +75,28 @@ export default function ShopObjectDisplay({
       const y = 0;
 
       let x2 = 0;
-      let y2 = 30;
+      let y2 = 30 + (images.y ?? 0);
 
       for (let i = 0; i < amountRef.current; i++) {
-        if(i % 2 == 0) {
+        if (i % 2 == 0) {
           ctx.globalCompositeOperation = 'destination-over';
         } else {
           ctx.globalCompositeOperation = 'source-over';
         }
-        ctx.drawImage(getRandomImage(images.images.length, i), x2, y2, images.width || 100, images.height || 100);
+        ctx.drawImage(
+          getRandomImage(images.images.length, i),
+          x2,
+          y2,
+          images.width || 100,
+          images.height || 100,
+        );
 
         // Adjust x and y for the next image
         x2 += images.distance || 75; // You can adjust the spacing between images
-        if (y2 === 75) {
-          y2 = 30;
-        } else if (y2 == 30) {
-          y2 = 75;
+        if (y2 === 77 + (images.y ?? 0)) {
+          y2 = 30 + (images.y ?? 0);
+        } else if (y2 == 30 + (images.y ?? 0)) {
+          y2 = 77 + (images.y ?? 0);
         }
       }
 
