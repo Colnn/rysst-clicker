@@ -90,7 +90,7 @@ export default function Clicker({
     setParticles(newParticles);
   };
 
-  document.onresize = (e: UIEvent) => {
+  document.onresize = () => {
     context.scale(window.devicePixelRatio, window.devicePixelRatio);
   };
 
@@ -125,8 +125,8 @@ export default function Clicker({
     const width = 250;
     const height = 250;
 
-    const x = clickerRef.current.getBoundingClientRect().x;
-    const y = clickerRef.current.getBoundingClientRect().y - 50;
+    const x = clickerBoundingBox.x;
+    const y = clickerBoundingBox.y - 50;
 
     context.drawImage(cookerImg, x, y, width, height);
 
