@@ -51,6 +51,7 @@ export default function Clicker({
   const [backgroundParticles, setBackgroundParticles] = useState<
     BackgroundParticle[]
   >([]);
+  const [timeSinceLastClick, setTimeSinceLastClick] = useState(10);
   const clickerRef = useRef<HTMLButtonElement | null>(null);
   const bgParticlesRef = useRef<BackgroundParticle[]>([]);
   const gpsRef = useRef(gps);
@@ -69,6 +70,7 @@ export default function Clicker({
   const handleClick = (e) => {
     onClick();
     addParticle(e.clientX - 20, e.clientY - 70);
+    setTimeSinceLastClick(0);
     clickSound.play();
   };
 
@@ -122,11 +124,22 @@ export default function Clicker({
 
     const clickerBoundingBox = clickerRef.current.getBoundingClientRect();
 
-    const width = 250;
-    const height = 250;
+    let width = 250;
+    let height = 250;
+    let x = clickerBoundingBox.x;
+    let y = clickerBoundingBox.y - 50;
 
-    const x = clickerBoundingBox.x;
-    const y = clickerBoundingBox.y - 50;
+    if (timeSinceLastClick < 10) {
+      width += 10 - timeSinceLastClick;
+      height += 10 - timeSinceLastClick;
+      x -= 5 - timeSinceLastClick / 2;
+      y -= 5 - timeSinceLastClick / 2;
+      console.log('width', width);
+      console.log('height', height);
+      console.log('x', x);
+      console.log('y', y);
+      setTimeSinceLastClick((t) => t + 1);
+    }
 
     context.drawImage(cookerImg, x, y, width, height);
 
