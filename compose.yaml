@@ -4,7 +4,8 @@ services:
     ports:
       - '8000:8000'
     environment:
-      NODE_ENV: development
+      NODE_ENV: production
       PORT: 8000
+    restart: unless-stopped
     stdin_open: true
     tty: true
