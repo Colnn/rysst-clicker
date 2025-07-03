@@ -134,10 +134,6 @@ export default function Clicker({
       height += 10 - timeSinceLastClick;
       x -= 5 - timeSinceLastClick / 2;
       y -= 5 - timeSinceLastClick / 2;
-      console.log('width', width);
-      console.log('height', height);
-      console.log('x', x);
-      console.log('y', y);
       setTimeSinceLastClick((t) => t + 1);
     }
 
